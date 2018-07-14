@@ -35,25 +35,25 @@
       },
       tab: {
         list: [{
-            id: '0',
-            title: '全部',
-            status: ''
-          },
-          {
-            id: '1',
-            title: '正在拼团',
-            status: 'PROCESSING'
-          },
-          {
-            id: '2',
-            title: '拼团成功',
-            status: 'SUCCESS'
-          },
-          {
-            id: '3',
-            title: '拼团失败',
-            status: 'FAILURE'
-          }
+          id: '0',
+          title: '全部',
+          status: ''
+        },
+        {
+          id: '1',
+          title: '正在拼团',
+          status: 'PROCESSING'
+        },
+        {
+          id: '2',
+          title: '拼团成功',
+          status: 'SUCCESS'
+        },
+        {
+          id: '3',
+          title: '拼团失败',
+          status: 'FAILURE'
+        }
         ],
         selectedId: '0'
       }

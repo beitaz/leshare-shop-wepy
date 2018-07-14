@@ -1,6 +1,5 @@
-
 import base from './base';
-import goods from './goods';
+// import goods from './goods';
 import wepy from 'wepy';
 import Page from '../utils/Page';
 

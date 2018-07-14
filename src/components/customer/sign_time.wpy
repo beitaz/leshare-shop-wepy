@@ -18,23 +18,23 @@
   export default class WepySignTime extends wepy.component {
     data = {
       list: [{
-          signTime: 30,
-          signed: 1
-        }, {
-          signTime: 30
-        },
-        {
-          signTime: 30
-        }, {
-          signTime: 30
-        },
-        {
-          signTime: 30
-        }, {
-          signTime: 30
-        }, {
-          signTime: 30
-        }
+        signTime: 30,
+        signed: 1
+      }, {
+        signTime: 30
+      },
+      {
+        signTime: 30
+      }, {
+        signTime: 30
+      },
+      {
+        signTime: 30
+      }, {
+        signTime: 30
+      }, {
+        signTime: 30
+      }
       ],
       aways: 0
     };

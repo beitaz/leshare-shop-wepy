@@ -40,17 +40,17 @@
       const count = await comment.count(goodsId);
       this.tab = {
         'list': [{
-            'id': 'GOOD',
-            'title': `满意(${count.GOOD})`
-          },
-          {
-            'id': 'NORMAL',
-            'title': `一般(${count.NORMAL})`
-          },
-          {
-            'id': 'BAD',
-            'title': `不满意(${count.BAD})`
-          }
+          'id': 'GOOD',
+          'title': `满意(${count.GOOD})`
+        },
+        {
+          'id': 'NORMAL',
+          'title': `一般(${count.NORMAL})`
+        },
+        {
+          'id': 'BAD',
+          'title': `不满意(${count.BAD})`
+        }
         ],
         'selectedId': status,
         'scroll': false

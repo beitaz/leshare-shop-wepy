@@ -55,40 +55,40 @@
       reference: '分销员1',
       list: [
         [{
-            icon: 'recharge',
-            title: '分销佣金',
-            color: '#DABC69',
-            num: 0,
-            unit: '元'
-          },
-          {
-            icon: 'order',
-            title: '分销订单',
-            color: '#37B1D7',
-            num: 0,
-            unit: '元'
-          },
-          {
-            icon: 'balance',
-            title: '提现明细',
-            color: '#FF4544',
-            num: 0,
-            unit: '元'
-          }
+          icon: 'recharge',
+          title: '分销佣金',
+          color: '#DABC69',
+          num: 0,
+          unit: '元'
+        },
+        {
+          icon: 'order',
+          title: '分销订单',
+          color: '#37B1D7',
+          num: 0,
+          unit: '元'
+        },
+        {
+          icon: 'balance',
+          title: '提现明细',
+          color: '#FF4544',
+          num: 0,
+          unit: '元'
+        }
         ],
         [{
-            icon: 'groups',
-            title: '我的团队',
-            color: '#F59150',
-            num: 0,
-            unit: '个'
-          },
-          {
-            icon: 'qrcode',
-            title: '推广二维码',
-            color: '#8DD38A',
-            num: ''
-          },
+          icon: 'groups',
+          title: '我的团队',
+          color: '#F59150',
+          num: 0,
+          unit: '个'
+        },
+        {
+          icon: 'qrcode',
+          title: '推广二维码',
+          color: '#8DD38A',
+          num: ''
+        },
           {}
         ]
       ],

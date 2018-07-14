@@ -17,7 +17,7 @@
     connect
   } from 'wepy-redux';
   import store from '../../store/utils';
-  import WxUtils from '../../utils/WxUtils';
+  // import WxUtils from '../../utils/WxUtils';
   import Tips from '../../utils/Tips';
   @connect({
     shop: store.get('shop'),

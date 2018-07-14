@@ -35,30 +35,30 @@
       },
       tab: {
         list: [{
-            id: '0',
-            title: '全部',
-            status: ''
-          },
-          {
-            id: '1',
-            title: '进行中',
-            status: 'PROCESSING'
-          },
-          {
-            id: '2',
-            title: '已至底',
-            status: 'BARGAINED'
-          },
-          {
-            id: '3',
-            title: '已过期',
-            status: 'TIMEOUT'
-          },
-          {
-            id: '4',
-            title: '已下单',
-            status: 'ORDERED'
-          }
+          id: '0',
+          title: '全部',
+          status: ''
+        },
+        {
+          id: '1',
+          title: '进行中',
+          status: 'PROCESSING'
+        },
+        {
+          id: '2',
+          title: '已至底',
+          status: 'BARGAINED'
+        },
+        {
+          id: '3',
+          title: '已过期',
+          status: 'TIMEOUT'
+        },
+        {
+          id: '4',
+          title: '已下单',
+          status: 'ORDERED'
+        }
         ],
         selectedId: '0'
       }

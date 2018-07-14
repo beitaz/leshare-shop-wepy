@@ -160,35 +160,35 @@
     }
     validate() {
       const rules = [{
-          value: this.address.name,
-          method: 'required',
-          message: '请输入联系人'
-        },
-        {
-          value: this.input.sex,
-          method: 'required',
-          message: '请选择您的称呼'
-        },
-        {
-          value: this.address.phone,
-          method: 'required',
-          message: '请输入联系电话'
-        },
-        {
-          value: this.address.phone,
-          method: 'tel',
-          message: '请输入合法手机号码'
-        },
-        {
-          value: this.input.location,
-          method: 'required',
-          message: '请选择送餐地址'
-        },
-        {
-          value: this.address.detail,
-          method: 'required',
-          message: '请输入详细地址'
-        }
+        value: this.address.name,
+        method: 'required',
+        message: '请输入联系人'
+      },
+      {
+        value: this.input.sex,
+        method: 'required',
+        message: '请选择您的称呼'
+      },
+      {
+        value: this.address.phone,
+        method: 'required',
+        message: '请输入联系电话'
+      },
+      {
+        value: this.address.phone,
+        method: 'tel',
+        message: '请输入合法手机号码'
+      },
+      {
+        value: this.input.location,
+        method: 'required',
+        message: '请选择送餐地址'
+      },
+      {
+        value: this.address.detail,
+        method: 'required',
+        message: '请输入详细地址'
+      }
       ];
       return this.check(rules);
     }

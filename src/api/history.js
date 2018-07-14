@@ -40,11 +40,9 @@ export default class history extends base {
     // 图片处理
     if (images == null || images.length < 1) {
       return '/images/goods/broken.png';
-    }
-    else if (images[0].url == null) {
+    } else if (images[0].url == null) {
       return '/images/goods/broken.png';
-    }
-    else {
+    } else {
       return images[0].url + '/small';
     }
   }

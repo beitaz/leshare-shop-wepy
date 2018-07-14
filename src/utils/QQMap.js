@@ -35,7 +35,7 @@ var Utils = {
     var query = ''
     for (var i = 0; i < data.length; i++) {
       var d = data[i]
-      if (!!query) {
+      if (query) {
         query += ';'
       }
       if (d.location) {
@@ -160,7 +160,7 @@ var Utils = {
     }
     options.fail = function (res) {
       res.statusCode = ERROR_CONF.WX_ERR_CODE
-      param.fail(that.buildErrorConfig(ERROR_CONF.WX_ERR_CODE, result.errMsg))
+      param.fail(that.buildErrorConfig(ERROR_CONF.WX_ERR_CODE, res.errMsg))
     }
     options.complete = function (res) {
       var statusCode = +res.statusCode
@@ -181,7 +181,6 @@ var Utils = {
         default: {
           param.complete(that.buildErrorConfig(ERROR_CONF.SYSTEM_ERR, ERROR_CONF.SYSTEM_ERR_MSG))
         }
-
       }
     }
     return options
@@ -211,7 +210,6 @@ var Utils = {
 }
 
 class QQMapWX {
-
   /**
    * 构造函数
    *
@@ -260,11 +258,11 @@ class QQMapWX {
     }
 
     var distance = options.distance || '1000'
-    var auto_extend = options.auto_extend || 1
+    var autoExtend = options.auto_extend || 1
 
     var locationsuccess = function (result) {
       if (!options.boundary) {
-        requestParam.boundary = 'nearby(' + result.latitude + ',' + result.longitude + ',' + distance + ',' + auto_extend + ')'
+        requestParam.boundary = 'nearby(' + result.latitude + ',' + result.longitude + ',' + distance + ',' + autoExtend + ')'
       } else {
         requestParam.boundary = options.boundary;
       }

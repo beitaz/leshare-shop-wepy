@@ -75,15 +75,15 @@
     methods = {
       async code() {
         const rules = [{
-            value: this.input.phone,
-            method: 'required',
-            message: '手机号码不能为空'
-          },
-          {
-            value: this.input.phone,
-            method: 'tel',
-            message: '请输入正确的手机格式'
-          }
+          value: this.input.phone,
+          method: 'required',
+          message: '手机号码不能为空'
+        },
+        {
+          value: this.input.phone,
+          method: 'tel',
+          message: '请输入正确的手机格式'
+        }
         ];
         if (!this.check(rules)) {
           return;

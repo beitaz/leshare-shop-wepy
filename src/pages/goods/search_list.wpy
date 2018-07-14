@@ -49,17 +49,17 @@
       },
       tab: {
         list: [{
-            id: 'sales_volume',
-            title: '商品销量'
-          },
-          {
-            id: 'sell_price',
-            title: '商品价格'
-          },
-          {
-            id: 'create_time',
-            title: '上架时间'
-          }
+          id: 'sales_volume',
+          title: '商品销量'
+        },
+        {
+          id: 'sell_price',
+          title: '商品价格'
+        },
+        {
+          id: 'create_time',
+          title: '上架时间'
+        }
         ],
         selectedId: 'sales_volume',
         order: true,
