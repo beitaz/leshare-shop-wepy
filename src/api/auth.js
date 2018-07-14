@@ -28,7 +28,7 @@ export default class auth extends base {
   /**
    * 获取用户信息
    */
-  static async user(param = {block: false, redirect: false}, userInfo) {
+  static async user(param = { block: false, redirect: false }, userInfo) {
     try {
       // 检查
       if (this.hasConfig('user')) {
@@ -43,7 +43,7 @@ export default class auth extends base {
       // 检查是否通过
       // await this.checkUserInfo(rawUser);
       // 解密信息
-      const {user} = await this.decodeUserInfo(rawUser);
+      const { user } = await this.decodeUserInfo(rawUser);
       // 保存登录信息
       await this.setConfig('user', user);
       store.save('user', user);
@@ -94,8 +94,8 @@ export default class auth extends base {
    * 执行登录操作
    */
   static async doLogin() {
-    const {code} = await wepy.login();
-    const {third_session, login_code} = await this.session(code);
+    const { code } = await wepy.login();
+    const { third_session, login_code } = await this.session(code);
     await this.setConfig('login_code', login_code);
     await this.setConfig('third_session', third_session);
     await this.login();
@@ -145,7 +145,7 @@ export default class auth extends base {
    * 读取权限值
    */
   static async setConfig(key, value) {
-    await wepy.setStorage({key: key, data: value});
+    await wepy.setStorage({ key: key, data: value });
     wepy.$instance.globalData.auth[key] = value;
   }
 
@@ -155,6 +155,6 @@ export default class auth extends base {
   static async removeConfig(key) {
     console.info(`[auth] clear auth config [${key}]`);
     wepy.$instance.globalData.auth[key] = null;
-    await wepy.removeStorage({key: key});
+    await wepy.removeStorage({ key: key });
   }
 }

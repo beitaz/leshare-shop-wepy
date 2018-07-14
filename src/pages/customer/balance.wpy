@@ -3,7 +3,7 @@
     <view class="balance-box column-between">
       <view class="column-center">
         <view class="icon-box column">
-          <icon class="balance" style="color: #F9C907;font-size: 50px;"/>
+          <icon class="balance" style="color: #F9C907;font-size: 50px;" />
         </view>
         <text class="xl">储值金额</text>
         <view class="money-box">￥{{money}}</view>
@@ -21,19 +21,16 @@
   import wepy from 'wepy';
   import base from '../../mixins/base';
   import Tips from '../../utils/Tips';
-
   export default class Comment extends wepy.page {
     data = {
       init: false,
       money: 0
     };
-    onLoad () {
+    onLoad() {
       this.init = true
     }
-    params() {
-    }
-    components = {
-    };
+    params() {}
+    components = {};
     methods = {
       pay() {
         this.$navigate('/pages/shop/pay');
@@ -52,15 +49,14 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-
   .container {
     height: 100%;
     background: #fff;
   }
-  .balance-box{
+  .balance-box {
     padding: 130rpx 0;
     flex: 1;
-    .icon-box{
+    .icon-box {
       margin-bottom: 30rpx;
       align-items: center;
       width: 80px;
@@ -69,18 +65,17 @@
       border-radius: 50%;
       background-color: #F9DE69;
     }
-    .money-box{
+    .money-box {
       font-size: 40px;
     }
-    button{
+    button {
       width: 500rpx;
       border: $border;
       border-radius: 50px;
     }
-    .payment-box{
+    .payment-box {
       background-color: #FF953F;
       color: #fff;
     }
   }
-
 </style>

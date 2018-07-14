@@ -4,21 +4,22 @@
     <view class="box-title row-center" wx:if="{{param.isTitle}}">
       <text class="title-line">────────</text><text class="title-text">{{param.title}}</text><text class="title-line">────────</text>
     </view>
-
     <!--卡券区域（只在推荐的时候展现）-->
-    <scroll-view scroll-x	class="coupon-list">
+    <scroll-view scroll-x class="coupon-list">
       <repeat for="{{pickCoupons}}" key="index" index="index" item="item">
         <CouponItem :coupon.sync="item" @pick.user="pickCoupon" />
       </repeat>
     </scroll-view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy';
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import store from '../../store/utils';
   import CouponItem from '../../components/coupons/simple_item';
-
   @connect({
     pickCoupons: store.get('pickCoupons')
   })
@@ -26,10 +27,8 @@
     props = {
       param: {}
     };
-    async onLoad () {
-    }
-    methods = {
-    };
+    async onLoad() {}
+    methods = {};
     components = {
       CouponItem: CouponItem
     };
@@ -40,22 +39,20 @@
   @import "../../styles/variable";
   .coupon-box {
     background-color: white;
-
-    .box-title{
+    .box-title {
       height: 80rpx;
       border-bottom: $border;
       background-color: $color-bg-body;
-      .title-text{
+      .title-text {
         color: $color-primary;
         margin-left: 20px;
         margin-right: 20px;
         font-size: $text-lg;
       }
-      .title-line{
+      .title-line {
         color: #E2E2E2;
       }
     }
-
     .coupon-list {
       padding: 10px 0 10px 20rpx;
       height: 60px;

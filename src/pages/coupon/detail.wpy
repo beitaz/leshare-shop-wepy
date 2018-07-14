@@ -1,24 +1,22 @@
 <template>
-  <Tips />
-  <view wx:if="{{init}}">
-    <CouponItem :coupon.sync="coupon" />
-
-    <view class="success-box column-center"  wx:if="{{success}}">
-      <text>{{message}}</text>
+  <block>
+    <Tips />
+    <view wx:if="{{init}}">
+      <CouponItem :coupon.sync="coupon" />
+      <view class="success-box column-center" wx:if="{{success}}">
+        <text>{{message}}</text>
+      </view>
+      <view class="qr-box column-center" wx:if="{{!success}}">
+        <text class="muted mb20 lg" wx:if="{{coupon.supportType !=1}}">线下店铺消费时出示</text>
+        <canvas style="width: 200px; height: 200px;" canvas-id="qrcode" wx:if="{{coupon.supportType !=1}}"></canvas>
+        <text style="width: 200px; height: 200px;" class="muted lg column-center" wx:if="{{coupon.supportType ==1}}">暂不支持线下店铺消费</text>
+      </view>
+      <view class="btn-panel" wx:if="{{!success}}">
+        <button class="weui-btn" type="primary" @tap="check" wx:if="{{coupon.isSelfUse}}">自助核销</button>
+        <button class="weui-btn" type="warn" plain @tap="delete">删除优惠券</button>
+      </view>
     </view>
-
-    <view class="qr-box column-center" wx:if="{{!success}}">
-      <text class="muted mb20 lg" wx:if="{{coupon.supportType !=1}}">线下店铺消费时出示</text>
-      <canvas  style="width: 200px; height: 200px;" canvas-id="qrcode" wx:if="{{coupon.supportType !=1}}"></canvas>
-      <text style="width: 200px; height: 200px;" class="muted lg column-center" wx:if="{{coupon.supportType ==1}}">暂不支持线下店铺消费</text>
-    </view>
-
-    <view class="btn-panel" wx:if="{{!success}}">
-      <button class="weui-btn" type="primary"  @tap="check" wx:if="{{coupon.isSelfUse}}">自助核销</button>
-      <button class="weui-btn" type="warn" plain @tap="delete">删除优惠券</button>
-    </view>
-  </view>
-
+  </block>
 </template>
 
 <script>
@@ -40,10 +38,12 @@
       success: false,
       message: ''
     };
-    onLoad (options, {preload}) {
+    onLoad(options, {
+      preload
+    }) {
       this.coupon = preload.coupon;
       const id = preload.coupon.id;
-      interval = setInterval(async () => {
+      interval = setInterval(async() => {
         const ownList = await coupon.own();
         const target = ownList ? ownList.find(item => item.id == id) : null;
         if (target == null) {
@@ -60,7 +60,7 @@
       this.loaded();
       Qrcode.init('qrcode', `${this.coupon.couponId}#${this.coupon.id}`);
     };
-    onUnload () {
+    onUnload() {
       clearInterval(interval);
     }
     methods = {
@@ -108,7 +108,7 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .qr-box{
+  .qr-box {
     margin-top: 30rpx;
     margin-left: 20rpx;
     margin-right: 20rpx;
@@ -117,7 +117,7 @@
     background-color: white;
     border: $border;
   }
-  .success-box{
+  .success-box {
     background-color: white;
     padding: 20rpx;
     margin: 20rpx;
@@ -128,7 +128,7 @@
       color: $color-muted;
     }
   }
-  .middle{
+  .middle {
     margin-left: 200rpx;
   }
 </style>

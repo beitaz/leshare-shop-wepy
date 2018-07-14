@@ -8,7 +8,7 @@ export default class group extends base {
   /***
    * 根据拼团商品规则ID查找拼团信息(商品)
    */
-  static rule (ruleId) {
+  static rule(ruleId) {
     const url = `${this.baseUrl}/goods_bargain/rules/${ruleId}`;
     return this.get(url).then(data => api._processGoodsDetail(data));
   }
@@ -16,7 +16,7 @@ export default class group extends base {
   /***
    * 开砍/帮砍
    */
-  static GoodsBargain (ruleId, id, sku) {
+  static GoodsBargain(ruleId, id, sku) {
     const url = `${this.baseUrl}/goods_bargain`;
     const param = {
       ruleId: ruleId,
@@ -28,7 +28,7 @@ export default class group extends base {
   /***
    * 根据砍价ID查找砍价详情
    */
-  static bargain (bargainId) {
+  static bargain(bargainId) {
     const url = `${this.baseUrl}/goods_bargain/${bargainId}`;
     return this.get(url).then(data => this._processBargainGoods(data));
   }
@@ -36,7 +36,7 @@ export default class group extends base {
   /***
    * 砍价完成下单
    */
-  static order (trade, address) {
+  static order(trade, address) {
     const url = `${this.baseUrl}/goods_bargain/order`;
     order._processOrderAddress(trade, address);
     const param = {
@@ -50,7 +50,7 @@ export default class group extends base {
   /**
    * 返回参团列表
    */
-  static list (status) {
+  static list(status) {
     const url = `${this.baseUrl}/goods_bargain/rules?status=${status}`;
     return new Page(url, item => {
       this._processBargainListItem(item);
@@ -58,7 +58,7 @@ export default class group extends base {
   }
   // 处理方法
 
-  static _processBargainGoods (data) {
+  static _processBargainGoods(data) {
     // 处理预览图
     api._processGoodsPreview(data.rule);
     // 筛选规格
@@ -70,7 +70,7 @@ export default class group extends base {
     return data;
   }
 
-  static _processBargainListItem (data) {
+  static _processBargainListItem(data) {
     // 处理预览图
     api._processGoodsPreview(data.rule);
     // 筛选规格
@@ -80,15 +80,15 @@ export default class group extends base {
   }
 
   // 处理详情信息
-  static _processDetail (data) {
+  static _processDetail(data) {
     data.rule.skuDetail = data.rule.skuDetails.find(item => item.sku === data.sku);
     if (data.createTime == null) return;
     data.createTime = data.createTime.replace(/-/g, '/');
   }
 
   // 处理砍价用户
-  static _processBargainUser (data) {
-    const {id: userId} = wepy.getStorageSync('user');
+  static _processBargainUser(data) {
+    const { id: userId } = wepy.getStorageSync('user');
     const details = data.details;
     // 处理发起者
     data.header = details[0];
@@ -105,7 +105,7 @@ export default class group extends base {
   }
 
   // 处理砍价价格
-  static _processPrice (data) {
+  static _processPrice(data) {
     // 一共砍了多少钱
     data.allPrice = (data.details.reduce((prev, current) => prev + current.reducePrice, 0)).toFixed(2);
     const goodsPrice = data.rule.skuDetail.price;

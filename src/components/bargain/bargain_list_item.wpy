@@ -13,25 +13,21 @@
         <text wx:elif="{{detail.status === 'ORDERED' && detail.order.status == 2}}" class="sm primary">已购买</text>
       </view>
     </view>
-
     <!--商品区域-->
     <view class="row-between bargain-goods-box">
-      <image src="{{detail.rule.goods.imageUrl}}" style="width: 150rpx;height: 150rpx;"/>
+      <image src="{{detail.rule.goods.imageUrl}}" style="width: 150rpx;height: 150rpx;" />
       <view class="column">
         <text>{{detail.rule.goods.name}}</text>
         <text class="muted mt20">原价:￥{{detail.rule.skuDetail.price}}</text>
       </view>
       <text class="primary xxl">现价:￥{{detail.balance}}</text>
     </view>
-
-
     <!--汇总信息-->
     <view wx:if="{{detail.status === 'ORDERED' && detail.order.status == 2}}" class="order.order-footer-container row-end">
       <text>合计:</text>
       <text class="major xl mr20">￥{{detail.balance}}</text>
       <text>(含运费￥0)</text>
     </view>
-
     <!--操作栏-->
     <view class="group-bottom-box row">
       <view wx:if="{{detail.status === 'PROCESSING'}}" class="group-btn-box" @tap="help({{detail.id}})">找人帮砍</view>
@@ -47,7 +43,6 @@
   import order from '../../api/order';
   import Tips from '../../utils/Tips';
   import Event from '../../utils/Event';
-
   export default class BargainItem extends wepy.component {
     props = {
       detail: {},
@@ -60,13 +55,12 @@
       expand: {},
       shopName: {}
     };
-    onLoad () {
-    }
+    onLoad() {}
     methods = {
-      help (bargainId) {
+      help(bargainId) {
         this.$root.$navigate(`/pages/bargain/bargain_detail?bargainId=${bargainId}`)
       },
-      bargain (ruleId) {
+      bargain(ruleId) {
         this.$root.$navigate(`/pages/bargain/goods_detail?ruleId=${ruleId}`)
       },
       /**
@@ -86,70 +80,59 @@
         Event.emit(Event.BARGAIN_LIST_UPDATE);
       }
     };
-    components = {
-    };
-    watch = {
-    };
+    components = {};
+    watch = {};
     mixins = [router];
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-
   .order-item-container {
     border-top: $border;
     border-bottom: $border;
     background-color: #FFF;
     margin-bottom: 10rpx;
   }
-
   /*顶栏*/
   .order-header-container {
     padding: 10rpx 25rpx 10rpx 20rpx;
   }
-
   /*底栏*/
   .order-footer-container {
     padding-left: 25rpx;
     padding-right: 20rpx;
     height: 70rpx;
   }
-
   /*顶栏订单信息*/
-  .order-info-container{
-    text{
+  .order-info-container {
+    text {
       font-size: $text-xs;
-      color:$color-muted;
+      color: $color-muted;
     }
   }
-
   /* 操作栏 */
   .order-action-bar {
     border-top: $border;
     height: 90rpx;
     padding-right: 10rpx;
   }
-
-  .order-goods-fold{
+  .order-goods-fold {
     display: none;
   }
-
-  .goods-fold-btn{
+  .goods-fold-btn {
     background-color: $color-bg-item;
     padding-top: 5rpx;
     padding-bottom: 5rpx;
   }
-
-  .bargain-goods-box{
+  .bargain-goods-box {
     padding: 10rpx 20rpx;
     background-color: $color-bg-item;
   }
-
-  .group-bottom-box{
+  .group-bottom-box {
     flex-direction: row-reverse;
     border-top: 1px solid #FAFAFA;
-    .group-btn-box{
+    .group-btn-box {
       color: white;
       background-color: $color-primary;
       padding: 6rpx 20rpx;

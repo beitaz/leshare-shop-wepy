@@ -8,7 +8,7 @@ export default class goods extends base {
   /**
    * 获取推荐
    */
-  static recommend () {
+  static recommend() {
     let url = `${this.baseUrl}/goods/recommend`;
     return new Page(url, item => {
       this._processGoodsData(item);
@@ -18,7 +18,7 @@ export default class goods extends base {
   /**
    * 新的分页方法
    */
-  static list (discount) {
+  static list(discount) {
     let url = `${this.baseUrl}/goods/list`;
     return new Page(url, item => {
       this._processGoodsDiscount(item, discount);
@@ -29,7 +29,7 @@ export default class goods extends base {
   /**
    * 获取商品库存
    */
-  static stock (goodsId, sku = '') {
+  static stock(goodsId, sku = '') {
     const url = `${this.baseUrl}/goods/${goodsId}/stock?sku=${sku}`;
     return this.get(url).then(data => data.stock);
   }
@@ -37,7 +37,7 @@ export default class goods extends base {
   /**
    * 查询商品目录
    */
-  static categories (pid = 0) {
+  static categories(pid = 0) {
     const url = `${this.baseUrl}/goods/inner_category`;
     return this.get(url).then(data => this._createGoodsCategories(data));
   }
@@ -45,7 +45,7 @@ export default class goods extends base {
   /**
    * 查询商品详情
    */
-  static getInfo (goodsId, discount) {
+  static getInfo(goodsId, discount) {
     const url = `${this.baseUrl}/goods/${goodsId}`;
     return this.get(url, {}).then(data => {
       this._processGoodsDiscount(data, discount);
@@ -55,7 +55,7 @@ export default class goods extends base {
 
   /** ********************* 数据处理方法 ***********************/
 
-  static _createGoodsCategories (data) {
+  static _createGoodsCategories(data) {
     const list = [];
     if (data != null) {
       list.push(...data.map(item => {
@@ -76,7 +76,7 @@ export default class goods extends base {
   /**
    * 处理商品详情
    */
-  static _processGoodsDetail (detail) {
+  static _processGoodsDetail(detail) {
     // 解析预览图
     this._processGoodsPreview(detail);
 
@@ -132,7 +132,7 @@ export default class goods extends base {
   /**
    * 处理运费信息
    */
-  static _processGoodsPostFeeText (detail) {
+  static _processGoodsPostFeeText(detail) {
     const fee = detail.postFee;
     let feeText = '';
     if (!fee || fee == 0) {
@@ -146,7 +146,7 @@ export default class goods extends base {
   /**
    * 处理价格商品区间
    */
-  static _processGoodsPriceRange (detail) {
+  static _processGoodsPriceRange(detail) {
     if (!detail.goodsSkuInfo || !detail.goodsSkuInfo.goodsSkuDetails) {
       return;
     }
@@ -166,7 +166,7 @@ export default class goods extends base {
   /**
    * 处理价格展现标签 / 需要先调用区间处理
    */
-  static _processGoodsPriceLabel (detail) {
+  static _processGoodsPriceLabel(detail) {
     let priceLable = detail.sellPrice;
 
     if (detail.maxPrice && detail.minPrice) {
@@ -179,7 +179,7 @@ export default class goods extends base {
   /**
    * 处理SKU标签
    */
-  static _processSkuLable (detail) {
+  static _processSkuLable(detail) {
     const skuInfo = detail.goodsSkuInfo;
     if (!skuInfo) {
       return;
@@ -206,9 +206,9 @@ export default class goods extends base {
   /**
    * 处理商品信息
    */
-  static _processGoodsData (item) {
+  static _processGoodsData(item) {
     // 结构赋值
-    const {name, sellPrice, originalPrice} = item;
+    const { name, sellPrice, originalPrice } = item;
 
     // 长名字处理
     if (name.length > 12) {
@@ -235,14 +235,14 @@ export default class goods extends base {
   /**
    * 处理数量（已购买）
    */
-  static _processGoodsQuantity (item) {
+  static _processGoodsQuantity(item) {
     item.num = 0;
   }
 
   /**
    * 处理预览图
    */
-  static _processGoodsPreview (item) {
+  static _processGoodsPreview(item) {
     const images = item.images;
     // 图片处理
     if (images == null || images.length < 1) {

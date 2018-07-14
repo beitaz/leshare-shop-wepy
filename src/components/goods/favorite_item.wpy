@@ -1,18 +1,18 @@
 <template>
-  <view class="goods-fav-container" data-goods-id="{{goods.goodsId}}"  @tap="detail({{goods.goodsId}})">
-    <!--商品图片-->
-    <image class="goods-item-img" src="{{goods.imageUrl}}" />
-
-    <!--商品信息-->
-    <view class="goods-info-container">
-      <text class="goods-name">{{goods.goodsName}}</text>
-      <text class="goods-price">￥{{goods.goodsPrice}}</text>
+  <block>
+    <view class="goods-fav-container" data-goods-id="{{goods.goodsId}}" @tap="detail({{goods.goodsId}})">
+      <!--商品图片-->
+      <image class="goods-item-img" src="{{goods.imageUrl}}" />
+      <!--商品信息-->
+      <view class="goods-info-container">
+        <text class="goods-name">{{goods.goodsName}}</text>
+        <text class="goods-price">￥{{goods.goodsPrice}}</text>
+      </view>
+      <!--操作按钮-->
+      <icon class="more-dot" color="gray" @tap.stop="tap({{goods.goodsId}})" />
     </view>
-
-    <!--操作按钮-->
-    <icon class="more-dot" color="gray" @tap.stop="tap({{goods.goodsId}})" />
-  </view>
-  <view class="goods-item-border"></view>
+    <view class="goods-item-border"></view>
+  </block>
 </template>
 
 <script>
@@ -42,7 +42,7 @@
 <style lang="scss">
   @import "../../styles/variable";
   /*基本容器*/
-  .goods-fav-container{
+  .goods-fav-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -50,41 +50,36 @@
     padding-right: 35rpx;
     background-color: #FFF;
   }
-
   /*信息容器*/
-  .goods-info-container{
+  .goods-info-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    flex:1;
+    flex: 1;
     margin-left: 25rpx;
   }
-
   /*商品图片*/
-  .goods-item-img{
+  .goods-item-img {
     height: 130rpx;
     width: 130rpx;
   }
-
   /*商品名称*/
-  .goods-name{
+  .goods-name {
     color: #000311;
     font-size: 30rpx;
   }
-
   /*商品价格*/
-  .goods-price{
+  .goods-price {
     font-size: 30rpx;
-    color:#ff6200;
+    color: #ff6200;
   }
-
   /*加入购物车图片*/
-  .goods-more-img{
+  .goods-more-img {
     height: 45rpx;
     width: 45rpx;
   }
   /*分隔符*/
-  .goods-item-border{
+  .goods-item-border {
     height: 1px;
     background-color: #F3F3F3;
     width: 725rpx;

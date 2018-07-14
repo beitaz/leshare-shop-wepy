@@ -1,16 +1,13 @@
 <template>
   <view class="container" wx:if="{{init}}">
-
     <!--列表展现-->
     <repeat for="{{page.list}}" key="index" index="index" item="item">
       <CommentItem :comment.sync="item" />
     </repeat>
-
     <!-- 加载提示 -->
-    <Loadmore :page.sync="page"/>
-
+    <Loadmore :page.sync="page" />
     <!--占位符-->
-    <Placeholder :show.sync="isPageEmpty" message="该商品还没有评价"/>
+    <Placeholder :show.sync="isPageEmpty" message="该商品还没有评价" />
   </view>
 </template>
 
@@ -24,18 +21,19 @@
   import ActionBar from '../../components/common/action_bar';
   import Loadmore from '../../components/weui/loadmore';
   import CommentItem from '../../components/customer/comment_item'
-
   export default class Comment extends wepy.page {
     data = {
       page: {},
       init: false
     };
-    async onLoad () {
+    async onLoad() {
       this.page = await comment.list();
       await this.next();
     }
     params() {
-      return {status: 'ALL'};
+      return {
+        status: 'ALL'
+      };
     }
     components = {
       Placeholder: Placeholder,
@@ -52,4 +50,6 @@
   }
 </script>
 
-<style></style>
+<style>
+
+</style>

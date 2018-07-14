@@ -18,7 +18,7 @@ export default class favorite extends base {
    */
   static is(goodsId) {
     const url = `${this.baseUrl}/favorite_goods/check`;
-    const param = {goodsId: goodsId};
+    const param = { goodsId: goodsId };
     return this.get(url, param);
   }
 

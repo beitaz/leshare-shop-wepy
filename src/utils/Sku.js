@@ -2,7 +2,7 @@
  * SKU视图类
  */
 export default class Sku {
-  constructor (goods) {
+  constructor(goods) {
     // 商品是否存在SKU
     this.exists = true;
     // 商品信息
@@ -42,7 +42,7 @@ export default class Sku {
   /**
    * 初始化对象
    */
-  init () {
+  init() {
     this.labels = this.goods.labels;
     // 没有规格的情况
     if (!this.labels || this.labels.length < 1) {
@@ -66,7 +66,7 @@ export default class Sku {
   /**
    * 选择某个SKU参数
    */
-  select (key, value) {
+  select(key, value) {
     const srcValue = this.selected[key];
     this.selected[key] = srcValue == value ? null : value;
 
@@ -86,7 +86,7 @@ export default class Sku {
   /**
    * 获取不能选择的SKU值
    */
-  grepDisabledskuValues () {
+  grepDisabledskuValues() {
     const selected = this.selected;
     const disabledSkuValues = {};
     for (let skuKey in selected) {
@@ -111,7 +111,7 @@ export default class Sku {
   /**
    * 获取另外的SKU KEY
    */
-  getSkuKeysCondition (currentSkuKey) {
+  getSkuKeysCondition(currentSkuKey) {
     const condition = {};
     const selected = this.selected;
     for (let key in selected) {
@@ -125,7 +125,7 @@ export default class Sku {
   /**
    * 筛选剩余可以选择SKU库存大小
    */
-  grepRemainSkuStocks (condition) {
+  grepRemainSkuStocks(condition) {
     const selected = condition;
     let remainSkuStocks = this.skuStocks;
     for (let key in selected) {
@@ -140,7 +140,7 @@ export default class Sku {
   /**
    * 筛选剩余可以选择SKU值
    */
-  getRemainSkuValues (currentSkuKey) {
+  getRemainSkuValues(currentSkuKey) {
     let remainSkuValue = [];
     const skuValues = this.labels.find(item => item.key == currentSkuKey).value;
     const seletedSkuValue = this.selected[currentSkuKey];
@@ -156,14 +156,14 @@ export default class Sku {
   /**
    *设置数量
    */
-  setNum (num) {
+  setNum(num) {
     this.num = num;
   }
 
   /**
    * 导出数据
    */
-  export () {
+  export() {
     return {
       num: this.num,
       isReady: this.isReady,
@@ -186,7 +186,7 @@ export default class Sku {
   /**
    * 构造是否可以进入下一步的标识符
    */
-  buildNextFlag () {
+  buildNextFlag() {
     if (this.exists && this.isReady && this.stock > 0) {
       return true;
     } else if (!this.exists && this.stock > 0) {
@@ -199,7 +199,7 @@ export default class Sku {
   /**
    * 剩余库存文本
    */
-  buildStockText () {
+  buildStockText() {
     if (this.exists) {
       if (this.isReady) {
         return `剩余${this.stock}件`;
@@ -214,7 +214,7 @@ export default class Sku {
   /**
    * 拼装SKU字符串
    */
-  joinSkuText () {
+  joinSkuText() {
     let ready = true;
     let skuText = '';
     for (let key in this.selected) {
@@ -238,7 +238,7 @@ export default class Sku {
   /**
    * 获取SKU库存信息
    */
-  setSkuStock (skuText) {
+  setSkuStock(skuText) {
     const stocks = this.skuStocks;
     for (let i in stocks) {
       const stockInfo = stocks[i];
@@ -251,7 +251,7 @@ export default class Sku {
   /**
    * 取出当前SKU组合信息
    */
-  fetchSelectedSkuDetail () {
+  fetchSelectedSkuDetail() {
     // 检索当前SKU的信息
     const details = this.goods.goodsSkuInfo.goodsSkuDetails;
     for (let i in details) {

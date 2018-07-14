@@ -2,18 +2,15 @@
   <view class="container" wx:if="{{init}}">
     <!--TAB 页-->
     <ZanTab :tab.sync="tab" @change.user="switchTab" />
-
     <!--列表展现-->
     <repeat for="{{page.list}}" key="index" index="index" item="item">
       <CommentItem :comment.sync="item" />
     </repeat>
-
     <!-- 加载提示 -->
-    <Loadmore :page.sync="page"/>
+    <Loadmore :page.sync="page" />
   </view>
-
   <!--占位符-->
-  <Placeholder :show.sync="isPageEmpty" message="您还没有商品评价"/>
+  <Placeholder :show.sync="isPageEmpty" message="您还没有商品评价" />
 </template>
 
 <script>
@@ -25,26 +22,35 @@
   import ZanTab from '../../components/zanui/tab';
   import Loadmore from '../../components/weui/loadmore';
   import CommentItem from '../../components/goods/comment_item';
-
   export default class CommentList extends wepy.page {
     data = {
       init: true,
       page: {
-        list: [
-        ]
+        list: []
       },
       tab: null,
       goodsId: null
     };
-    async onLoad ({goodsId, status = 'GOOD'}) {
+    async onLoad({
+      goodsId,
+      status = 'GOOD'
+    }) {
       this.goodsId = goodsId;
       this.page = comment.page();
       const count = await comment.count(goodsId);
       this.tab = {
-        'list': [
-          { 'id': 'GOOD', 'title': `满意(${count.GOOD})` },
-          { 'id': 'NORMAL', 'title': `一般(${count.NORMAL})` },
-          { 'id': 'BAD', 'title': `不满意(${count.BAD})` }
+        'list': [{
+            'id': 'GOOD',
+            'title': `满意(${count.GOOD})`
+          },
+          {
+            'id': 'NORMAL',
+            'title': `一般(${count.NORMAL})`
+          },
+          {
+            'id': 'BAD',
+            'title': `不满意(${count.BAD})`
+          }
         ],
         'selectedId': status,
         'scroll': false

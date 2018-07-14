@@ -8,14 +8,14 @@ export default class address extends base {
   /**
    * 返回分页对象
    */
-  static page () {
+  static page() {
     const url = `${this.baseUrl}/addresses`;
     return new Page(url, this._processAddress.bind(this));
   }
   /**
    * 返回可用地址
    */
-  static available (goodsList) {
+  static available(goodsList) {
     const url = `${this.baseUrl}/addresses/available`;
     return this.post(url, goodsList).then(data => {
       return data.map(this._processAddress.bind(this));
@@ -29,14 +29,14 @@ export default class address extends base {
           disable.push(item);
         }
       });
-      return {available, disable};
+      return { available, disable };
     });
   }
   /**
    * 返回默认的可用地址
    */
-  static async defaultAvailable (goodsList) {
-    const {available} = await this.available(goodsList);
+  static async defaultAvailable(goodsList) {
+    const { available } = await this.available(goodsList);
     if (available == null || available.length < 1) {
       return null;
     }
@@ -50,21 +50,21 @@ export default class address extends base {
   /**
    * 新增地址
    */
-  static save (address) {
+  static save(address) {
     const url = `${this.baseUrl}/addresses`;
     return this.post(url, address);
   }
   /**
    * 更新地址对象
    */
-  static update (addrId, address) {
+  static update(addrId, address) {
     const url = `${this.baseUrl}/addresses/${addrId}`;
     return this.put(url, address);
   }
   /**
    * 获取地址对象
    */
-  static info (addrId) {
+  static info(addrId) {
     const url = `${this.baseUrl}/addresses/${addrId}`;
     return this.get(url, address).then(data => {
       data.location = data.fullAddress.replace(data.detail, '');
@@ -74,23 +74,23 @@ export default class address extends base {
   /**
    * 设置默认
    */
-  static setDefault (id) {
+  static setDefault(id) {
     const url = `${this.baseUrl}/addresses/${id}/default`;
     return this.put(url);
   }
   /**
    * 删除地址对象
    */
-  static remove (id) {
+  static remove(id) {
     const url = `${this.baseUrl}/addresses/${id}`;
     return this.delete(url);
   }
   /**
    * 处理地址数据
    */
-  static _processAddress (data) {
+  static _processAddress(data) {
     if (data) {
-      const {fullAddress, province, city, country} = data;
+      const { fullAddress, province, city, country } = data;
       data.simpleAddress = fullAddress.replace(province, '').replace(city, '').replace(country, '');
       data.sexText = '';
       if (data.sex == 1) {

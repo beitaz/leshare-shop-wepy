@@ -1,7 +1,7 @@
 <template>
   <view class="row group-detail-box" @tap="detail({{rule.id}})">
     <view class="group-goods-image">
-      <image src="{{rule.goods.imageUrl}}" mode="aspectFill"/>
+      <image src="{{rule.goods.imageUrl}}" mode="aspectFill" />
     </view>
     <view class="column ml20 group-goods-msg-box">
       <text class="group-goods-name lg ml10">{{rule.goods.name}}</text>
@@ -22,20 +22,17 @@
 
 <script>
   import wepy from 'wepy';
-
   export default class GroupGoodsDetail extends wepy.component {
     props = {
       rule: {}
     };
-    data = {
-    };
+    data = {};
     methods = {
-      detail (id) {
+      detail(id) {
         this.$root.$navigate(`/pages/bargain/goods_detail?ruleId=${id}`)
       }
     };
-    watch = {
-    };
+    watch = {};
     mixins = [];
   }
 </script>
@@ -43,29 +40,29 @@
 <style lang="scss">
   @import "../../styles/variable";
   $img-height: 220rpx;
-  .group-detail-box{
+  .group-detail-box {
     margin-bottom: 10rpx;
     background: white;
     padding: 10rpx 20rpx;
     align-items: flex-start;
   }
-  .group-goods-image{
+  .group-goods-image {
     width: $img-height;
     height: $img-height;
-    image{
+    image {
       width: 100%;
       height: 100%;
     }
   }
-  .group-goods-msg-box{
+  .group-goods-msg-box {
     flex: 1;
     height: $img-height;
-    .group-price-box{
+    .group-price-box {
       font-size: 46rpx;
       line-height: 46rpx;
       color: #e64340;
     }
-    .sellPrice-box{
+    .sellPrice-box {
       text-decoration: line-through;
     }
   }

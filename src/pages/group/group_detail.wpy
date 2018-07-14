@@ -1,33 +1,29 @@
 <template>
-  <Loading :init.sync="init"/>
-
-  <view class="container column" wx:if="{{init}}">
-    <!--商品详情栏-->
-    <GoodsDetail :rule.sync="rule"/>
-
-    <!--拼团状态-->
-    <StatusBar :detail.sync="detail" />
-
-    <!--订单信息栏-->
-    <view class="row-between group-order-box" wx:if="{{isJoined}}">
-      <text>订单信息</text>
-      <view @tap="order">
-        <text class="muted sm">· 收件人</text>
-        <text class="muted sm ml10">· 收货地址 </text>
-        <text class="muted sm ml10">· 成团时间</text>
-        <icon class="more ml10" color="gray"/>
+  <block>
+    <Loading :init.sync="init" />
+    <view class="container column" wx:if="{{init}}">
+      <!--商品详情栏-->
+      <GoodsDetail :rule.sync="rule" />
+      <!--拼团状态-->
+      <StatusBar :detail.sync="detail" />
+      <!--订单信息栏-->
+      <view class="row-between group-order-box" wx:if="{{isJoined}}">
+        <text>订单信息</text>
+        <view @tap="order">
+          <text class="muted sm">· 收件人</text>
+          <text class="muted sm ml10">· 收货地址 </text>
+          <text class="muted sm ml10">· 成团时间</text>
+          <icon class="more ml10" color="gray" />
+        </view>
       </view>
+      <!--拼团栏-->
+      <GroupInfoBar />
+      <!--滑出购物面板-->
+      <block>
+        <SilderPanel />
+      </block>
     </view>
-
-    <!--拼团栏-->
-    <GroupInfoBar />
-
-    <!--滑出购物面板-->
-    <block>
-      <SilderPanel />
-    </block>
-
-  </view>
+  </block>
 </template>
 
 <script>
@@ -41,7 +37,6 @@
   import group from '../../api/group'
   import Loading from '../../components/common/loading';
   import SilderPanel from '../../components/goods/slider_buy_panel';
-
   export default class GroupDetail extends wepy.page {
     data = {
       init: false,
@@ -50,7 +45,9 @@
       isJoined: false,
       userGroup: null
     };
-    async onLoad ({groupId}) {
+    async onLoad({
+      groupId
+    }) {
       await auth.login();
       await store.init();
       this.detail = await group.groupDetail(groupId);
@@ -72,8 +69,11 @@
     /**
      * 页面分享
      */
-    onShareAppMessage () {
-      const {name, imageUrl} = this.detail.rule.goods;
+    onShareAppMessage() {
+      const {
+        name,
+        imageUrl
+      } = this.detail.rule.goods;
       const shareName = `${name}，还剩${this.rule.spareCustomer}人成团，快来一起参团吧！`;
       // 【拼团】商品名称 还剩X人成团，快来一起参团
       return {
@@ -104,7 +104,7 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .group-order-box{
+  .group-order-box {
     background-color: white;
     margin-bottom: 10rpx;
     padding: 20rpx;

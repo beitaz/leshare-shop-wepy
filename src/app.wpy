@@ -1,6 +1,3 @@
-<style lang="scss" src="./styles/weui.scss"></style>
-<style lang="scss" src="./styles/icons.scss"></style>
-<style lang="scss" src="./styles/base.scss"></style>
 <script>
   import wepy from 'wepy';
   import WxUtils from './utils/WxUtils';
@@ -177,25 +174,25 @@
         'list': [
           {
             'iconPath': 'images/tab/home.png',
-            'selectedIconPath': 'images/tab/red/home-active.png',
+            'selectedIconPath': 'images/tab/red/home_active.png',
             'pagePath': 'pages/home/template',
             'text': '首页'
           },
           {
-            'iconPath': 'images/tab/order.png',
-            'selectedIconPath': 'images/tab/red/order-active.png',
+            'iconPath': 'images/tab/classify.png',
+            'selectedIconPath': 'images/tab/red/classify_active.png',
             'pagePath': 'pages/goods/category',
             'text': '分类'
           },
           {
-            'iconPath': 'images/tab/cart.png',
-            'selectedIconPath': 'images/tab/red/cart-active.png',
+            'iconPath': 'images/tab/shopcart.png',
+            'selectedIconPath': 'images/tab/red/shopcart_active.png',
             'pagePath': 'pages/goods/cart',
             'text': '购物车'
           },
           {
             'iconPath': 'images/tab/user.png',
-            'selectedIconPath': 'images/tab/red/user-active.png',
+            'selectedIconPath': 'images/tab/red/user_active.png',
             'pagePath': 'pages/customer/index_template',
             'text': '我的'
           }
@@ -204,3 +201,8 @@
     };
   }
 </script>
+<style lang="scss">
+@import './styles/weui.scss';
+@import './styles/icons.scss';
+@import './styles/base.scss';
+</style>

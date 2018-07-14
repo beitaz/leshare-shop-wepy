@@ -1,7 +1,7 @@
 <template>
   <scroll-view class="side-tab" scroll-y>
     <block wx:for="{{tab.list}}" wx:key="id">
-      <view class="tab-item {{item.id == tab.selectedId ? 'tab-item-seleted' : ''}}" @tap="switchTab({{item.id}})" >
+      <view class="tab-item {{item.id == tab.selectedId ? 'tab-item-seleted' : ''}}" @tap="switchTab({{item.id}})">
         <text>{{item.title}}</text>
         <view class="weui-badge tab-num" wx:if="{{item.count > 0}}">{{item.count}}</view>
       </view>
@@ -25,20 +25,17 @@
       }
     };
     events = {};
-    onLoad() {
-    }
+    onLoad() {}
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-
-  .side-tab{
+  .side-tab {
     border-right: $border;
     width: 180rpx;
     min-width: 180rpx;
     height: 100%;
-
     .tab-item {
       position: relative;
       height: 110rpx;
@@ -49,22 +46,22 @@
       border-left: 8rpx solid #F8F8F8;
       border-bottom: $border;
       padding-left: 20rpx;
-      text{ color: $color-weak}
-      .tab-num{
+      text {
+        color: $color-weak
+      }
+      .tab-num {
         position: absolute;
         right: 5px;
         top: 5px;
       }
     }
-
-    .tab-item-seleted{
+    .tab-item-seleted {
       border-left: 4px solid $color-primary;
       background-color: #FFF;
-      text{
+      text {
         color: $color-normal;
         font-weight: bold;
       }
     }
   }
-
 </style>

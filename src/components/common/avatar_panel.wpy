@@ -16,18 +16,16 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .info-box{
+  .info-box {
     align-items: center;
     height: 300rpx;
     background-color: $color-primary;
-
-    .avatar{
-      height:160rpx;
+    .avatar {
+      height: 160rpx;
       width: 160rpx;
       border-radius: 50%;
     }
-
-    .name{
+    .name {
       color: white;
       font-size: $text-xxl;
       margin-top: 20rpx;

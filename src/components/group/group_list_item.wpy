@@ -6,13 +6,11 @@
         <view class="user-info-container">
           <text class="sm ml10">{{group.groupTime}}</text>
         </view>
-
         <text wx:if="{{group.status === 'PROCESSING'}}" class="sm primary">拼团中，还差{{group.rule.limitCustomer - group.joinCount}}人成团</text>
         <text wx:elif="{{group.status === 'SUCCESS'}}" class="sm primary">拼团成功</text>
         <text wx:else class="sm primary">拼团失败</text>
       </view>
     </view>
-
     <!--商品区域-->
     <view class="order-goods-list-container" @tap="group({{group.status}}, {{group.detail.groupId}})">
       <repeat for="{{group.detail.order.orderGoodsInfos}}" key="goodsId" index="index" item="item">
@@ -26,8 +24,6 @@
         <text class="muted" wx:else>收起商品</text>
       </view>
     </view>
-
-
     <!--汇总信息-->
     <view class="order.order-footer-container row-end">
       <text class="mr20">共{{group.detail.order.orderGoodsInfos.length}}件商品</text>
@@ -35,13 +31,13 @@
       <text class="major xl mr20">￥{{group.detail.order.finalPrice}}</text>
       <text>(含运费￥{{group.detail.order.postFee}})</text>
     </view>
-
     <!--操作栏-->
     <view wx:if="{{group.status === 'PROCESSING'}}" class="group-bottom-box row">
       <view class="group-btn-box" @tap="group({{group.status}}, {{group.detail.groupId}})">邀请参团</view>
     </view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy';
   import OrderGoods from '../order/order_goods';
@@ -57,7 +53,7 @@
       expand: {},
       shopName: {}
     };
-    onLoad () {
+    onLoad() {
       this.shopName = wepy.$instance.globalData.shopName;
     }
     methods = {
@@ -71,7 +67,7 @@
       /**
        * 跳转拼团详情
        */
-      group (status, groupId) {
+      group(status, groupId) {
         this.$root.$navigate(`/pages/group/group_detail?groupId=${groupId}`);
       }
     };
@@ -83,55 +79,47 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-
   .order-item-container {
     border-top: $border;
     border-bottom: $border;
     background-color: #FFF;
     margin-bottom: 10rpx;
   }
-
   /*顶栏*/
   .order-header-container {
     padding: 10rpx 25rpx 10rpx 20rpx;
   }
-
   /*底栏*/
   .order-footer-container {
     padding-left: 25rpx;
     padding-right: 20rpx;
     height: 70rpx;
   }
-
   /*顶栏订单信息*/
-  .order-info-container{
-    text{
+  .order-info-container {
+    text {
       font-size: $text-xs;
-      color:$color-muted;
+      color: $color-muted;
     }
   }
-
   /* 操作栏 */
   .order-action-bar {
     border-top: $border;
     height: 90rpx;
     padding-right: 10rpx;
   }
-
-  .order-goods-fold{
+  .order-goods-fold {
     display: none;
   }
-
-  .goods-fold-btn{
+  .goods-fold-btn {
     background-color: $color-bg-item;
     padding-top: 5rpx;
     padding-bottom: 5rpx;
   }
-
-  .group-bottom-box{
+  .group-bottom-box {
     flex-direction: row-reverse;
     border-top: 1px solid #FAFAFA;
-    .group-btn-box{
+    .group-btn-box {
       color: white;
       background-color: $color-primary;
       padding: 10rpx 20rpx;

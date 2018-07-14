@@ -1,7 +1,7 @@
 import http from './Http'
 
 export default class Pagination {
-  constructor (url, processFunc) {
+  constructor(url, processFunc) {
     // 数据访问地址
     this.url = url;
     // 数据集合
@@ -27,7 +27,7 @@ export default class Pagination {
   /**
    * 加载下一页数据
    */
-  async next (args) {
+  async next(args) {
     const param = {
       from: this.start,
       limit: this.count
@@ -73,13 +73,13 @@ export default class Pagination {
   /**
    * 恢复到第一页
    */
-  reset () {
+  reset() {
     this.empty = true;
     this.toClear = true;
     this.start = 0;
     this.reachBottom = false;
   }
-  clear () {
+  clear() {
     this.toClear = false;
     this.start = 0;
     this.list = [];
@@ -88,7 +88,7 @@ export default class Pagination {
   /**
    * 处理数据（私有）
    */
-  _processData (data) {
+  _processData(data) {
     if (this.processFunc) {
       for (let i in data) {
         const result = this.processFunc(data[i]);

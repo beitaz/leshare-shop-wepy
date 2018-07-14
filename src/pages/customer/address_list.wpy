@@ -2,16 +2,13 @@
   <view wx:if="{{init}}">
     <!--列表展现-->
     <repeat for="{{page.list}}" key="index" index="index" item="item">
-      <Address :address.sync="item"/>
+      <Address :address.sync="item" />
     </repeat>
-
     <ActionBar @tap.user="add" okText="添加地址" cancelText="返回" />
-
     <!-- 加载提示 -->
-    <Loadmore :page.sync="page"/>
-
+    <Loadmore :page.sync="page" />
     <!--占位符-->
-    <Placeholder :show.sync="isPageEmpty" message="您还没有收货地址" @tap.user="add"/>
+    <Placeholder :show.sync="isPageEmpty" message="您还没有收货地址" @tap.user="add" />
   </view>
 </template>
 
@@ -25,13 +22,11 @@
   import Address from '../../components/address/manage_item';
   import ActionBar from '../../components/common/action_bar'
   import Event from '../../utils/Event'
-
   export default class AddressList extends wepy.page {
     data = {
       init: false,
       page: {
-        list: [
-        ]
+        list: []
       }
     };
     methods = {
@@ -39,12 +34,12 @@
         this.$navigate('/pages/address/edit?mode=create');
       }
     };
-    async onLoad () {
+    async onLoad() {
       this.page = address.page();
       await this.next();
       Event.listen(Event.ADDRESS_LIST_UPDATE, this.update.bind(this), this);
     };
-    async update (isCreate) {
+    async update(isCreate) {
       this.reload();
     }
     components = {

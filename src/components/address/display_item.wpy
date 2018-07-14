@@ -1,21 +1,23 @@
 <template>
-  <view class="address-box row">
-    <!--左侧图标-->
-    <view class="icon-box">
-      <icon class="address large"/>
-    </view>
-    <!-- 地址内容 -->
-    <view class="info-box column">
-      <view class="row-between">
-        <text>收货人：{{address.name}} {{address.sexText}}</text>
-        <text>{{address.phone}}</text>
+  <block>
+    <view class="address-box row">
+      <!--左侧图标-->
+      <view class="icon-box">
+        <icon class="address large" />
       </view>
-      <view class="mt10">
-        <text>地址：{{address.simpleAddress}} </text>
+      <!-- 地址内容 -->
+      <view class="info-box column">
+        <view class="row-between">
+          <text>收货人：{{address.name}} {{address.sexText}}</text>
+          <text>{{address.phone}}</text>
+        </view>
+        <view class="mt10">
+          <text>地址：{{address.simpleAddress}} </text>
+        </view>
       </view>
     </view>
-  </view>
-  <image class="address-box-hr" src="http://img.leshare.shop/shop/other/address-hr.png" />
+    <image class="address-box-hr" src="http://img.leshare.shop/shop/other/address-hr.png" />
+  </block>
 </template>
 
 <script>
@@ -29,21 +31,22 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .address-box{
+  .address-box {
     padding: 25rpx 20rpx 25rpx 0;
     background-color: #FFF;
-    .icon-box{
+    .icon-box {
       width: 80rpx;
       text-align: center;
     }
-    .info-box{
+    .info-box {
       width: 600rpx;
-      flex:1;
-
-      text{ font-size: $text-lg}
+      flex: 1;
+      text {
+        font-size: $text-lg
+      }
     }
   }
-  .address-box-hr{
+  .address-box-hr {
     width: 100%;
     height: 5px;
     margin-bottom: 15rpx;

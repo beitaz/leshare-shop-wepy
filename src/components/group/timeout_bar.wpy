@@ -1,5 +1,5 @@
 <template>
-  <view class="timeout-box row-between" >
+  <view class="timeout-box row-between">
     <view class="title-box row">
       <view class="title mr20 ">{{title}}</view>
       <view class="describe-box">{{describe}}</view>
@@ -23,7 +23,6 @@
 <script>
   import wepy from 'wepy';
   import countdown from '../../mixins/countdown';
-
   export default class TimeOutBar extends wepy.component {
     props = {
       endTime: {
@@ -40,8 +39,7 @@
       }
     };
     data = {};
-    methods = {
-    };
+    methods = {};
     watch = {
       endTime(endTime) {
         this.countdowm(endTime.replace(/-/g, '/'), 'endTime');
@@ -53,16 +51,16 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .timeout-box{
-    background:-webkit-gradient(linear, 0% 0%, 100% 0%,from($color-primary), to(#FFCC59));
+  .timeout-box {
+    background: -webkit-gradient(linear, 0% 0%, 100% 0%, from($color-primary), to(#FFCC59));
     padding: 6rpx 0;
-    .title-box{
+    .title-box {
       padding: 10rpx 0 10rpx 20rpx;
-      text{
+      text {
         color: white;
       }
     }
-    .title{
+    .title {
       $title-size: 48rpx;
       font-size: $title-size;
       line-height: $title-size;
@@ -70,15 +68,15 @@
       color: white;
       margin-top: 10rpx;
     }
-    .describe-box{
+    .describe-box {
       margin-top: 36rpx;
       color: white;
       font-size: $text-xs;
       line-height: $text-xs;
     }
-    .time-box{
+    .time-box {
       padding: 10rpx 20rpx;
-      .time-num-box{
+      .time-num-box {
         padding: 4rpx 8rpx;
         margin: 0 8rpx;
         background-color: #000;
@@ -87,7 +85,7 @@
         line-height: $text-xxs;
       }
     }
-    .end-box{
+    .end-box {
       font-size: 40rpx;
       margin-top: 10rpx;
     }

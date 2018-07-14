@@ -1,16 +1,16 @@
 <template>
-  <view class="container" wx:if="{{init}}">
-    <!--列表展现-->
-    <repeat for="{{page.list}}" key="index" index="index" item="item">
-      <FavoriteItem :goods.sync="item" @remove.user="remove"/>
-    </repeat>
-
-    <!-- 加载提示 -->
-    <Loadmore :page.sync="page"/>
-  </view>
-
-  <!--占位符-->
-  <Placeholder :show.sync="isPageEmpty" message="您还没有收藏商品"/>
+  <block>
+    <view class="container" wx:if="{{init}}">
+      <!--列表展现-->
+      <repeat for="{{page.list}}" key="index" index="index" item="item">
+        <FavoriteItem :goods.sync="item" @remove.user="remove" />
+      </repeat>
+      <!-- 加载提示 -->
+      <Loadmore :page.sync="page" />
+    </view>
+    <!--占位符-->
+    <Placeholder :show.sync="isPageEmpty" message="您还没有收藏商品" />
+  </block>
 </template>
 
 <script>
@@ -22,16 +22,14 @@
   import Loadmore from '../../components/weui/loadmore';
   import FavoriteItem from '../../components/goods/favorite_item';
   import Tips from '../../utils/Tips';
-
   export default class GoodsFavorite extends wepy.page {
     data = {
       init: true,
       page: {
-        list: [
-        ]
+        list: []
       }
     };
-    async onLoad () {
+    async onLoad() {
       this.page = favorite.page();
       await this.next();
     };

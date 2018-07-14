@@ -8,7 +8,7 @@ export default class coupon extends base {
   /**
    * 返回分页对象
    */
-  static page () {
+  static page() {
     const url = `${this.baseUrl}/coupons?by=accept_time&sort=desc`;
     return new Page(url, this._processCouponItem.bind(this));
   }
@@ -16,12 +16,12 @@ export default class coupon extends base {
   /**
    * 获取可领取、已领取的优惠券
    */
-  static all () {
+  static all() {
     const url = `${this.baseUrl}/coupons/all`;
-    return this.get(url).then(({owned, show}) => {
+    return this.get(url).then(({ owned, show }) => {
       const pickCoupons = this.processCouponsList(show, this._processPickItem.bind(this));
       const ownCoupons = this.processCouponsList(owned, this._processCouponItem.bind(this));
-      return {pickCoupons, ownCoupons};
+      return { pickCoupons, ownCoupons };
     });
   }
   static processCouponsList(data, func) {
@@ -35,7 +35,7 @@ export default class coupon extends base {
   /**
    * 目前可以领取的优惠券
    */
-  static list () {
+  static list() {
     const url = `${this.baseUrl}/coupons/show`;
     return this.get(url).then(pickList => {
       if (pickList && pickList.length > 0) {
@@ -48,7 +48,7 @@ export default class coupon extends base {
   /**
    * 查找目前已领取的优惠券
    */
-  static own (status = 'NEVER_USED') {
+  static own(status = 'NEVER_USED') {
     const url = `${this.baseUrl}/coupons/list?status=${status}`;
     return this.get(url).then(ownList => {
       if (ownList && ownList.length > 0) {
@@ -61,14 +61,14 @@ export default class coupon extends base {
   /**
    * 领取卡券
    */
-  static pick (couponId) {
+  static pick(couponId) {
     const url = `${this.baseUrl}/coupons/${couponId}/get`;
     return this.get(url);
   }
   /**
    * 删除卡券
    */
-  static remove (acceptId) {
+  static remove(acceptId) {
     const url = `${this.baseUrl}/coupons/${acceptId}`;
     return this.delete(url);
   }
@@ -83,9 +83,9 @@ export default class coupon extends base {
   /**
    * 获取可用的卡券信息
    */
-  static available (goodsList) {
+  static available(goodsList) {
     const url = `${this.baseUrl}/coupons/order_available`;
-    const param = {orderGoodsInfos: goodsList};
+    const param = { orderGoodsInfos: goodsList };
     return this.post(url, param).then(data => {
       return data ? data.map(coupon => this._processCouponItem(coupon)) : [];
     });
@@ -100,7 +100,7 @@ export default class coupon extends base {
   /**
    * 处理可以领取的优惠券
    */
-  static _processPickItem (coupon) {
+  static _processPickItem(coupon) {
     coupon.beginTime = this._convertTimestapeToDay(coupon.beginTime);
     coupon.dueTime = this._convertTimestapeToDay(coupon.dueTime);
     return coupon;
@@ -108,7 +108,7 @@ export default class coupon extends base {
   /**
    * 处理已拥有的优惠券
    */
-  static _processCouponItem (data) {
+  static _processCouponItem(data) {
     const root = data;
     if (data.coupon == null) {
       return null;
@@ -128,7 +128,7 @@ export default class coupon extends base {
   /**
    * 处理卡券展示标签
    */
-  static _processCouponDisplayFlag (coupon) {
+  static _processCouponDisplayFlag(coupon) {
     if (coupon.status != 'NEVER_USED') {
       return;
     }
@@ -144,7 +144,7 @@ export default class coupon extends base {
   /**
    * 计算时间间隔
    */
-  static _dayIntervalToNow (dateStr) {
+  static _dayIntervalToNow(dateStr) {
     const MS_OF_DAY = 86400000;
     const date = Date.parse(dateStr);
     return Math.round((Date.now() - date) / MS_OF_DAY);
@@ -152,7 +152,7 @@ export default class coupon extends base {
   /**
    * 处理时间格式
    */
-  static _convertTimestapeToDay (timestape) {
+  static _convertTimestapeToDay(timestape) {
     let temp = timestape;
     if (timestape.indexOf(' ') != -1) {
       temp = timestape.substring(0, timestape.indexOf(' '));

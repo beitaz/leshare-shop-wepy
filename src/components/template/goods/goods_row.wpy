@@ -1,9 +1,8 @@
 <template>
   <view class="row goods-row-box" @tap="routeToGoods({{goods.id}})">
     <view>
-      <image class="goods-image"  lazy-load src="{{goods.imageUrl}}" ></image>
+      <image class="goods-image" lazy-load src="{{goods.imageUrl}}"></image>
     </view>
-
     <view class="main-box column">
       <!--标题-->
       <view>
@@ -15,7 +14,7 @@
         <!--折扣-->
         <view wx:if="{{goods.discount && (goods.isPrice || goods.isPrice == null)}}">
           <repeat for="{{[goods]}}" key="i" index="i" item="item">
-            <DiscountBadge :goods.sync="item"/>
+            <DiscountBadge :goods.sync="item" />
           </repeat>
         </view>
       </view>
@@ -26,7 +25,6 @@
           <text class="goods-price">{{goods.priceLable}}</text>
           <text class="original-price" wx:if="{{goods.discount}}">￥{{goods.originalPrice}}</text>
         </view>
-
         <!--加入购物车按钮-->
         <view>
           <block wx:if="{{goods.isCart || goods.isCart == null}}">
@@ -47,8 +45,7 @@
     props = {
       goods: {}
     };
-    methods = {
-    };
+    methods = {};
     components = {
       DiscountBadge: DiscountBadge
     };
@@ -58,7 +55,7 @@
 
 <style lang="scss">
   @import "../../../styles/variable";
-  .goods-row-box{
+  .goods-row-box {
     background-color: white;
     border-top: $border;
     align-items: center;
@@ -67,23 +64,23 @@
       height: 200rpx;
       width: 200rpx;
     }
-    .main-box{
+    .main-box {
       margin-left: 20rpx;
       flex: 1;
     }
-    .price-box{
+    .price-box {
       display: flex;
       flex-direction: row;
       align-items: flex-end;
-      .goods-unit{
+      .goods-unit {
         color: $color-major;
         font-size: $text-sm;
       }
-      .goods-price{
+      .goods-price {
         color: $color-major;
         font-size: $text-xl;
       }
-      .original-price{
+      .original-price {
         color: $color-muted;
         font-size: $text-xs;
         text-decoration: line-through;

@@ -16,7 +16,11 @@
       // 只能在SLIDER模式下触发，否则会降级为购物车购买
       const source = this.$root.$wxpage.route;
       const action = 'buy';
-      Event.emit(Event.GOODS_PANEL_OPEN, {goods, source, action});
+      Event.emit(Event.GOODS_PANEL_OPEN, {
+        goods,
+        source,
+        action
+      });
     }
     /**
      * 拼团
@@ -29,7 +33,10 @@
       if (goods.goodsSkuInfo && details) {
         const originDetails = goods.goodsSkuInfo.goodsSkuDetails;
         originDetails.forEach(detail => {
-          const {sku, goodsSkuDetailBase: base} = detail;
+          const {
+            sku,
+            goodsSkuDetailBase: base
+          } = detail;
           const groupDetail = details.find(item => item.sku === sku);
           if (groupDetail) {
             base.price = groupDetail.price
@@ -43,7 +50,11 @@
       }
       const source = this.$root.$wxpage.route;
       const action = state;
-      Event.emit(Event.GOODS_PANEL_OPEN, {goods, source, action});
+      Event.emit(Event.GOODS_PANEL_OPEN, {
+        goods,
+        source,
+        action
+      });
     }
     /**
      * 砍价
@@ -55,7 +66,11 @@
       goods.id = id;
       const source = this.$root.$wxpage.route;
       const action = state;
-      Event.emit(Event.GOODS_PANEL_OPEN, {goods, source, action});
+      Event.emit(Event.GOODS_PANEL_OPEN, {
+        goods,
+        source,
+        action
+      });
     }
     /**
      * 加入购物车
@@ -67,20 +82,36 @@
       console.info(`[router] goodId=${goods.id},source=${source}, action=${action}`);
       switch (mode) {
         case 'SLIDER':
-          Event.emit(Event.GOODS_PANEL_OPEN, {goods, source, action});
+          Event.emit(Event.GOODS_PANEL_OPEN, {
+            goods,
+            source,
+            action
+          });
           break;
         case 'POPUP':
-          Event.emit(Event.GOODS_PANEL_PLUS, {goods, goodsSku, source});
+          Event.emit(Event.GOODS_PANEL_PLUS, {
+            goods,
+            goodsSku,
+            source
+          });
           break;
         default:
           // 默认用简化版
-          Event.emit(Event.GOODS_PANEL_PLUS, {goods, goodsSku, source});
+          Event.emit(Event.GOODS_PANEL_PLUS, {
+            goods,
+            goodsSku,
+            source
+          });
       }
     }
     minusCart(goodsId, goodsSku = '') {
       const source = this.$root.$wxpage.route;
       console.info(`[router] goodId=${goodsId},source=${source}`);
-      Event.emit(Event.GOODS_PANEL_MINUS, {goodsId, goodsSku, source});
+      Event.emit(Event.GOODS_PANEL_MINUS, {
+        goodsId,
+        goodsSku,
+        source
+      });
     }
     getMode(goods) {
       if (goods.skuMode) {
@@ -108,7 +139,7 @@
     /**
      * 跳转到分类购物
      */
-    routeToIndex () {
+    routeToIndex() {
       if (this.isTab()) {
         this.$root.$switch(`/pages/goods/category`);
       } else {
@@ -118,7 +149,7 @@
     /**
      * 跳转到首页
      */
-    routeToHome () {
+    routeToHome() {
       if (this.isTab()) {
         this.$root.$switch(`/pages/home/template`);
       } else {
@@ -128,7 +159,7 @@
     /**
      * 跳转到用户页面
      */
-    routeToCustomer () {
+    routeToCustomer() {
       if (this.isTab()) {
         this.$root.$switch(`/pages/customer/index`);
       } else {
@@ -188,7 +219,10 @@
        * 处理图片点击事件
        */
       routeByAction(event) {
-        const {action, targetId} = event;
+        const {
+          action,
+          targetId
+        } = event;
         console.info(`[router] handle action=${action}, targetId=${targetId}`);
         // 根据动作进行路由
         switch (action) {
@@ -240,7 +274,12 @@
             break;
           case 'GOODS_SEARCH':
             // 商品检索
-            const {categoryId, sort, by, content} = targetId;
+            const {
+              categoryId,
+              sort,
+              by,
+              content
+            } = targetId;
             let url = `/pages/goods/search_list?`;
             if (categoryId != null) {
               url += `&categoryId=${categoryId}`;

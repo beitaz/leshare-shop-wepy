@@ -5,7 +5,7 @@ import store from '../store/utils';
  * 购物车视图类
  */
 export default class Cart {
-  constructor () {
+  constructor() {
     // 数据加载
     this.init();
   }
@@ -39,7 +39,7 @@ export default class Cart {
   /**
    * 导出数据
    */
-  export () {
+  export() {
     console.info('[cart] export cart data');
     // 增加计数器对象
     this.carts.forEach((cart, index) => {
@@ -67,20 +67,20 @@ export default class Cart {
   /**
    * 是否为空
    */
-  empty () {
+  empty() {
     return this.num == 0;
   }
 
   /**
    * 是否满足限制
    */
-  limit () {
+  limit() {
     return Number(this.price) < Number(this.limitPrice);
   }
   /**
    * 初始化数据
    */
-  init () {
+  init() {
     // 从存储中加载数据
     const carts = wepy.getStorageSync('carts');
     if (carts == null || carts == '') {
@@ -156,7 +156,7 @@ export default class Cart {
   /**
    * 减少商品
    */
-  minus (goodsId, skuText, num = 1) {
+  minus(goodsId, skuText, num = 1) {
     const index = this.findIndex(goodsId, skuText);
     if (index == -1) {
       // 购物车里没有，异常情况
@@ -179,14 +179,14 @@ export default class Cart {
   /**
    * 清空购物车
    */
-  clear () {
+  clear() {
     this.carts = [];
     this.save();
   }
   /**
    * 移除一个购物车项目
    */
-  removeByIndex (index) {
+  removeByIndex(index) {
     if (this.carts.length >= index + 1) {
       this.carts.splice(index, 1);
       this.save();
@@ -203,7 +203,7 @@ export default class Cart {
   /**
    * 更新商品数量
    */
-  updateNum (index, num) {
+  updateNum(index, num) {
     const cart = this.carts[index];
     if (cart) {
       cart.goodsNum = num;
@@ -224,7 +224,7 @@ export default class Cart {
   /**
    * 切换全部商品的选择
    */
-  toggleAllCheck () {
+  toggleAllCheck() {
     this.all = !this.all;
     this.updateAllCheck(this.all);
     this.save();
@@ -232,7 +232,7 @@ export default class Cart {
   /**
    * 切换批量操作
    */
-  toggleBatch () {
+  toggleBatch() {
     this.batch = !this.batch;
     if (this.batch) {
       this.unselectAll();
@@ -248,7 +248,7 @@ export default class Cart {
   /**
    * 切换全部选择
    */
-  updateAllCheck (check) {
+  updateAllCheck(check) {
     this.carts.forEach(cart => {
       cart.check = check;
     });
@@ -257,7 +257,7 @@ export default class Cart {
   /**
    * 计算价格和数量
    */
-  computeCart () {
+  computeCart() {
     // 价格计算
     let all = this.carts.length > 0;
     let price = 0;
@@ -287,7 +287,7 @@ export default class Cart {
   /**
    * 选择全部
    */
-  selectAll () {
+  selectAll() {
     this.all = true;
     this.updateAllCheck(this.all);
   }
@@ -295,21 +295,21 @@ export default class Cart {
   /**
    * 取消选择全部
    */
-  unselectAll () {
+  unselectAll() {
     this.all = false;
     this.updateAllCheck(this.all);
   }
   /**
    * 根据商品信息查找
    */
-  find (goodsId, sku) {
+  find(goodsId, sku) {
     return this.carts.find(item => item.goodsId == goodsId && item.goodsSku == sku);
   }
 
   /**
    * 根据商品信息查找商品的下标
    */
-  findIndex (goodsId, sku) {
+  findIndex(goodsId, sku) {
     if (sku != null && sku != '') {
       return this.carts.findIndex(item => item.goodsId == goodsId && item.goodsSku == sku);
     } else {
@@ -320,7 +320,7 @@ export default class Cart {
   /**
    * 统计数量
    */
-  findByGoodsId (goodsId) {
+  findByGoodsId(goodsId) {
     return this.carts.filter(item => item.goodsId == goodsId);
   }
   // #############################
@@ -329,14 +329,14 @@ export default class Cart {
   /**
    * 获取已选择商品
    */
-  getCheckedCarts () {
+  getCheckedCarts() {
     return this.carts.filter(cart => cart.check);
   }
 
   /**
    * 检查库存
    */
-  checkGoodsStock () {
+  checkGoodsStock() {
     const goods = this.carts.find(item => item.goodsNum > item.stock || item.stock == 0);
     if (goods == null) {
       // return;

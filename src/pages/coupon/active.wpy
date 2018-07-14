@@ -2,14 +2,12 @@
   <form wx:if="{{init}}" report-submit="true" @submit="reportFormId">
     <!--背景图片-->
     <image class="active-bg" mode="widthFix" src="{{coupon.campaignImg}}" />
-
     <!--授权并领取按钮-->
     <button class="active-btn" form-type="submit" open-type="getUserInfo" bindgetuserinfo="auth" plain wx:if="{{reInfo}}">
-      <image  mode="widthFix" src="http://img.leshare.shop/coupon_pick_button.png" />
-    </button>
-
+        <image  mode="widthFix" src="http://img.leshare.shop/coupon_pick_button.png" />
+      </button>
     <!--兼容按钮-->
-    <image class="active-btn" @tap="pick"  mode="widthFix" wx:else  src="http://img.leshare.shop/coupon_pick_button.png" />
+    <image class="active-btn" @tap="pick" mode="widthFix" wx:else src="http://img.leshare.shop/coupon_pick_button.png" />
   </form>
 </template>
 
@@ -22,28 +20,36 @@
   import base from '../../mixins/base';
   import Tips from '../../utils/Tips';
   import WxUtils from '../../utils/WxUtils';
-
   export default class CouponActive extends wepy.page {
     data = {
       init: false,
       reInfo: false,
       coupon: null
     };
-    onLoad (options, {preload}) {
+    onLoad(options, {
+      preload
+    }) {
       this.coupon = preload.coupon;
       this.reInfo = WxUtils.canIUse('button.open-type.getUserInfo');
       this.loaded();
     };
     methods = {
-      reportFormId({detail}) {
+      reportFormId({
+        detail
+      }) {
         shop.reportFormId(detail.formId);
       },
-      async auth({detail}) {
+      async auth({
+        detail
+      }) {
         if (detail.rawData == null) {
           Tips.alert('请确认授权');
           return;
         }
-        const result = await auth.user({block: false, redirect: false}, detail);
+        const result = await auth.user({
+          block: false,
+          redirect: false
+        }, detail);
         if (result) {
           await this.pickCoupon();
         } else {
@@ -80,8 +86,7 @@
     position: absolute;
     width: 750rpx;
   }
-
-  .active-btn{
+  .active-btn {
     z-index: 1000;
     position: absolute;
     top: 410px;

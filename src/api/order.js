@@ -1,6 +1,6 @@
 import base from './base';
 import Page from '../utils/Page';
-import {TYPE, ACTION, orderUtils as utils} from './order_const';
+import { TYPE, ACTION, orderUtils as utils } from './order_const';
 import WxUtils from '../utils/WxUtils';
 
 /**
@@ -10,7 +10,7 @@ export default class order extends base {
   /**
    * 返回分页对象
    */
-  static page () {
+  static page() {
     const url = `${this.baseUrl}/orders`;
     return new Page(url, this._processOrderListItem.bind(this));
   }
@@ -18,11 +18,11 @@ export default class order extends base {
   /**
    * 获取订单统计信息
    */
-  static count () {
+  static count() {
     const url = `${this.baseUrl}/orders/count`;
     return this.get(url).then(data => {
       const result = {};
-      data.forEach(({status, total}) => {
+      data.forEach(({ status, total }) => {
         result[status] = total;
       });
       return result;
@@ -32,7 +32,7 @@ export default class order extends base {
   /**
    * 获取订单详情
    */
-  static getInfo (orderId) {
+  static getInfo(orderId) {
     const url = `${this.baseUrl}/orders/${orderId}`;
     return this.get(url, {}).then(detail => this._processOrderDetail(detail));
   }
@@ -40,7 +40,7 @@ export default class order extends base {
   /**
    * 生成预支付订单
    */
-  static prepayOrder (orderId) {
+  static prepayOrder(orderId) {
     const url = `${this.baseUrl}/wxpay/orders/${orderId}`;
     return this.get(url, {});
   }
@@ -48,7 +48,7 @@ export default class order extends base {
   /**
    * 拉起微信支付
    */
-  static wxpayOrder (payment) {
+  static wxpayOrder(payment) {
     return WxUtils.wxPay({
       'timeStamp': payment.timeStamp,
       'nonceStr': payment.nonceStr,
@@ -61,7 +61,7 @@ export default class order extends base {
   /**
    * 创建订单
    */
-  static createOrder (trade, address) {
+  static createOrder(trade, address) {
     const url = `${this.baseUrl}/orders`;
     this._processOrderAddress(trade, address);
     return this.post(url, trade);
@@ -70,7 +70,7 @@ export default class order extends base {
   /**
    * 申请退款
    */
-  static refundOrder (orderId, refund) {
+  static refundOrder(orderId, refund) {
     const url = `${this.baseUrl}/orders/${orderId}/status/refund`;
     return this.put(url, refund);
   }
@@ -78,7 +78,7 @@ export default class order extends base {
   /**
    *  取消退款
    */
-  static cancelRefundOrder (orderId, refundUuid) {
+  static cancelRefundOrder(orderId, refundUuid) {
     const url = `${this.baseUrl}/orders/${orderId}/status/cancel_refund_money`;
     const param = {
       refundUuid: refundUuid
@@ -89,7 +89,7 @@ export default class order extends base {
   /**
    * 关闭订单
    */
-  static closeOrder (orderId) {
+  static closeOrder(orderId) {
     const url = `${this.baseUrl}/orders/${orderId}/status/close`;
     return this.put(url, '买家关闭');
   }
@@ -97,7 +97,7 @@ export default class order extends base {
   /**
    * 确认收货
    */
-  static confirmOrder (orderId) {
+  static confirmOrder(orderId) {
     const url = `${this.baseUrl}/orders/${orderId}/status/comments`;
     return this.put(url);
   }
@@ -115,7 +115,7 @@ export default class order extends base {
   /**
    * 购物车下单
    */
-  static createCartTrade (goodsList, param) {
+  static createCartTrade(goodsList, param) {
     const orderGoodsInfos = [];
     let price = 0;
     // 根据购物车信息，构造订单的商品列表
@@ -174,7 +174,7 @@ export default class order extends base {
   /**
    * 根据订单构造退款对象
    */
-  static createOrderRefund (order) {
+  static createOrderRefund(order) {
     return {
       orderId: order.orderId,
       uuid: order.uuid,
@@ -189,7 +189,7 @@ export default class order extends base {
    * 根据退款时间生成退款步骤
    */
 
-  static createOrderRefundSetps (refund) {
+  static createOrderRefundSetps(refund) {
     let steps = [];
 
     // 提交申请
@@ -247,7 +247,7 @@ export default class order extends base {
     return steps;
   }
 
-  static _createRefundSetp (text, time) {
+  static _createRefundSetp(text, time) {
     return {
       text: text,
       timestape: time,
@@ -267,7 +267,7 @@ export default class order extends base {
     if (order.curRefund) {
       basic.push(ACTION.REFUND_DETAIL);
     }
-    const {orderType, paymentType, status} = order;
+    const { orderType, paymentType, status } = order;
     const actions = utils.statusActions(orderType, paymentType, status);
     if (actions) {
       const display = inner ? actions.filter(v => v.inner != true) : actions;
@@ -280,7 +280,7 @@ export default class order extends base {
   /**
    * 处理订单地址
    */
-  static _processOrderAddress (order, address) {
+  static _processOrderAddress(order, address) {
     if (utils.isDeliveryOrder(order.orderType)) {
       order.receiveName = `${address.name} ${address.sexText}`;
       order.receivePhone = address.phone;
@@ -291,7 +291,7 @@ export default class order extends base {
   /**
    * 处理订单列表数据
    */
-  static _processOrderListItem (order) {
+  static _processOrderListItem(order) {
     order.shopName = this.shopName;
     // 处理订单状态
     this._processOrderStatusDesc(order);
@@ -308,7 +308,7 @@ export default class order extends base {
   /**
    * 处理订单详情
    */
-  static _processOrderDetail (detail) {
+  static _processOrderDetail(detail) {
     // 支付方式
     detail.shopName = this.shopName;
     // 处理订单支付方式
@@ -361,14 +361,14 @@ export default class order extends base {
   /**
    * 处理订单支付方式
    */
-  static _processOrderPaymentText (detail) {
+  static _processOrderPaymentText(detail) {
     detail.paymentText = utils.paymentType(detail.paymentType);
   }
 
   /**
    * 处理订单状态
    */
-  static _processOrderPrice (order) {
+  static _processOrderPrice(order) {
     order.postFee = this._fixedPrice(order.postFee);
     order.dealPrice = this._fixedPrice(order.dealPrice);
     order.finalPrice = this._fixedPrice(order.finalPrice);
@@ -377,7 +377,7 @@ export default class order extends base {
     order.bonusPrice = this._fixedPrice(order.bonusPrice);
   }
 
-  static _fixedPrice (price) {
+  static _fixedPrice(price) {
     if (price == null || isNaN(Number(price))) {
       return null;
     }
@@ -387,8 +387,8 @@ export default class order extends base {
   /**
    * 处理状态描述文本
    */
-  static _processOrderStatusDesc (order) {
-    const {status, orderType} = order;
+  static _processOrderStatusDesc(order) {
+    const { status, orderType } = order;
     order.statusText = utils.statusName(orderType, status);
     order.statusDesc = utils.statusDesc(order, status);
     // 订单关闭增加关闭原因
@@ -400,14 +400,14 @@ export default class order extends base {
   /**
    * 处理物流配送信息
    */
-  static _processOrderDetailDelivery (order) {
+  static _processOrderDetailDelivery(order) {
     order.deliveryText = utils.deliveryType(order.deliveryType);
   }
 
   /**
    * 处理商品物流信息
    */
-  static _processOrderTrace (order) {
+  static _processOrderTrace(order) {
     const express = order.orderExpress;
     if (express == null) {
       // 没有物流信息，不做处理
@@ -420,7 +420,7 @@ export default class order extends base {
   /**
    * 处理订单的退货信息
    */
-  static _processOrderRefund (order) {
+  static _processOrderRefund(order) {
     const refunds = order.orderRefunds;
     if (refunds == null || refunds.length < 1) {
       // 订单没有退款信息，不做处理
@@ -433,7 +433,7 @@ export default class order extends base {
   /**
    * 处理订单商品信息
    */
-  static _processOrderGoods (goods) {
+  static _processOrderGoods(goods) {
     if (goods == null || goods.length < 1) return;
     goods.forEach(item => {
       item.imageUrl += '/small';
@@ -452,7 +452,7 @@ export default class order extends base {
    * 处理SKU的默认值
    */
 
-  static _processOrderSku (goodsSku) {
+  static _processOrderSku(goodsSku) {
     let skuText = '';
     if (goodsSku && goodsSku != '') {
       skuText = goodsSku.replace(/:/g, ',');

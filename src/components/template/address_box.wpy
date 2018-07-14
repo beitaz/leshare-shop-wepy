@@ -6,12 +6,11 @@
         <text class="muted">店铺名称 | Name</text>
         <view class="row-between">
           <text class="mt10 xxl">{{shop.name}}</text>
-          <button plain class="icon-box" open-type="share" >
-            <icon class="share"></icon>
-          </button>
+          <button plain class="icon-box" open-type="share">
+              <icon class="share"></icon>
+            </button>
         </view>
       </view>
-
       <view class="info-item column">
         <text class="muted">联系地址 | Address</text>
         <view class="row-between">
@@ -21,7 +20,6 @@
           </view>
         </view>
       </view>
-
       <view class="info-item column">
         <text class="muted">联系电话 | Telephone</text>
         <view class="row-between">
@@ -38,9 +36,10 @@
 <script>
   import wepy from 'wepy';
   import base from '../../mixins/base';
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import store from '../../store/utils';
-
   @connect({
     shop: store.get('shop')
   })
@@ -48,19 +47,20 @@
     data = {
       init: false
     };
-    async onLoad () {
-    };
+    async onLoad() {};
     methods = {
-      image (src) {
+      image(src) {
         wepy.previewImage({
           current: src,
           urls: this.shop.images.map(item => item.url)
         });
       },
       phone() {
-        wepy.makePhoneCall({phoneNumber: this.shop.phone});
+        wepy.makePhoneCall({
+          phoneNumber: this.shop.phone
+        });
       },
-      location () {
+      location() {
         const longitude = this.shop.longitude;
         const latitude = this.shop.latitude;
         wepy.openLocation({
@@ -71,24 +71,23 @@
         });
       }
     };
-    components = {
-    };
+    components = {};
     mixins = [base]
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-  .address-box{
+  .address-box {
     background-color: white;
-    .info-box{
+    .info-box {
       padding: 0 30rpx;
     }
-    .info-item{
+    .info-item {
       padding: 20rpx 0;
       border-bottom: $border;
     }
-    .icon-box{
+    .icon-box {
       padding: 0;
       line-height: 1.5;
       padding-left: 20rpx;

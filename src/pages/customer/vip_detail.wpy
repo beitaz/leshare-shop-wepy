@@ -1,74 +1,73 @@
 <template>
-  <Loading :init.sync="init"/>
-  <view class="container" wx:if="{{init}}">
-
-    <view class="list-panel">
-
-      <VipCard isDetail="false"/>
-      <text class="titel-box">会员特权</text>
-
-      <view class="mt20"></view>
-      <view class="weui-cell" wx:if="{{card.supplyDiscount == 1}}">
-        <view class="weui-label muted">会员等级</view>
-        <view class="column info-container">
-          <view>
-            <text>您当前会员级别为</text>
-            <text class="xl ml10 major">{{levelName}}</text>
-          </view>
-          <view>{{discountLevel}}</view>
-        </view>
-      </view>
-
-      <view class="weui-cell">
-        <view class="weui-label muted">特权说明</view>
-        <view class="column info-container">
-          <text>{{vipDescribe}}</text>
-        </view>
-      </view>
-      <view class="weui-cell" wx:if="{{parsentTitle}}">
-        <view class="weui-label muted">{{parsentTitle}}</view>
-        <view class="column info-container">
-          <text>{{parsentText}}</text>
-        </view>
-      </view>
-      <view class="weui-cell" wx:if="{{card.servicePhone}}">
-        <view class="weui-label muted">客服电话</view>
-        <text class="info-container">{{card.servicePhone}}</text>
-      </view>
-      <view class="weui-cell">
-        <view class="weui-label muted">会员须知</view>
-        <text class="info-container">{{card.description ? card.description : '无'}}</text>
-      </view>
-      <view class="weui-cell">
-        <view class="weui-label muted">会员提醒</view>
-        <text class="info-container">{{card.notice ? card.notice : '无'}}</text>
-      </view>
-    </view>
-
-    <view class="list-panel" wx:if="{{card.supplyDiscount == 1}}">
-      <view class="titel-box">会员级别</view>
-      <repeat for="{{card.discountRules}}" key="index" index="index" item="item">
-        <view class="weui-cell">
-          <view class="weui-label muted">{{item.levelName}}</view>
+  <block>
+    <Loading :init.sync="init" />
+    <view class="container" wx:if="{{init}}">
+      <view class="list-panel">
+        <VipCard isDetail="false" />
+        <text class="titel-box">会员特权</text>
+        <view class="mt20"></view>
+        <view class="weui-cell" wx:if="{{card.supplyDiscount == 1}}">
+          <view class="weui-label muted">会员等级</view>
           <view class="column info-container">
-            <text wx:if="{{item.upgradeFee > 0}}">消费满{{item.upgradeFee}}元可升级</text>
-            <text wx:if="{{item.discount < 100}}">可享部分商品{{item.discount / 10}}折优惠</text>
-            <text wx:else>暂无优惠</text>
+            <view>
+              <text>您当前会员级别为</text>
+              <text class="xl ml10 major">{{levelName}}</text>
+            </view>
+            <view>{{discountLevel}}</view>
           </view>
         </view>
-      </repeat>
+        <view class="weui-cell">
+          <view class="weui-label muted">特权说明</view>
+          <view class="column info-container">
+            <text>{{vipDescribe}}</text>
+          </view>
+        </view>
+        <view class="weui-cell" wx:if="{{parsentTitle}}">
+          <view class="weui-label muted">{{parsentTitle}}</view>
+          <view class="column info-container">
+            <text>{{parsentText}}</text>
+          </view>
+        </view>
+        <view class="weui-cell" wx:if="{{card.servicePhone}}">
+          <view class="weui-label muted">客服电话</view>
+          <text class="info-container">{{card.servicePhone}}</text>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-label muted">会员须知</view>
+          <text class="info-container">{{card.description ? card.description : '无'}}</text>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-label muted">会员提醒</view>
+          <text class="info-container">{{card.notice ? card.notice : '无'}}</text>
+        </view>
+      </view>
+      <view class="list-panel" wx:if="{{card.supplyDiscount == 1}}">
+        <view class="titel-box">会员级别</view>
+        <repeat for="{{card.discountRules}}" key="index" index="index" item="item">
+          <view class="weui-cell">
+            <view class="weui-label muted">{{item.levelName}}</view>
+            <view class="column info-container">
+              <text wx:if="{{item.upgradeFee > 0}}">消费满{{item.upgradeFee}}元可升级</text>
+              <text wx:if="{{item.discount < 100}}">可享部分商品{{item.discount / 10}}折优惠</text>
+              <text wx:else>暂无优惠</text>
+            </view>
+          </view>
+        </repeat>
+      </view>
     </view>
-  </view>
+  </block>
 </template>
+
 <script>
   import wepy from 'wepy';
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import auth from '../../api/auth';
   import store from '../../store/utils';
   import base from '../../mixins/base';
   import VipCard from '../../components/customer/vip_card';
   import Loading from '../../components/common/loading';
-
   @connect({
     member: store.get('member'),
     card: store.get('card'),
@@ -80,9 +79,11 @@
       init: false,
       type: 'detail'
     };
-
-    async onLoad () {
-      const result = await auth.user({block: true, redirect: true});
+    async onLoad() {
+      const result = await auth.user({
+        block: true,
+        redirect: true
+      });
       if (!result) return;
       await store.init();
       // 没注册的会员引导注册
@@ -125,7 +126,7 @@
         }
         return describe;
       },
-      discountLevel () {
+      discountLevel() {
         // 校验是否初始化完毕
         if (this.member == null || this.card.discountRules == null || this.card.discountRules.length == 0) {
           return;
@@ -147,26 +148,34 @@
           return `再消费${costDiff}元可升级为${nextDiscount.levelName}`;
         }
       },
-      levelName () {
+      levelName() {
         if (this.member && this.card && this.card.supplyDiscount == 1 && this.member.discountRule) {
           return this.member.discountRule.levelName;
         } else {
           return '普通会员';
         }
       },
-      parsentTitle () {
+      parsentTitle() {
         const isRule = this.card && this.card.memberPresentRules && this.card.memberPresentRules.length > 0;
         return isRule ? this.card.memberPresentRules[0].ruleName : null;
       },
-      parsentText () {
+      parsentText() {
         // 拼接规则
         if (this.parsentTitle == null) return;
-        const {ruleName, limitCount, unit} = this.card.memberPresentRules[0];
+        const {
+          ruleName,
+          limitCount,
+          unit
+        } = this.card.memberPresentRules[0];
         const ruleText = `${ruleName},每满${limitCount}${unit}赠送1${unit},符合条件将发放兑换券至优惠券中，限线下使用`;
         // 拼接当前会员情况
         const isMember = this.member && this.member.memberPresentDetails && this.member.memberPresentDetails.length > 0;
         if (!isMember) return ruleText;
-        const {currentCount, totalCount, presentCount} = this.member.memberPresentDetails[0];
+        const {
+          currentCount,
+          totalCount,
+          presentCount
+        } = this.member.memberPresentDetails[0];
         const detailText = `\n• 现有累计${unit}数：${currentCount}\n• 已赠送兑换券：${presentCount}\n• 总消费${unit}数：${totalCount}`;
         return ruleText + detailText;
       }
@@ -182,16 +191,17 @@
     };
   }
 </script>
+
 <style lang="scss">
   @import "../../styles/variable";
-  .titel-box{
+  .titel-box {
     padding: 20rpx 30rpx;
     font-size: $text-xl;
   }
   .info-container {
     width: 500rpx;
   }
-  .list-panel{
+  .list-panel {
     background-color: white;
     margin-bottom: 20rpx;
     border-bottom: $border;

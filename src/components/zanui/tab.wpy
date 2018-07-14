@@ -1,23 +1,12 @@
 <template>
   <view class="zan-tab">
     <block wx:if="{{tab.scroll}}">
-      <scroll-view
-        class="zan-tab__bd zan-tab__bd--scroll {{ fixed == '1' ? 'zan-tab__bd--fixed' : '' }}"
-        scroll-x="true"
-        style="height:{{ tab.height ? tab.height + 'px' : 'auto' }}"
-      >
-        <view
-          wx:for="{{tab.list}}"
-          wx:key="id"
-          class="zan-tab__item {{tab.selectedId == item.id ? 'zan-tab__item--selected' : ''}}"
-          data-component-id="{{componentId}}"
-          data-item-id="{{item.id}}"
-          @tap="handleZanTabChange"
-        >
+      <scroll-view class="zan-tab__bd zan-tab__bd--scroll {{ fixed == '1' ? 'zan-tab__bd--fixed' : '' }}" scroll-x="true" style="height:{{ tab.height ? tab.height + 'px' : 'auto' }}">
+        <view wx:for="{{tab.list}}" wx:key="id" class="zan-tab__item {{tab.selectedId == item.id ? 'zan-tab__item--selected' : ''}}" data-component-id="{{componentId}}" data-item-id="{{item.id}}" @tap="handleZanTabChange">
           <view class="zan-tab__title">
             <text>{{item.title}}</text>
             <block wx:if="{{tab.order}}">
-              <image class="icon" src="/images/icons/order-{{tab.sord}}.png" wx:if="{{tab.selectedId == item.id}}"/>
+              <image class="icon" src="/images/icons/order-{{tab.sord}}.png" wx:if="{{tab.selectedId == item.id}}" />
               <image class="icon" src="/images/icons/order-none.png" wx:else/>
             </block>
           </view>
@@ -26,18 +15,11 @@
     </block>
     <block wx:else>
       <view class="zan-tab__bd {{fixed == '1' ? 'zan-tab__bd--fixed' : ''}}">
-        <view
-          wx:for="{{tab.list}}"
-          wx:key="id"
-          class="zan-tab__item {{tab.selectedId == item.id ? 'zan-tab__item--selected' : ''}}"
-          data-component-id="{{componentId}}"
-          data-item-id="{{item.id}}"
-          @tap="handleZanTabChange"
-        >
+        <view wx:for="{{tab.list}}" wx:key="id" class="zan-tab__item {{tab.selectedId == item.id ? 'zan-tab__item--selected' : ''}}" data-component-id="{{componentId}}" data-item-id="{{item.id}}" @tap="handleZanTabChange">
           <view class="zan-tab__title">
             <text>{{item.title}}</text>
             <block wx:if="{{tab.order}}">
-              <image class="icon" src="/images/icons/order-{{tab.sord}}.png" wx:if="{{tab.selectedId == item.id}}"/>
+              <image class="icon" src="/images/icons/order-{{tab.sord}}.png" wx:if="{{tab.selectedId == item.id}}" />
               <image class="icon" src="/images/icons/order-none.png" wx:else/>
             </block>
           </view>
@@ -51,7 +33,9 @@
   import wepy from 'wepy';
   export default class ZanTab extends wepy.component {
     props = {
-      tab: {twoWay: true},
+      tab: {
+        twoWay: true
+      },
       fixed: {
         default: true
       }
@@ -65,7 +49,10 @@
         const dataset = e.currentTarget.dataset;
         const componentId = dataset.componentId;
         const selectedId = dataset.itemId;
-        const data = { componentId, selectedId };
+        const data = {
+          componentId,
+          selectedId
+        };
         // 处理排序情况
         if (this.tab.order) {
           const lastId = this.tab.selectedId;
@@ -116,13 +103,13 @@
     margin: 0 10px;
     word-break: keep-all;
   }
-  .zan-tab__title text{
+  .zan-tab__title text {
     font-size: 28rpx;
   }
   .zan-tab__item--selected .zan-tab__title {
     border-bottom: 2px solid $color-primary;
   }
-  .zan-tab__item--selected .zan-tab__title text{
+  .zan-tab__item--selected .zan-tab__title text {
     color: $color-primary;
   }
   .zan-tab__bd--scroll {

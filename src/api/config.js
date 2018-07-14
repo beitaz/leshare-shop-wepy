@@ -23,7 +23,7 @@ export default class config extends base {
   /**
    * 获取店铺完整配置信息
    */
-  static init () {
+  static init() {
     const url = `${this.baseUrl}/shops/full`;
     return this.get(url).then(data => {
       return {
@@ -42,7 +42,7 @@ export default class config extends base {
       };
     }).then(config => {
       // 处理需要二次加工的数据
-      const {card, member: info, page} = config;
+      const { card, member: info, page } = config;
       // 会员折扣
       config.discount = this.discount = member.processDiscount(card, info);
       // 页面组件
@@ -61,7 +61,7 @@ export default class config extends base {
     }
     const config = JSON.parse(data);
     const components = this.processComponents(config.components);
-    const {plugins, triggers} = this.processPlugins(config.plugins);
+    const { plugins, triggers } = this.processPlugins(config.plugins);
     const param = this.processPageParam(config.param);
     return {
       components, plugins, triggers, param
@@ -82,7 +82,7 @@ export default class config extends base {
   /**
    * 处理页面的插件与触发器
    */
-  static processPlugins (data) {
+  static processPlugins(data) {
     const plugins = [];
     const triggers = [];
     data.forEach(item => {
@@ -97,13 +97,13 @@ export default class config extends base {
         plugins.push(item);
       }
     });
-    return {triggers, plugins};
+    return { triggers, plugins };
   }
 
   /**
    * 处理页面的组件
    */
-  static processComponents (components) {
+  static processComponents(components) {
     return components
       .map(component => {
         // 先处理参数合并
@@ -137,7 +137,7 @@ export default class config extends base {
    * 拷贝配置参数
    */
   static copyParamToData(component) {
-    const {data, type} = component;
+    const { data, type } = component;
     const fields = this.fieldsToCopy[type];
     if (fields != null) {
       data.forEach(item => {

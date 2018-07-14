@@ -1,7 +1,7 @@
 <template>
   <view class="row-between info-item-box" @tap.stop="joined({{item}})">
     <view class="row">
-      <image src="{{item.header.customer.avatarUrl}}"/>
+      <image src="{{item.header.customer.avatarUrl}}" />
       <text class="ml20 lg">{{item.header.customer.nickName}}</text>
     </view>
     <view class="row">
@@ -13,7 +13,6 @@
         </view>
         <text class="muted xs">{{item.time}}</text>
       </view>
-
       <view wx:if="{{item.isPar}}" @tap.stop="joined({{item}})">
         <text class="ml20 btn-box">已参团</text>
       </view>
@@ -23,18 +22,17 @@
     </view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy';
   import router from '../../mixins/router';
-
   export default class GroupProcessItem extends wepy.component {
     props = {
       item: {}
     };
-    onLoad () {
-    }
+    onLoad() {}
     methods = {
-      joined (item) {
+      joined(item) {
         this.$root.$navigate(`/pages/group/group_detail?groupId=${item.id}`);
       }
     };
@@ -44,25 +42,25 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .info-item-box + .info-item-box{
+  .info-item-box+.info-item-box {
     border-top: $border;
   }
-  .info-item-box{
+  .info-item-box {
     padding: 20rpx 0;
     background-color: white;
-    image{
+    image {
       width: 80rpx;
       height: 80rpx;
       border-radius: 40rpx;
     }
-    .customer-num-box{
+    .customer-num-box {
       color: $color-primary;
       font-size: $text-lg;
     }
-    .btn-box{
+    .btn-box {
       background-color: $color-primary;
       color: white;
-      padding:9rpx 25rpx;
+      padding: 9rpx 25rpx;
       border-radius: 10rpx;
     }
   }

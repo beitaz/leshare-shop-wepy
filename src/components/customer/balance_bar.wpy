@@ -6,7 +6,7 @@
       <text>我的余额</text>
     </view>
     <view class="column-center" @tap="pay">
-      <icon class="recharge normal" color="major"/>
+      <icon class="recharge normal" color="major" />
       <text>充值</text>
     </view>
   </view>
@@ -14,10 +14,8 @@
 
 <script>
   import wepy from 'wepy';
-
   export default class BalanceBar extends wepy.component {
-    props = {
-    };
+    props = {};
     data = {};
     methods = {
       pay() {
@@ -29,12 +27,12 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .blance-bar-box{
+  .blance-bar-box {
     margin-bottom: 10rpx;
-    view{
+    view {
       flex: 1;
     }
-    view + view{
+    view+view {
       border-left: $border;
     }
   }

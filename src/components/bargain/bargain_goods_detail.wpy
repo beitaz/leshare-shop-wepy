@@ -1,7 +1,7 @@
 <template>
   <view class="row bargain-detail-box" @tap="detail({{bargain.rule.id}})">
     <view class="bargain-goods-image">
-      <image src="{{bargain.rule.goods.imageUrl}}" mode="aspectFill"/>
+      <image src="{{bargain.rule.goods.imageUrl}}" mode="aspectFill" />
     </view>
     <view class="column ml20 bargain-goods-msg-box">
       <text class="bargain-goods-name lg ml10">{{bargain.rule.goods.name}}</text>
@@ -21,20 +21,17 @@
 
 <script>
   import wepy from 'wepy';
-
   export default class BargainGoodsDetail extends wepy.component {
     props = {
       bargain: {}
     };
-    data = {
-    };
+    data = {};
     methods = {
-      detail (id) {
+      detail(id) {
         this.$root.$navigate(`/pages/bargain/goods_detail?ruleId=${id}`)
       }
     };
-    watch = {
-    };
+    watch = {};
     mixins = [];
   }
 </script>
@@ -42,27 +39,27 @@
 <style lang="scss">
   @import "../../styles/variable";
   $img-height: 220rpx;
-  .bargain-detail-box{
+  .bargain-detail-box {
     margin-bottom: 10rpx;
     background: white;
     padding: 10rpx 20rpx;
     align-items: flex-start;
   }
-  .bargain-goods-image{
+  .bargain-goods-image {
     width: $img-height;
     height: $img-height;
-    image{
+    image {
       width: 100%;
       height: 100%;
     }
   }
-  .bargain-goods-msg-box{
+  .bargain-goods-msg-box {
     flex: 1;
     height: $img-height;
-    .bargain-price-box{
+    .bargain-price-box {
       color: #e64340;
     }
-    .sellPrice-box{
+    .sellPrice-box {
       text-decoration: line-through;
     }
   }

@@ -3,7 +3,6 @@
     <image class="loading-icon" src="/images/svg/audio.svg"></image>
     <text class="muted mt20 lg">加载中</text>
   </view>
-
 </template>
 
 <script>

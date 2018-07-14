@@ -1,24 +1,25 @@
 <template>
-  <view class="score-item-box" wx:for="{{scores}}" wx:key="index" wx:for-item="goods" wx:for-index="index">
-    <view class="socre-header">
-      <image class="goods-img" src='{{goods.preview}}'></image>
-      <text class="title mr10">商品评分</text>
-      <view class="star-box">
-        <block wx:for="{{goods.starArr}}" wx:key="index" wx:for-index="index">
-          <icon class="star{{item == 1 ? '-fill' : ''}} normal" color="{{item == 1 ? 'major' : 'gray'}}"   @tap="star({{goods}}, {{index}})" ></icon>
-        </block>
+  <block>
+    <view class="score-item-box" wx:for="{{scores}}" wx:key="index" wx:for-item="goods" wx:for-index="index">
+      <view class="socre-header">
+        <image class="goods-img" src='{{goods.preview}}'></image>
+        <text class="title mr10">商品评分</text>
+        <view class="star-box">
+          <block wx:for="{{goods.starArr}}" wx:key="index" wx:for-index="index">
+            <icon class="star{{item == 1 ? '-fill' : ''}} normal" color="{{item == 1 ? 'major' : 'gray'}}" @tap="star({{goods}}, {{index}})"></icon>
+          </block>
+        </view>
+      </view>
+      <view class="score-note">
+        <textarea @input="input" data-index="{{index}}" auto-height placeholder="请填写评价，说说它的优点和美中不足的地方吧" />
       </view>
     </view>
-    <view class="score-note">
-      <textarea @input="input" data-index="{{index}}"  auto-height placeholder="请填写评价，说说它的优点和美中不足的地方吧" />
+    <view class="btn-panel">
+      <button class="weui-btn" type="primary" @tap="confirm">提交评价</button>
     </view>
-  </view>
-
-  <view class="btn-panel">
-    <button class="weui-btn" type="primary" @tap="confirm">提交评价</button>
-  </view>
-
+  </block>
 </template>
+
 <script>
   import wepy from 'wepy';
   import base from '../../mixins/base';
@@ -26,21 +27,27 @@
   import Route from '../../utils/WxUtils';
   import Event from '../../utils/Event';
   import comment from '../../api/comment';
-
   export default class CommentEdit extends wepy.page {
     data = {
       init: false,
       orderId: '',
       scores: []
     };
-    onLoad ({orderId}, {preload}) {
+    onLoad({
+      orderId
+    }, {
+      preload
+    }) {
       this.scores = preload.data;
       this.orderId = orderId;
       this.loaded();
     };
     methods = {
       star(goods, index) {
-        const {goodsId, sku} = goods;
+        const {
+          goodsId,
+          sku
+        } = goods;
         const score = this.scores.find(item => item.goodsId == goodsId && item.sku == sku);
         for (let i = 0; i < 5; i++) {
           score.starArr[i] = i <= index ? 1 : 0;
@@ -79,14 +86,13 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .score-item-box{
+  .score-item-box {
     margin-top: 10rpx;
     background-color: white;
     display: flex;
     flex-direction: column;
   }
-
-  .socre-header{
+  .socre-header {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -94,22 +100,19 @@
     border-top: 1px solid #EDEDED;
     border-bottom: 1px solid #EDEDED;
   }
-
-  .socre-header .title{
+  .socre-header .title {
     font-size: 28rpx;
     margin-left: 30rpx;
   }
-  .score-note{
-    border-bottom:  1px solid #EDEDED;
+  .score-note {
+    border-bottom: 1px solid #EDEDED;
   }
-
-  .goods-img{
+  .goods-img {
     height: 60rpx;
     width: 60rpx;
     vertical-align: middle;
   }
-
-  textarea{
+  textarea {
     padding: 10rpx;
     width: 90%;
     min-height: 80px;

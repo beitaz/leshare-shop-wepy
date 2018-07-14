@@ -1,39 +1,33 @@
 <template>
-  <Loading :init.sync="init"/>
-
-  <!--轮播展示图-->
-  <view class="container column" wx:if="{{init}}">
-    <swiper class="goods-swiper" indicator-dots="true" autoplay="true" interval="5000" @tap="previewDetailSwiper">
-      <block wx:for="{{rule.goods.images}}" wx:key="index">
-        <swiper-item>
-          <image src="{{item.url}}/preview" mode="aspectFill" style="width: 750rpx; height:480rpx;"></image>
-        </swiper-item>
+  <block>
+    <Loading :init.sync="init" />
+    <!--轮播展示图-->
+    <view class="container column" wx:if="{{init}}">
+      <swiper class="goods-swiper" indicator-dots="true" autoplay="true" interval="5000" @tap="previewDetailSwiper">
+        <block wx:for="{{rule.goods.images}}" wx:key="index">
+          <swiper-item>
+            <image src="{{item.url}}/preview" mode="aspectFill" style="width: 750rpx; height:480rpx;"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+      <!--砍价倒计时栏-->
+      <TimeOutBar :endTime.sync="endTime" :callback="callback" describe="邀请好友帮砍 低价购" title="砍价" />
+      <!--商品基本信息展示及服务信息-->
+      <GoodsMsgBar :rule.sync="rule" />
+      <!--砍价玩法栏-->
+      <BargainRuleBar/>
+      <!--评论预览-->
+      <CommentPreview :goodsId.sync="goodsId" />
+      <!--商品详情-->
+      <DetailList :detail.sync="detail" />
+      <!--滑出购物面板-->
+      <block>
+        <SilderPanel />
       </block>
-    </swiper>
-
-    <!--砍价倒计时栏-->
-    <TimeOutBar :endTime.sync="endTime" :callback="callback" describe="邀请好友帮砍 低价购" title="砍价" />
-
-    <!--商品基本信息展示及服务信息-->
-    <GoodsMsgBar :rule.sync="rule"/>
-
-    <!--砍价玩法栏-->
-    <BargainRuleBar/>
-
-    <!--评论预览-->
-    <CommentPreview :goodsId.sync="goodsId"/>
-
-    <!--商品详情-->
-    <DetailList :detail.sync="detail" />
-
-    <!--滑出购物面板-->
-    <block >
-      <SilderPanel />
-    </block>
-
-    <!--底栏-->
-    <BargainBar :rule.sync="rule" />
-  </view>
+      <!--底栏-->
+      <BargainBar :rule.sync="rule" />
+    </view>
+  </block>
 </template>
 <script>
   import wepy from 'wepy';
@@ -49,7 +43,6 @@
   import bargain from '../../api/bargain';
   import DetailList from '../../components/goods/detail_list';
   import GoodsMsgBar from '../../components/bargain/goods_msg_bar'
-
   export default class BargainGoodsDetail extends wepy.page {
     data = {
       init: false,
@@ -61,7 +54,7 @@
       rule: {},
       detail: {}
     };
-    async onLoad () {
+    async onLoad() {
       await auth.login();
       await store.init();
       await this.update();
@@ -69,11 +62,11 @@
     onUnload() {
       this.$invoke('TimeOutBar', 'clear');
     };
-    async onPullDownRefresh () {
+    async onPullDownRefresh() {
       await this.update();
       wepy.stopPullDownRefresh();
     }
-    async update () {
+    async update() {
       this.rule = await bargain.rule(this.ruleId);
       this.detail = this.rule.goods;
       this.endTime = this.rule.endTime;
@@ -83,8 +76,11 @@
     /**
      * 页面分享
      */
-    onShareAppMessage () {
-      const {name, imageUrl} = this.rule.goods;
+    onShareAppMessage() {
+      const {
+        name,
+        imageUrl
+      } = this.rule.goods;
       const shareName = `${name} 底价低至${this.rule.floorPrice}元，快邀请好友帮你砍一刀吧~`;
       return {
         title: shareName,
@@ -129,8 +125,8 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .goods-swiper{
+  .goods-swiper {
     width: 750rpx;
-    height:480rpx;
+    height: 480rpx;
   }
 </style>

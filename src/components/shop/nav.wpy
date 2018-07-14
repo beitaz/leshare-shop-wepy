@@ -6,18 +6,19 @@
     </view>
     <view class="footer row" @tap="goto">
       <text class="muted">个人中心</text>
-      <icon class="more" color="gary"/>
+      <icon class="more" color="gary" />
     </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy';
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import store from '../../store/utils';
   import WxUtils from '../../utils/WxUtils';
   import Tips from '../../utils/Tips';
-
   @connect({
     shop: store.get('shop'),
     status: store.get('status'),
@@ -51,12 +52,16 @@
         // 在线商城/在线点餐
         if (this.mode == '1') {
           const name = this.version.isOrder ? type.name : type.basicName;
-          wepy.setNavigationBarTitle({ title: name });
+          wepy.setNavigationBarTitle({
+            title: name
+          });
           return name;
         }
         // 外卖
         if (this.mode == '2') {
-          wepy.setNavigationBarTitle({ title: '堂食点餐' });
+          wepy.setNavigationBarTitle({
+            title: '堂食点餐'
+          });
           return '点堂食/外带';
         }
       },
@@ -76,11 +81,10 @@
     height: 27px;
     position: relative;
     background-color: #FFFFFF;
-    padding:8px 13px;
+    padding: 8px 13px;
     border-top: $border;
   }
-  .nav-box-last{
+  .nav-box-last {
     border-bottom: $border;
   }
-
 </style>

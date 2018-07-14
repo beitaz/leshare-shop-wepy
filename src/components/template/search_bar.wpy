@@ -4,14 +4,14 @@
       <text>{{param.logoText}}</text>
     </view>
     <view wx:else class="mr20">
-      <icon class="home" color="white" @tap="routeToHome"/>
+      <icon class="home" color="white" @tap="routeToHome" />
     </view>
     <view class="content" @tap="search">
       <text>{{param.placeholder == null  ? '请输入搜索内容...' : param.placeholder }}</text>
     </view>
     <button plain class="cs-box row-center" open-type="contact" wx:if="{{param.isContact == null || param.isContact}}">
-      <icon class="chat" color="white"/><text>咨询</text>
-    </button>
+        <icon class="chat" color="white"/><text>咨询</text>
+      </button>
   </view>
 </template>
 
@@ -31,27 +31,25 @@
       }
     };
     mixins = [base, router];
-    onLoad() {
-    }
+    onLoad() {}
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-  .search-bar-box{
+  .search-bar-box {
     background-color: $color-primary;
     align-items: center;
     height: 80rpx;
     padding: 0 20rpx;
-
-    .logo-text{
-      text{
+    .logo-text {
+      text {
         color: white;
         font-size: $text-xl;
       }
       margin-right: 20rpx;
     }
-    .cs-box{
+    .cs-box {
       padding: 0;
       margin-left: 20rpx;
       align-items: center;
@@ -62,12 +60,12 @@
         padding-bottom: 3px;
       }
     }
-    .content{
+    .content {
       flex: 1;
       background-color: white;
       border-radius: 3px;
       padding: 6rpx 20rpx;
-      text{
+      text {
         color: $color-muted;
         font-size: $text-sm;
       }

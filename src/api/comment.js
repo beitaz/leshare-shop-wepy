@@ -5,7 +5,7 @@ export default class comment extends base {
   /**
    * 评价订单
    */
-  static add (comments) {
+  static add(comments) {
     const url = `${this.baseUrl}/comments`;
     return this.post(url, comments);
   }
@@ -13,7 +13,7 @@ export default class comment extends base {
   /**
    * 评价列表
    */
-  static page () {
+  static page() {
     const url = `${this.baseUrl}/comments`;
     return new Page(url, this._processGoodsComment.bind(this));
   }
@@ -21,7 +21,7 @@ export default class comment extends base {
   /**
    * 买家自己商品评论列表
    */
-  static list () {
+  static list() {
     const url = `${this.baseUrl}/comments/list`;
     return new Page(url, this._processGoodsComment.bind(this));
   }
@@ -29,7 +29,7 @@ export default class comment extends base {
   /**
    * 评价统计
    */
-  static count (goodsId) {
+  static count(goodsId) {
     const url = `${this.baseUrl}/comments/count?goods_id=${goodsId}`;
     return this.get(url);
   }
@@ -37,7 +37,7 @@ export default class comment extends base {
   /**
    * 处理评价列表数据
    */
-  static _processGoodsComment (data) {
+  static _processGoodsComment(data) {
     const comment = {};
     comment.createTime = data.createTime.substring(0, 10);
     comment.starArr = [0, 0, 0, 0, 0];

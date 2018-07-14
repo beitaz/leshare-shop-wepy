@@ -1,24 +1,26 @@
 <template>
-  <view class="buy-bar-placeholder">
-  </view>
-  <view class="row group-bar-box">
-    <view class="column-center btn-home" @tap="home">
-      <icon class="home normal" color="gray"/>
-      <text class="xs">首页</text>
+  <block>
+    <view class="buy-bar-placeholder">
     </view>
-    <view class="column-center btn-fav" @tap="fav">
-      <icon class="like{{!isFav ? '' : '-fill'}} normal" style="color: {{!isFav ? 'gray' : 'red'}}" />
-      <text class="xs">收藏</text>
+    <view class="row group-bar-box">
+      <view class="column-center btn-home" @tap="home">
+        <icon class="home normal" color="gray" />
+        <text class="xs">首页</text>
+      </view>
+      <view class="column-center btn-fav" @tap="fav">
+        <icon class="like{{!isFav ? '' : '-fill'}} normal" style="color: {{!isFav ? 'gray' : 'red'}}" />
+        <text class="xs">收藏</text>
+      </view>
+      <view class="column-center btn-buy" @tap="handleBuy({{rule.goods}})">
+        <text class="xxl money-box">￥{{rule.goods.sellPrice}}</text>
+        <text>单独购买</text>
+      </view>
+      <view class="column-center btn-group" @tap="handleGroup({{rule.goods}}, {{rule.goodsGroupSkuDetails}}, {{rule.id}}, {{state}}, {{groupId}})">
+        <text class="xxl money-box">￥{{rule.price}}</text>
+        <text>{{groupText}}</text>
+      </view>
     </view>
-    <view class="column-center btn-buy" @tap="handleBuy({{rule.goods}})">
-      <text class="xxl money-box">￥{{rule.goods.sellPrice}}</text>
-      <text>单独购买</text>
-    </view>
-    <view class="column-center btn-group" @tap="handleGroup({{rule.goods}}, {{rule.goodsGroupSkuDetails}}, {{rule.id}}, {{state}}, {{groupId}})">
-      <text class="xxl money-box">￥{{rule.price}}</text>
-      <text>{{groupText}}</text>
-    </view>
-  </view>
+  </block>
 </template>
 
 <script>
@@ -26,7 +28,6 @@
   import router from '../../mixins/router';
   import wepy from 'wepy';
   import Tips from '../../utils/Tips';
-
   export default class GroupBar extends wepy.component {
     props = {
       rule: {},
@@ -51,12 +52,12 @@
         this.isFav = !this.isFav;
         this.$apply();
       },
-      home () {
+      home() {
         this.$root.$switch(`/pages/home/template`)
       }
     };
     computed = {
-      groupText () {
+      groupText() {
         if (!this.detail) return '一键开团';
         if (this.detail.status === 'PROCESSING') {
           return '一键参团'
@@ -84,43 +85,44 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-
   $btn-width: 260rpx;
   $btn-sm-width: (750rpx - $btn-width * 2) / 2;
-  .group-bar-box{
+  .group-bar-box {
     position: fixed;
     bottom: 0;
     height: 105rpx;
     width: 100%;
     border-top: $border;
     background-color: white;
-    .btn-fav{
+    .btn-fav {
       border-left: $border;
     }
-    .btn-fav, .btn-home{
+    .btn-fav,
+    .btn-home {
       width: $btn-sm-width;
       height: inherit;
     }
-    .btn-buy, .btn-group{
+    .btn-buy,
+    .btn-group {
       height: 100%;
       width: $btn-width;
       background-color: white;
       border-left: $border;
-      text{
+      text {
         color: $color-primary;
       }
-      .money-box{
+      .money-box {
         font-weight: bold;
       }
     }
-    .btn-group{
-      background-color:$color-primary;
-      text{
+    .btn-group {
+      background-color: $color-primary;
+      text {
         color: #fff;
       }
     }
   }
-  .buy-bar-placeholder{
+  .buy-bar-placeholder {
     height: 105rpx;
     width: 100%;
   }

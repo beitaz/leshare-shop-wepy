@@ -1,47 +1,47 @@
 <template>
-  <!--商品基本信息展示-->
-  <view class="row-between goods-msg-box">
-    <view class="column">
-      <view class="row mb20">
-        <text class="xl">￥</text><text class="price-box">{{rule.floorPrice}}</text>
-        <view class="column ml20">
-          <text class="muted sellPrice-box sm">￥{{rule.goods.maxPrice}}</text>
-          <view class="price-rule-box">
-            <text class="xxs">{{saveText}}{{saveNum}}</text>
+  <block>
+    <!--商品基本信息展示-->
+    <view class="row-between goods-msg-box">
+      <view class="column">
+        <view class="row mb20">
+          <text class="xl">￥</text><text class="price-box">{{rule.floorPrice}}</text>
+          <view class="column ml20">
+            <text class="muted sellPrice-box sm">￥{{rule.goods.maxPrice}}</text>
+            <view class="price-rule-box">
+              <text class="xxs">{{saveText}}{{saveNum}}</text>
+            </view>
           </view>
         </view>
+        <text class="goods-name-box">{{rule.goods.name}}</text>
       </view>
-      <text class="goods-name-box">{{rule.goods.name}}</text>
+      <button class="column-center" plain open-type="share">
+        <icon class="share small" color="gray"/>
+        <text class="muted sm">分享有惊喜</text>
+      </button>
     </view>
-    <button class="column-center" plain open-type="share">
-      <icon class="share small" color="gray"/>
-      <text class="muted sm">分享有惊喜</text>
-    </button>
-  </view>
-
-  <!--服务标签-->
-  <view class="row-between goods-des-box">
-    <view class="row">
-      <icon class="status-6 xsmall"/>
-      <text class="xs ml10">全场包邮</text>
+    <!--服务标签-->
+    <view class="row-between goods-des-box">
+      <view class="row">
+        <icon class="status-6 xsmall" />
+        <text class="xs ml10">全场包邮</text>
+      </view>
+      <view class="row">
+        <icon class="status-6 xsmall" />
+        <text class="xs ml10">七天退换</text>
+      </view>
+      <view class="row">
+        <icon class="status-6 xsmall" />
+        <text class="xs ml10">假一赔十</text>
+      </view>
+      <icon class="more xsmall" color="gray" />
     </view>
-    <view class="row">
-      <icon class="status-6 xsmall"/>
-      <text class="xs ml10">七天退换</text>
-    </view>
-    <view class="row">
-      <icon class="status-6 xsmall"/>
-      <text class="xs ml10">假一赔十</text>
-    </view>
-    <icon class="more xsmall" color="gray"/>
-  </view>
+  </block>
 </template>
 
 <script>
   import wepy from 'wepy';
   import router from '../../mixins/router';
   import countdown from '../../mixins/countdown';
-
   export default class GoodsMsgBar extends wepy.component {
     props = {
       rule: {},
@@ -52,12 +52,10 @@
         default: 0
       }
     };
-    data = {
-    };
-    methods = {
-    };
+    data = {};
+    methods = {};
     watch = {
-      rule (rule) {
+      rule(rule) {
         if (rule.floorPrice && rule.goods.maxPrice) {
           this.saveNum = (rule.goods.maxPrice * 1 - rule.floorPrice * 1).toFixed(2);
         }
@@ -69,36 +67,35 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-
-  .goods-msg-box{
+  .goods-msg-box {
     background: white;
     padding: 20rpx;
-    .price-box{
+    .price-box {
       font-size: 80rpx;
       line-height: 80rpx;
     }
-    .sellPrice-box{
+    .sellPrice-box {
       text-decoration: line-through;
       line-height: $text-sm;
     }
-    .price-rule-box{
-      text{
+    .price-rule-box {
+      text {
         background: #FEE7EF;
         color: #FB4578;
         padding: 0 4rpx;
       }
     }
-    .goods-name-box{
+    .goods-name-box {
       font-size: 30rpx;
       line-height: 30rpx;
     }
   }
-  .goods-des-box{
+  .goods-des-box {
     background: white;
     padding: 20rpx;
-    border-top:$border;
+    border-top: $border;
     margin-bottom: 10rpx;
-    .row icon{
+    .row icon {
       color: $color-primary;
     }
   }

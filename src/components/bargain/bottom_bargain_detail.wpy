@@ -1,17 +1,19 @@
 <template>
-  <view class="buy-bar-placeholder">
-  </view>
-  <view class="row group-bar-box">
-    <button wx:if="{{detail.isFloor}}" class="column-center btn-buy" plain open-type="share" disabled>
-      <text class="muted">找人帮砍</text>
-    </button>
-    <button wx:else class="column-center btn-buy" plain open-type="share">
-      <text class="primary">找人帮砍</text>
-    </button>
-    <view class="column-center btn-group" @tap="buy({{detail.rule.goods}}, {{detail.ruleId}}, {{detail.id}})">
-      <text>立即购买</text>
+  <block>
+    <view class="buy-bar-placeholder">
     </view>
-  </view>
+    <view class="row group-bar-box">
+      <button wx:if="{{detail.isFloor}}" class="column-center btn-buy" plain open-type="share" disabled>
+        <text class="muted">找人帮砍</text>
+      </button>
+      <button wx:else class="column-center btn-buy" plain open-type="share">
+        <text class="primary">找人帮砍</text>
+      </button>
+      <view class="column-center btn-group" @tap="buy({{detail.rule.goods}}, {{detail.ruleId}}, {{detail.id}})">
+        <text>立即购买</text>
+      </view>
+    </view>
+  </block>
 </template>
 
 <script>
@@ -20,7 +22,6 @@
   import order from '../../api/order';
   import Sku from '../../utils/Sku';
   import Cart from '../../utils/Cart';
-
   export default class DetailBottom extends wepy.component {
     props = {
       detail: {}
@@ -32,28 +33,41 @@
     };
     skuManager = null;
     cartManager = Cart.create();
-    clear () {
+    clear() {
       console.info('[SilderPanel] clear');
       this.goods = null;
       this.action = 'cart';
       this.display = false;
     }
     methods = {
-      async buy () {
+      async buy() {
         // TODO 搬自slider
         if (!this.sku.next) {
           return;
         }
-        const {num} = this.sku;
+        const {
+          num
+        } = this.sku;
         const goods = this.detail.rule.goods;
         goods.originalPrice = this.detail.rule.skuDetail.price;
         goods.sellPrice = this.detail.balance;
         const skuText = null;
         const cart = this.cartManager.createCart(goods, skuText, num);
-        const trade = order.createCartTrade([cart], {orderType: 10});
-        const {id, ruleId} = this.detail;
-        Object.assign(trade, {ruleId, id});
-        this.$root.$preload('params', {trade, type: this.state});
+        const trade = order.createCartTrade([cart], {
+          orderType: 10
+        });
+        const {
+          id,
+          ruleId
+        } = this.detail;
+        Object.assign(trade, {
+          ruleId,
+          id
+        });
+        this.$root.$preload('params', {
+          trade,
+          type: this.state
+        });
         this.$root.$navigate(`../order/trade`);
         this.clear();
       }
@@ -79,35 +93,35 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-
-  .group-bar-box{
+  .group-bar-box {
     position: fixed;
     bottom: 0;
     height: 105rpx;
     width: 100%;
     border-top: $border;
     background-color: white;
-    .btn-buy, .btn-group{
+    .btn-buy,
+    .btn-group {
       height: 100%;
       width: 50%;
       background-color: white;
       border-left: $border;
-      .money-box{
+      .money-box {
         font-weight: bold;
       }
     }
-    .btn-buy{
-      border:none;
+    .btn-buy {
+      border: none;
       border-radius: 0rpx;
     }
-    .btn-group{
-      background-color:$color-primary;
-      text{
+    .btn-group {
+      background-color: $color-primary;
+      text {
         color: #fff;
       }
     }
   }
-  .buy-bar-placeholder{
+  .buy-bar-placeholder {
     height: 105rpx;
     width: 100%;
   }

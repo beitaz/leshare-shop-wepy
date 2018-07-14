@@ -1,25 +1,20 @@
 <template>
-  <Loading :init.sync="init"/>
-
-  <view class="container column" wx:if="{{init}}">
-
-    <image src="../../images/icons/test.jpeg" style="width: 750rpx"/>
-    <!--拼团倒计时栏-->
-    <TimeOutBar :endTime.sync="endTime" :callback="callback" />
-
-    <!--拼团栏-->
-    <GroupInfoBar />
-
-    <!--拼团状态-->
-    <StatusBar :endTime.sync="endTime" />
-
-    <!--评论预览-->
-    <CommentPreview :goodsId.sync="goodsId"/>
-
-    <!--底栏-->
-    <GroupBar />
-
-  </view>
+  <block>
+    <Loading :init.sync="init" />
+    <view class="container column" wx:if="{{init}}">
+      <image src="../../images/icons/test.jpeg" style="width: 750rpx" />
+      <!--拼团倒计时栏-->
+      <TimeOutBar :endTime.sync="endTime" :callback="callback" />
+      <!--拼团栏-->
+      <GroupInfoBar />
+      <!--拼团状态-->
+      <StatusBar :endTime.sync="endTime" />
+      <!--评论预览-->
+      <CommentPreview :goodsId.sync="goodsId" />
+      <!--底栏-->
+      <GroupBar />
+    </view>
+  </block>
 </template>
 
 <script>
@@ -31,14 +26,13 @@
   import CommentPreview from '../../components/goods/comment_preview';
   import base from '../../mixins/base';
   import Loading from '../../components/common/loading';
-
   export default class ShopIndex extends wepy.page {
     data = {
       init: false,
       endTime: '',
       goodsId: ''
     };
-    async onLoad () {
+    async onLoad() {
       this.endTime = '2018/2/28 00:00:00';
       this.goodsId = 248;
       this.loaded();
@@ -46,13 +40,11 @@
     /**
      * 页面分享
      */
-    onShareAppMessage () {
+    onShareAppMessage() {
       return {};
     }
-    methods = {
-    };
-    computed = {
-    };
+    methods = {};
+    computed = {};
     components = {
       GroupBar: GroupBar,
       GroupInfoBar: GroupInfoBar,
@@ -62,12 +54,10 @@
       Loading: Loading
     };
     mixins = [base];
-    config = {
-    };
+    config = {};
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-
 </style>

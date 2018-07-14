@@ -20,14 +20,14 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .cover-panel{
+  .cover-panel {
     width: 100%;
     height: 100%;
     position: fixed;
     top: 0;
     left: 0;
     background-color: black;
-    -webkit-filter:opacity(.6);
+    -webkit-filter: opacity(.6);
     z-index: 10000;
   }
 </style>

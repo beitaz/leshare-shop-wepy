@@ -1,108 +1,93 @@
 <template>
-  <Loading :init.sync="init"/>
-  <view class="template-box" wx:if="{{init}}">
-    <repeat for="{{components}}" key="index" index="index" item="item">
-      <!--搜索栏-->
-      <block wx:if="{{item.type == 'SEARCH_BAR'}}">
-        <SearchBar :param.sync="item"/>
-      </block>
-
-      <!--店铺信息-->
-      <block wx:if="{{item.type == 'SHOP_BAR'}}">
-        <ShopBar :param.sync="item"/>
-      </block>
-
-      <!--轮播图-->
-      <block wx:if="{{item.type == 'SWIPER'}}">
-        <SwiperBar :param.sync="item" />
-      </block>
-
-      <!--图片橱窗-->
-      <block wx:if="{{item.type == 'IMAGE_BOX'}}">
-        <ImageBox :param.sync="item" />
-      </block>
-
-      <!--热区橱窗-->
-      <block wx:if="{{item.type == 'HOT_AREA_BOX'}}">
-        <HotAreaBox :param.sync="item" />
-      </block>
-
-
-      <!--优惠券橱窗-->
-      <block wx:if="{{item.type == 'COUPON_BOX'}}">
-        <CouponBox :param.sync="item" />
-      </block>
-
-      <!--商品橱窗-->
-      <block wx:if="{{item.type == 'GOODS_BOX'}}">
-        <GoodsBox :param.sync="item" />
-      </block>
-
-      <!--公告栏-->
-      <block wx:if="{{item.type == 'NOTICE_BAR'}}">
-        <NoticeBar :param.sync="item" />
-      </block>
-
-      <!--版权栏-->
-      <block wx:if="{{item.type == 'COPYRIGHT'}}">
-        <Copyright :param.sync="item" />
-      </block>
-
-      <!--拼团橱窗-->
-      <block wx:if="{{item.type == 'GROUP_BOX'}}">
-        <GroupBox :param.sync="item" />
-      </block>
-
-      <!--砍价橱窗-->
-      <block wx:if="{{item.type == 'BARGAIN_BOX'}}">
-        <BargainBox :param.sync="item" />
-      </block>
-
-      <!--分隔符-->
-      <block wx:if="{{item.type == 'SEPARATOR'}}">
-        <Separator :param.sync="item" />
-      </block>
-
-      <block wx:if="{{item.type == 'ADDRESS_BOX'}}">
-        <AddressBox :param.sync="item" />
-      </block>
-
-      <!--间隔-->
-      <view class="h-gap" wx:if="{{item.border !== 'none'}}"></view>
-    </repeat>
-
-    <!--插件-->
-    <repeat for="{{plugins}}" key="index" index="index" item="item">
-      <!--滑出购物面板-->
-      <block wx:if="{{item.type == 'SKU_SLIDE_PANEL'}}" >
-        <SilderPanel />
-      </block>
-
-      <!--弹出购物面板-->
-      <block wx:if="{{item.type == 'SKU_POPUP_PANEL'}}" >
-        <PopupPanel />
-      </block>
-
-      <!--浮动购物车-->
-      <block wx:if="{{item.type == 'CART_WIDGET'}}" >
-        <CartWidget />
-      </block>
-
-      <!--状态提示-->
-      <block wx:if="{{item.type == 'STATUS_WIDGET'}}" >
-        <StatusWidget />
-      </block>
-
-      <block wx:if="{{item.type == 'BUTTON_WIDGET'}}" >
-        <ButtonWidget :param="item" />
-      </block>
-    </repeat>
-  </view>
+  <block>
+    <Loading :init.sync="init" />
+    <view class="template-box" wx:if="{{init}}">
+      <repeat for="{{components}}" key="index" index="index" item="item">
+        <!--搜索栏-->
+        <block wx:if="{{item.type == 'SEARCH_BAR'}}">
+          <SearchBar :param.sync="item" />
+        </block>
+        <!--店铺信息-->
+        <block wx:if="{{item.type == 'SHOP_BAR'}}">
+          <ShopBar :param.sync="item" />
+        </block>
+        <!--轮播图-->
+        <block wx:if="{{item.type == 'SWIPER'}}">
+          <SwiperBar :param.sync="item" />
+        </block>
+        <!--图片橱窗-->
+        <block wx:if="{{item.type == 'IMAGE_BOX'}}">
+          <ImageBox :param.sync="item" />
+        </block>
+        <!--热区橱窗-->
+        <block wx:if="{{item.type == 'HOT_AREA_BOX'}}">
+          <HotAreaBox :param.sync="item" />
+        </block>
+        <!--优惠券橱窗-->
+        <block wx:if="{{item.type == 'COUPON_BOX'}}">
+          <CouponBox :param.sync="item" />
+        </block>
+        <!--商品橱窗-->
+        <block wx:if="{{item.type == 'GOODS_BOX'}}">
+          <GoodsBox :param.sync="item" />
+        </block>
+        <!--公告栏-->
+        <block wx:if="{{item.type == 'NOTICE_BAR'}}">
+          <NoticeBar :param.sync="item" />
+        </block>
+        <!--版权栏-->
+        <block wx:if="{{item.type == 'COPYRIGHT'}}">
+          <Copyright :param.sync="item" />
+        </block>
+        <!--拼团橱窗-->
+        <block wx:if="{{item.type == 'GROUP_BOX'}}">
+          <GroupBox :param.sync="item" />
+        </block>
+        <!--砍价橱窗-->
+        <block wx:if="{{item.type == 'BARGAIN_BOX'}}">
+          <BargainBox :param.sync="item" />
+        </block>
+        <!--分隔符-->
+        <block wx:if="{{item.type == 'SEPARATOR'}}">
+          <Separator :param.sync="item" />
+        </block>
+        <block wx:if="{{item.type == 'ADDRESS_BOX'}}">
+          <AddressBox :param.sync="item" />
+        </block>
+        <!--间隔-->
+        <view class="h-gap" wx:if="{{item.border !== 'none'}}"></view>
+      </repeat>
+      <!--插件-->
+      <repeat for="{{plugins}}" key="index" index="index" item="item">
+        <!--滑出购物面板-->
+        <block wx:if="{{item.type == 'SKU_SLIDE_PANEL'}}">
+          <SilderPanel />
+        </block>
+        <!--弹出购物面板-->
+        <block wx:if="{{item.type == 'SKU_POPUP_PANEL'}}">
+          <PopupPanel />
+        </block>
+        <!--浮动购物车-->
+        <block wx:if="{{item.type == 'CART_WIDGET'}}">
+          <CartWidget />
+        </block>
+        <!--状态提示-->
+        <block wx:if="{{item.type == 'STATUS_WIDGET'}}">
+          <StatusWidget />
+        </block>
+        <block wx:if="{{item.type == 'BUTTON_WIDGET'}}">
+          <ButtonWidget :param="item" />
+        </block>
+      </repeat>
+    </view>
+  </block>
 </template>
 
 <script>
   import store from '../../store/utils';
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import auth from '../../api/auth';
   import shop from '../../api/shop';
   import config from '../../api/config';
@@ -126,7 +111,6 @@
   import BargainBox from '../../components/template/bargain_box';
   import Separator from '../../components/template/separator';
   import AddressBox from '../../components/template/address_box';
-
   @connect({
     homePageId: store.get('homePageId'),
     shop: store.get('shop'),
@@ -142,7 +126,10 @@
       param: null,
       sence: null
     };
-    async onLoad ({pageId, sence}) {
+    async onLoad({
+      pageId,
+      sence
+    }) {
       // 登录检查
       await auth.login();
       await store.init();
@@ -179,7 +166,11 @@
       if (this.param.navigation == null) {
         return;
       }
-      const {titleText, backgroundColor, textStyle} = this.param.navigation;
+      const {
+        titleText,
+        backgroundColor,
+        textStyle
+      } = this.param.navigation;
       if (titleText) {
         wepy.setNavigationBarTitle({
           title: titleText
@@ -227,9 +218,12 @@
     /**
      * 页面分享
      */
-    onShareAppMessage () {
+    onShareAppMessage() {
       if (this.param.share == null) {
-        const {name, avatar} = this.shop;
+        const {
+          name,
+          avatar
+        } = this.shop;
         return {
           title: `${name} 欢迎光临`,
           imageUrl: `${avatar}/5x4`
@@ -238,8 +232,7 @@
         return this.param.share;
       }
     }
-    methods = {
-    };
+    methods = {};
     components = {
       Loading: Loading,
       SearchBar: SearchBar,
@@ -260,8 +253,7 @@
       BargainBox: BargainBox,
       AddressBox: AddressBox
     };
-    computed = {
-    };
+    computed = {};
     mixins = [base];
     config = {
       navigationBarTitleText: '首页'
@@ -271,7 +263,7 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .template-box{
+  .template-box {
     width: 100%;
     overflow-x: hidden;
     .h-gap {

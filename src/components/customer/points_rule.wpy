@@ -12,21 +12,17 @@
     </view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy';
-
   export default class PointsRule extends wepy.component {
     data = {};
-
-    events = {
-    };
-
+    events = {};
     methods = {};
-
-    onLoad () {}
+    onLoad() {}
   }
-
 </script>
+
 <style lang="less">
   .jf_rule {
     border-top: 1px solid #efefef;
@@ -55,5 +51,4 @@
       }
     }
   }
-
 </style>

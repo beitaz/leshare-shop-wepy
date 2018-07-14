@@ -1,31 +1,31 @@
 <template>
-  <Loading :init.sync="init" />
-
-  <view wx:if="{{init}}">
-    <!--店铺图片轮播-->
-    <swiper class="shop-swiper" indicator-dots autoplay interval="3000" circular>
-      <block wx:for="{{shop.images}}" wx:key="key">
-        <swiper-item>
-          <image src="{{item.url}}" mode="aspectFill" class="shop-image" @tap="image({{item.url}})"/>
-        </swiper-item>
-      </block>
-    </swiper>
-
-    <AddressBox/>
-    <Copyright buttom="true"/>
-  </view>
-
+  <block>
+    <Loading :init.sync="init" />
+    <view wx:if="{{init}}">
+      <!--店铺图片轮播-->
+      <swiper class="shop-swiper" indicator-dots autoplay interval="3000" circular>
+        <block wx:for="{{shop.images}}" wx:key="key">
+          <swiper-item>
+            <image src="{{item.url}}" mode="aspectFill" class="shop-image" @tap="image({{item.url}})" />
+          </swiper-item>
+        </block>
+      </swiper>
+      <AddressBox/>
+      <Copyright buttom="true" />
+    </view>
+  </block>
 </template>
 
 <script>
   import wepy from 'wepy';
   import base from '../../mixins/base';
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import store from '../../store/utils';
   import Copyright from '../../components/common/copyright';
   import AddressBox from '../../components/template/address_box'
   import Loading from '../../components/common/loading';
-
   @connect({
     shop: store.get('shop')
   })
@@ -33,12 +33,11 @@
     data = {
       init: false
     };
-    async onLoad () {
+    async onLoad() {
       await store.init();
       this.loaded();
     };
-    methods = {
-    };
+    methods = {};
     components = {
       AddressBox: AddressBox,
       Copyright: Copyright,
@@ -53,10 +52,11 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  page{
+  page {
     background-color: white;
   }
-  .shop-swiper, .shop-image{
+  .shop-swiper,
+  .shop-image {
     width: 750rpx;
     height: 480rpx;
   }

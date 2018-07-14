@@ -7,7 +7,7 @@ export default class group extends base {
   /***
    * 根据拼团商品规则ID查找拼团信息(商品)
    */
-  static rules (ruleId) {
+  static rules(ruleId) {
     const url = `${this.baseUrl}/goods_group/rules/${ruleId}`;
     return this.get(url).then(data => this._processGoodsDetail(data));
   }
@@ -15,14 +15,14 @@ export default class group extends base {
   /***
    * 获取商品详情中所展示的拼团信息(3条)
    */
-  static processing (ruleId) {
+  static processing(ruleId) {
     const url = `${this.baseUrl}/goods_group/processing?rule_id=${ruleId}&sort=asc&by=group_time&limit=3`;
     return this.get(url).then(data => this._processGroupProcessingDetail(data));
   }
   /***
    * 获取正在拼团的拼团信息
    */
-  static processingList (ruleId) {
+  static processingList(ruleId) {
     const url = `${this.baseUrl}/goods_group/processing?rule_id=${ruleId}`;
     return new Page(url, item => {
       this._processGroupProcessingListDetail(item);
@@ -32,7 +32,7 @@ export default class group extends base {
   /***
    * 开团/参团
    */
-  static goodsGroup (trade, address) {
+  static goodsGroup(trade, address) {
     const url = `${this.baseUrl}/goods_group`;
     this._processOrderAddress(trade, address);
     const param = {
@@ -46,7 +46,7 @@ export default class group extends base {
   /**
    * 返回参团列表
    */
-  static list (status) {
+  static list(status) {
     const url = `${this.baseUrl}/goods_group/list?status=${status}`;
     return new Page(url, item => {
       this._processGroupListItem(item);
@@ -56,7 +56,7 @@ export default class group extends base {
   /***
    * 根据拼团ID查找拼团详情
    */
-  static groupDetail (groupId) {
+  static groupDetail(groupId) {
     const url = `${this.baseUrl}/goods_group/${groupId}`;
     return this.get(url).then(data => this._processGroupDetail(data));
   }
@@ -66,7 +66,7 @@ export default class group extends base {
   /**
    * 处理商品详情
    */
-  static _processGoodsDetail (detail) {
+  static _processGoodsDetail(detail) {
     // 解析预览图
     this._processGoodsPreview(detail);
 
@@ -85,7 +85,7 @@ export default class group extends base {
   /***
    * 拼团栏信息处理
    */
-  static _processGroupProcessingDetail (detail) {
+  static _processGroupProcessingDetail(detail) {
     if (detail === null) return [];
     detail.forEach(item => {
       // 解析预览图
@@ -114,7 +114,7 @@ export default class group extends base {
   /***
    * 正在拼团信息处理
    */
-  static _processGroupProcessingListDetail (detail) {
+  static _processGroupProcessingListDetail(detail) {
     // 解析预览图
     this._processGoodsPreview(detail.rule);
 
@@ -142,7 +142,7 @@ export default class group extends base {
   /***
    * 拼团详情处理
    */
-  static _processGroupDetail (data) {
+  static _processGroupDetail(data) {
     const rule = data.rule;
     // 解析预览图
     this._processGoodsPreview(rule);
@@ -163,7 +163,7 @@ export default class group extends base {
   /**
    * 处理预览图
    */
-  static _processGoodsPreview (item) {
+  static _processGoodsPreview(item) {
     const images = item.goods.images;
     // 图片处理
     if (images == null || images.length < 1) {
@@ -178,7 +178,7 @@ export default class group extends base {
   /**
    * 处理SKU标签
    */
-  static _processSkuLable (detail) {
+  static _processSkuLable(detail) {
     const skuInfo = detail.goods.goodsSkuInfo;
     if (!skuInfo) {
       return;
@@ -205,7 +205,7 @@ export default class group extends base {
   /**
    * 处理价格商品区间
    */
-  static _processGoodsPriceRange (detail) {
+  static _processGoodsPriceRange(detail) {
     if (!detail.goods.goodsSkuInfo || !detail.goods.goodsSkuInfo.goodsSkuDetails) {
       return;
     }
@@ -225,7 +225,7 @@ export default class group extends base {
   /**
    * 处理价格展现标签 / 需要先调用区间处理
    */
-  static _processGoodsPriceLabel (detail) {
+  static _processGoodsPriceLabel(detail) {
     let priceLable = detail.goods.sellPrice;
 
     if (detail.goods.maxPrice && detail.goods.minPrice) {
@@ -238,7 +238,7 @@ export default class group extends base {
   /***
    * 团长信息处理
    */
-  static _processGroupHeader (detail) {
+  static _processGroupHeader(detail) {
     if (!detail.list) return;
     detail.header = detail.list.find(item => item.head === true);
   }
@@ -246,7 +246,7 @@ export default class group extends base {
   /***
    * 开团时间处理
    */
-  static _processGroupTime (detail) {
+  static _processGroupTime(detail) {
     const time = new Date(detail.groupTime.replace(/-/g, '/')) - new Date() + 1000 * 60 * 60 * 24;
     if (time > 0) {
       let hour = Math.floor(time / 3600000);
@@ -264,7 +264,7 @@ export default class group extends base {
   /***
    * 判断是否已开团
    */
-  static _processGroupParticipated (detail) {
+  static _processGroupParticipated(detail) {
     const user = wepy.getStorageSync('user');
     detail.list.forEach(item => {
       detail.isPar = item.customerId === user.id;
@@ -274,7 +274,7 @@ export default class group extends base {
   /**
    * 处理订单地址
    */
-  static _processOrderAddress (order, address) {
+  static _processOrderAddress(order, address) {
     if (utils.isDeliveryOrder(order.orderType)) {
       order.receiveName = `${address.name} ${address.sexText}`;
       order.receivePhone = address.phone;
@@ -285,7 +285,7 @@ export default class group extends base {
   /**
    * 处理订单列表数据
    */
-  static _processGroupListItem (detail) {
+  static _processGroupListItem(detail) {
     const order = detail.detail.order;
     order.shopName = this.shopName;
     // 处理订单状态
@@ -306,8 +306,8 @@ export default class group extends base {
   /**
    * 处理状态描述文本
    */
-  static _processOrderStatusDesc (order) {
-    const {status, orderType} = order;
+  static _processOrderStatusDesc(order) {
+    const { status, orderType } = order;
     order.statusText = utils.statusName(orderType, status);
     order.statusDesc = utils.statusDesc(order, status);
     // 订单关闭增加关闭原因
@@ -320,7 +320,7 @@ export default class group extends base {
   /**
    * 处理订单状态
    */
-  static _processOrderPrice (order) {
+  static _processOrderPrice(order) {
     order.postFee = this._fixedPrice(order.postFee);
     order.dealPrice = this._fixedPrice(order.dealPrice);
     order.finalPrice = this._fixedPrice(order.finalPrice);
@@ -329,7 +329,7 @@ export default class group extends base {
     order.bonusPrice = this._fixedPrice(order.bonusPrice);
   }
 
-  static _fixedPrice (price) {
+  static _fixedPrice(price) {
     if (price == null || isNaN(Number(price))) {
       return null;
     }
@@ -339,13 +339,13 @@ export default class group extends base {
   /**
    * 处理订单动作
    */
-  static _processOrderAction (order, inner = false) {
+  static _processOrderAction(order, inner = false) {
     const basic = [];
     // 有退款的情况
     if (order.curRefund) {
       basic.push(ACTION.REFUND_DETAIL);
     }
-    const {orderType, paymentType, status} = order;
+    const { orderType, paymentType, status } = order;
     const actions = utils.statusActions(orderType, paymentType, status);
     if (actions) {
       const display = inner ? actions.filter(v => v.inner != true) : actions;
@@ -358,7 +358,7 @@ export default class group extends base {
   /**
    * 处理订单商品信息
    */
-  static _processOrderGoods (goods) {
+  static _processOrderGoods(goods) {
     if (goods == null || goods.length < 1) return;
     goods.forEach(item => {
       item.imageUrl += '/small';
@@ -377,7 +377,7 @@ export default class group extends base {
    * 处理SKU的默认值
    */
 
-  static _processOrderSku (goodsSku) {
+  static _processOrderSku(goodsSku) {
     let skuText = '';
     if (goodsSku && goodsSku != '') {
       skuText = goodsSku.replace(/:/g, ',');
@@ -385,7 +385,7 @@ export default class group extends base {
     return skuText;
   }
 
-  static _processOfflinePayment (order) {
+  static _processOfflinePayment(order) {
     const orderType = order.orderType;
     if (orderType != TYPE.OFFLINE) return;
     order.orderGoodsInfos = [{
@@ -400,7 +400,7 @@ export default class group extends base {
   /***
    * 处理参团list
    */
-  static _processGroupListLength (data, rule) {
+  static _processGroupListLength(data, rule) {
     rule.spareCustomer = rule.limitCustomer - data.list.length;
     if (rule.limitCustomer > data.list.length) {
       for (let i = 1; i < rule.limitCustomer; i++) data.list.push({})

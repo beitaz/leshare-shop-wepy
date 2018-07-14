@@ -1,32 +1,30 @@
 <template>
-  <Loading :init.sync="init"/>
-
-  <view wx:if="{{init}}">
-    <!--TAB-->
-    <ZanTab :tab.sync="tab" @change.user="switchTab" />
-
-    <!--列表展现-->
-    <repeat for="{{page.list}}" key="index" index="index" item="item">
-      <GoodsRow :goods.sync="item"/>
-    </repeat>
-
-    <Loadmore :page.sync="page"/>
-
-    <!--占位符-->
-    <Placeholder :show.sync="isPageEmpty" message="没有符合条件的商品"/>
-
-    <!--购物面板 TODO 兼容两种风格-->
-    <PopupPanel />
-
-    <!--悬浮购物车-->
-    <FloatCart />
-  </view>
+  <block>
+    <Loading :init.sync="init" />
+    <view wx:if="{{init}}">
+      <!--TAB-->
+      <ZanTab :tab.sync="tab" @change.user="switchTab" />
+      <!--列表展现-->
+      <repeat for="{{page.list}}" key="index" index="index" item="item">
+        <GoodsRow :goods.sync="item" />
+      </repeat>
+      <Loadmore :page.sync="page" />
+      <!--占位符-->
+      <Placeholder :show.sync="isPageEmpty" message="没有符合条件的商品" />
+      <!--购物面板 TODO 兼容两种风格-->
+      <PopupPanel />
+      <!--悬浮购物车-->
+      <FloatCart />
+    </view>
+  </block>
 </template>
 
 <script>
   import wepy from 'wepy';
   import goods from '../../api/goods';
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import store from '../../store/utils';
   import pagination from '../../mixins/pagination.wpy';
   import base from '../../mixins/base';
@@ -37,7 +35,6 @@
   import Placeholder from '../../components/common/placeholder';
   import Loadmore from '../../components/weui/loadmore';
   import Loading from '../../components/common/loading';
-
   @connect({
     discount: store.get('discount'),
     categories: store.get('categories')
@@ -51,10 +48,18 @@
         list: []
       },
       tab: {
-        list: [
-          {id: 'sales_volume', title: '商品销量'},
-          {id: 'sell_price', title: '商品价格'},
-          {id: 'create_time', title: '上架时间'}
+        list: [{
+            id: 'sales_volume',
+            title: '商品销量'
+          },
+          {
+            id: 'sell_price',
+            title: '商品价格'
+          },
+          {
+            id: 'create_time',
+            title: '上架时间'
+          }
         ],
         selectedId: 'sales_volume',
         order: true,
@@ -62,7 +67,12 @@
         scroll: false
       }
     };
-    async onLoad ({keyword, categoryId, sort = 'desc', by = 'sales_volume'}) {
+    async onLoad({
+      keyword,
+      categoryId,
+      sort = 'desc',
+      by = 'sales_volume'
+    }) {
       this.categoryId = categoryId;
       this.keyword = keyword;
       this.tab.sord = sort;

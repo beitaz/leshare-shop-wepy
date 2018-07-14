@@ -1,11 +1,11 @@
 <template>
   <view class="inshop-box row-between">
     <view class="row" wx:if="{{order.orderType == '30'}}">
-      <icon class="inshop normal"/>
+      <icon class="inshop normal" />
       <text>到店堂食</text>
     </view>
-    <view class="row"  wx:if="{{order.orderType == '33'}}">
-      <icon class="package normal"/>
+    <view class="row" wx:if="{{order.orderType == '33'}}">
+      <icon class="package normal" />
       <text>打包带走</text>
     </view>
     <text class="muted mr20 sm">{{order.arriveTime}}</text>
@@ -23,7 +23,7 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .inshop-box{
+  .inshop-box {
     border-top: $border;
     border-bottom: $border;
     height: 45px;
@@ -31,7 +31,7 @@
     padding-left: 20rpx;
     margin-top: 10rpx;
     margin-bottom: 10rpx;
-    text{
+    text {
       margin-left: 10rpx;
     }
   }

@@ -7,7 +7,6 @@
       <button plain class="area" style="width:{{area.width}};height:{{area.height}};top:{{area.yPos}};left:{{area.xPos}}" @tap="routeByAction({{area}})" open-type="{{area.openType}}"></button>
     </block>
   </view>
-
 </template>
 
 <script>
@@ -23,12 +22,12 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .hot-area-box{
+  .hot-area-box {
     position: relative;
     .image {
       position: relative;
     }
-    button.area{
+    button.area {
       border: none;
       border-color: transparent;
       background-color: transparent;

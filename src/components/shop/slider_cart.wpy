@@ -1,80 +1,77 @@
 <template>
-  <!-- 购物车底栏 -->
-  <view class="reduce-box row-center" wx:if="{{(reduce && reduce.list.length > 0) || couponText != null}}">
-    <text class="weak xs inline">{{matchReduce.showText}}{{matchReduce.showText && couponText ? ' & ': ''}}{{couponText}}</text>
-  </view>
-  <view class="cart-box row">
-    <view class="icon-box column-center" @tap="cart">
-      <icon class="cart-fill large"/>
-      <view class="weui-badge cart-num">{{totalCount}}</view>
+  <block>
+    <!-- 购物车底栏 -->
+    <view class="reduce-box row-center" wx:if="{{(reduce && reduce.list.length > 0) || couponText != null}}">
+      <text class="weak xs inline">{{matchReduce.showText}}{{matchReduce.showText && couponText ? ' & ': ''}}{{couponText}}</text>
     </view>
-
-    <view class="info-box column" @tap="cart">
-      <text class="price">￥{{totalPrice}}</text>
-      <text class="muted xs" wx:if="{{totalCount > 0}}">共计{{totalCount}}件商品</text>
-      <text class="muted xs" wx:else>请选择商品加入购物车</text>
-    </view>
-
-    <!--TODO 状态提取-->
-    <form class="cart-btn column-center {{buyStatus != 1 ? 'cart-btn-disable' : ''}}" report-submit="true"  @submit.stop="buy">
-      <button plain  form-type="submit"><text>{{buyText}}</text></button>
-    </form>
-  </view>
-
-  <!-- 购物车滑出栏 -->
-  <SilderPanel :display.sync="isCartDisplay" header="false" paddingButtom="45px">
-    <view slot="content" class="cart-panel">
-      <!--购物车标题-->
-      <view class="cart-header row-between">
-        <text>购物车</text>
-        <view>
-          <text class="muted" @tap="clear">清空</text>
-        </view>
+    <view class="cart-box row">
+      <view class="icon-box column-center" @tap="cart">
+        <icon class="cart-fill large" />
+        <view class="weui-badge cart-num">{{totalCount}}</view>
       </view>
-
-      <!--购物车列表-->
-      <view class="cart-list">
-        <block wx:for="{{carts}}" wx:key="index">
-          <view class="cart-item row-between">
-            <!--商品名称-->
-            <view class="cart-title column">
-              <text class="lg inline">{{item.goodsName}}</text>
-              <text class="xs muted" wx:if="{{item.goodsSku}}">{{item.goodsSku}}</text>
-            </view>
-
-            <!--右侧-->
-            <view class="row">
-              <text>￥{{item.totalPrice}}</text>
-              <!--数量选择器-->
-
-              <view class="quantity row">
-                <block wx:if="{{item.goodsNum > 0}}">
-                  <icon class="minus" @tap="minus({{item}})" />
-                  <view class="number">
-                    <text>{{item.goodsNum}}</text>
-                  </view>
-                </block>
-                <icon class="plus" @tap="plus({{item}})" />
+      <view class="info-box column" @tap="cart">
+        <text class="price">￥{{totalPrice}}</text>
+        <text class="muted xs" wx:if="{{totalCount > 0}}">共计{{totalCount}}件商品</text>
+        <text class="muted xs" wx:else>请选择商品加入购物车</text>
+      </view>
+      <!--TODO 状态提取-->
+      <form class="cart-btn column-center {{buyStatus != 1 ? 'cart-btn-disable' : ''}}" report-submit="true" @submit.stop="buy">
+        <button plain form-type="submit"><text>{{buyText}}</text></button>
+      </form>
+    </view>
+    <!-- 购物车滑出栏 -->
+    <SilderPanel :display.sync="isCartDisplay" header="false" paddingButtom="45px">
+      <view slot="content" class="cart-panel">
+        <!--购物车标题-->
+        <view class="cart-header row-between">
+          <text>购物车</text>
+          <view>
+            <text class="muted" @tap="clear">清空</text>
+          </view>
+        </view>
+        <!--购物车列表-->
+        <view class="cart-list">
+          <block wx:for="{{carts}}" wx:key="index">
+            <view class="cart-item row-between">
+              <!--商品名称-->
+              <view class="cart-title column">
+                <text class="lg inline">{{item.goodsName}}</text>
+                <text class="xs muted" wx:if="{{item.goodsSku}}">{{item.goodsSku}}</text>
+              </view>
+              <!--右侧-->
+              <view class="row">
+                <text>￥{{item.totalPrice}}</text>
+                <!--数量选择器-->
+                <view class="quantity row">
+                  <block wx:if="{{item.goodsNum > 0}}">
+                    <icon class="minus" @tap="minus({{item}})" />
+                    <view class="number">
+                      <text>{{item.goodsNum}}</text>
+                    </view>
+                  </block>
+                  <icon class="plus" @tap="plus({{item}})" />
+                </view>
               </view>
             </view>
-          </view>
-        </block>
+          </block>
+        </view>
       </view>
-    </view>
-  </SilderPanel>
+    </SilderPanel>
+  </block>
 </template>
 
 <script>
   import wepy from 'wepy';
   import order from '../../api/order';
   import auth from '../../api/auth';
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import store from '../../store/utils';
   import SilderPanel from '../../components/common/slider_panel';
   import Cart from '../../utils/Cart';
   import Tips from '../../utils/Tips';
   import router from '../../mixins/router';
-
   @connect({
     cart: store.get('cart'),
     status: store.get('status'),
@@ -98,7 +95,9 @@
     }
     methods = {
       plus(cart) {
-        const goods = {id: cart.goodsId};
+        const goods = {
+          id: cart.goodsId
+        };
         this.cartManager.plus(goods, cart.goodsSku);
       },
       minus(cart) {
@@ -117,7 +116,9 @@
         await Tips.confirm('确定清空?');
         this.cartManager.clear();
       },
-      async buy({detail}) {
+      async buy({
+        detail
+      }) {
         if (!this.status || !this.status.open) {
           Tips.modal(this.status.closeTips);
         } else if (this.totalCount < 1) {
@@ -129,9 +130,11 @@
           }
           param.formId = detail.formId;
           // this.$emit('buy', param);
-
           // 权限校验
-          const result = await auth.user({block: true, redirect: false});
+          const result = await auth.user({
+            block: true,
+            redirect: false
+          });
           if (!result) return;
           // 订单类型
           if (this.mode == 2) {
@@ -143,7 +146,9 @@
           }
           // 跳转订单
           const trade = order.createCartTrade(this.carts, param);
-          this.$root.$preload('params', {trade});
+          this.$root.$preload('params', {
+            trade
+          });
           this.$root.$navigate(`../order/trade`);
         }
       }
@@ -227,8 +232,7 @@
         }
       },
       couponText() {
-        if (!this.ownCoupons || this.ownCoupons.length < 1) {
-        } else {
+        if (!this.ownCoupons || this.ownCoupons.length < 1) {} else {
           return `${this.ownCoupons.length}张券可用`;
         }
       }
@@ -243,19 +247,17 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-
-  .reduce-box{
+  .reduce-box {
     padding: 5rpx 0;
     z-index: 1000;
     bottom: 55px;
     width: 100%;
     position: absolute;
     background-color: #FFFAD8;
-    border-top:1px solid #FDF5C8;
-    -webkit-filter:opacity(.9);
+    border-top: 1px solid #FDF5C8;
+    -webkit-filter: opacity(.9);
   }
-
-  .cart-box{
+  .cart-box {
     background-color: #FCFCFC;
     z-index: 10001;
     border-top: $border;
@@ -263,30 +265,25 @@
     width: 100%;
     position: absolute;
     bottom: 0;
-
-    .icon-box{
+    .icon-box {
       position: relative;
       width: 120rpx;
       height: 100%;
-
-      .cart-num{
+      .cart-num {
         position: absolute;
         right: 8px;
         top: 6px;
       }
     }
-
-    .info-box{
+    .info-box {
       flex: 1;
-      .price{
+      .price {
         font-size: $text-lg;
         color: $color-major;
         font-weight: bold;
       }
-
     }
-
-    .cart-btn{
+    .cart-btn {
       background-color: $color-primary;
       height: 100%;
       width: 230rpx;
@@ -295,40 +292,36 @@
         font-size: $text-xxl
       }
     }
-    .cart-btn-disable{
+    .cart-btn-disable {
       background-color: #B0B0B0;
     }
   }
-
-  .cart-list{
+  .cart-list {
     margin-top: 75rpx;
     padding-left: 30rpx;
     padding-right: 30rpx;
     background-color: #FFF;
-
-    .cart-item{
+    .cart-item {
       height: 100rpx;
       border-bottom: $border;
     }
-    .cart-title{
+    .cart-title {
       max-width: 400rpx;
     }
-
-    .quantity{
+    .quantity {
       margin-left: 20rpx;
-      image{
+      image {
         height: 45rpx;
         width: 45rpx;
       }
-      .number{
+      .number {
         font-size: $text-sm;
         min-width: 30px;
         text-align: center;
       }
     }
   }
-
-  .cart-header{
+  .cart-header {
     background-color: $color-bg-body;
     position: fixed;
     top: 0;

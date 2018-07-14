@@ -7,7 +7,7 @@
       </view>
       <view>
         <text class="sm muted">更多</text>
-        <icon class="more" color="gray"/>
+        <icon class="more" color="gray" />
       </view>
     </view>
     <view>
@@ -20,23 +20,22 @@
               <view class="group-goods-price">￥{{item.goodsPrice}}</view>
             </view>
             <text class="xs muted content-bottom-box">已拼{{item.successCount}}件</text>
-            </view>
+          </view>
         </repeat>
       </scroll-view>
     </view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy';
-
   export default class GroupBox extends wepy.component {
     props = {
       param: {}
     };
-    async onLoad () {
-    }
+    async onLoad() {}
     methods = {
-      detail (ruleId) {
+      detail(ruleId) {
         this.$root.$navigate(`/pages/group/goods_detail?ruleId=${ruleId}`)
       }
     };
@@ -45,53 +44,51 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .group-box{
+  .group-box {
     background-color: #FEF6F4;
     padding: 20rpx;
   }
-  .group-title-box{
+  .group-title-box {
     align-items: flex-end;
   }
-  .title-box{
-    color:#e64340;
+  .title-box {
+    color: #e64340;
     font-weight: bold;
     font-style: oblique;
-    font-size:40rpx;
+    font-size: 40rpx;
     line-height: 50rpx;
   }
-  .tight-box{
+  .tight-box {
     width: 750rpx;
     white-space: nowrap;
   }
-  .group-tight-box{
+  .group-tight-box {
     position: relative;
     $padding-size: 20rpx;
     $size: 220rpx;
     display: inline-flex;
     background-color: white;
     width: $size + $padding-size * 2;
-
-    .group-image{
+    .group-image {
       width: $size;
       height: $size;
     }
-
-    .content-top-box{
+    .content-top-box {
       padding: 20rpx 20rpx 10rpx;
       border-bottom: $border;
     }
-    .group-goods-name{
-      white-space:pre-wrap;
-      width:$size;
+    .group-goods-name {
+      white-space: pre-wrap;
+      width: $size;
     }
-    .group-goods-price{
-      color:#e64340;
+    .group-goods-price {
+      color: #e64340;
     }
-    .content-bottom-box{
+    .content-bottom-box {
       padding: 10rpx 20rpx;
     }
   }
-  .group-tight-box + .group-tight-box{
+  .group-tight-box+.group-tight-box {
     margin-left: 10rpx;
   }
 </style>

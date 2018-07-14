@@ -10,7 +10,7 @@
         <!--文本-->
         <text class="mb20 lg" wx:if="{{item.type == 1}}">{{item.content}}</text>
         <!--图片-->
-        <image src="{{item.content}}" lazy-load mode="widthFix" wx:if="{{item.type == 2}}" @tap="previewDetailImages({{item.content}})"/>
+        <image src="{{item.content}}" lazy-load mode="widthFix" wx:if="{{item.type == 2}}" @tap="previewDetailImages({{item.content}})" />
       </block>
     </view>
   </view>
@@ -34,27 +34,26 @@
         });
       }
     };
-    onLoad() {
-    }
+    onLoad() {}
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-  .detail-box{
+  .detail-box {
     margin-top: 20rpx;
     background-color: #FFF;
     border-top: $border;
-    .detail-title{
+    .detail-title {
       height: 90rpx;
       border-bottom: $border;
     }
-    .detail-list{
+    .detail-list {
       padding-bottom: 20rpx;
-      image{
+      image {
         width: 100%;
       }
-      text{
+      text {
         padding: 20rpx;
       }
     }

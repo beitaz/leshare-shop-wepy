@@ -1,18 +1,17 @@
 <template>
   <view class="column-center status-box">
-
     <!--参团人员列表-->
     <view class="row-center customer-box">
       <view class="status-avatar-box" wx:for="{{detail.list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-        <view  wx:if="{{item.head}}" class="weui-badge">团长</view>
-        <image class="{{item.head ? 'head-box':'participants-box'}}" wx:if="{{item.customer}}" src="{{item.customer.avatarUrl}}"/>
-        <icon wx:else class="question"/>
+        <view wx:if="{{item.head}}" class="weui-badge">团长</view>
+        <image class="{{item.head ? 'head-box':'participants-box'}}" wx:if="{{item.customer}}" src="{{item.customer.avatarUrl}}" />
+        <icon wx:else class="question" />
       </view>
     </view>
-
     <!--文本描述-->
-    <view class="status-spare-box row"  wx:if="{{detail.status == 'PROCESSING'}}">
-      <text>仅剩</text><view class="num-box">{{detail.rule.spareCustomer}}</view><text> 人，即可成团！</text>
+    <view class="status-spare-box row" wx:if="{{detail.status == 'PROCESSING'}}">
+      <text>仅剩</text>
+      <view class="num-box">{{detail.rule.spareCustomer}}</view><text> 人，即可成团！</text>
     </view>
     <view wx:if="{{detail.status == 'SUCCESS'}}">
       <text>{{detail.joinCount}}人拼团已达成，可点击再次开团</text>
@@ -20,7 +19,6 @@
     <view wx:if="{{detail.status == 'FAILURE'}}">
       <text>该团已结束，可点击再次开团</text>
     </view>
-
     <!--倒计时-->
     <view wx:if="{{detail.status == 'PROCESSING'}}">
       <view class="row-center">
@@ -37,17 +35,16 @@
         <view class="status-line-box ml10"></view>
       </view>
     </view>
-
     <!--操作栏-->
     <view>
       <!--正在团-->
       <block wx:if="{{detail.status == 'PROCESSING'}}">
         <!--在团中-->
-        <button class="status-btn-box row-center" wx:if="{{detail.isJoined}}" open-type="share" >邀请好友参团</button>
+        <button class="status-btn-box row-center" wx:if="{{detail.isJoined}}" open-type="share">邀请好友参团</button>
         <!--不在团中-->
         <button class="status-btn-box row-center" wx:else @tap="join">立即参团</button>
       </block>
-      <button class="status-btn-box row-center" wx:else  @tap="open" >再次开团</button>
+      <button class="status-btn-box row-center" wx:else @tap="open">再次开团</button>
     </view>
   </view>
 </template>
@@ -56,11 +53,9 @@
   import wepy from 'wepy';
   import router from '../../mixins/router';
   import countdown from '../../mixins/countdown';
-
   export default class StatusBar extends wepy.component {
     props = {
-      detail: {
-      }
+      detail: {}
     };
     data = {
       init: false
@@ -70,12 +65,16 @@
         this.$root.$navigate(`/pages/group/goods_detail?ruldId=${this.detail.rule.id}`);
       },
       join() {
-        const {goods, goodsGroupSkuDetails, id} = this.detail.rule;
+        const {
+          goods,
+          goodsGroupSkuDetails,
+          id
+        } = this.detail.rule;
         this.group(goods, goodsGroupSkuDetails, id, 'join', this.detail.id)
       }
     };
     watch = {
-      detail (detail) {
+      detail(detail) {
         // 初始化定时器
         if (detail !== null && this.init === false) {
           this.countdowm(detail.groupTime.replace(/-/g, '/'), 'groupTime');
@@ -91,61 +90,62 @@
   @import "../../styles/variable";
   $avatar-width: 80rpx;
   $line-width: 140rpx;
-  .status-box{
+  .status-box {
     background: white;
     margin-bottom: 10rpx;
     padding: 40rpx 0;
   }
-  .customer-box{
+  .customer-box {
     align-items: flex-start;
     flex-wrap: wrap;
   }
-  .status-avatar-box{
+  .status-avatar-box {
     position: relative;
     margin-right: 20rpx;
-    .participants-box, .head-box{
+    .participants-box,
+    .head-box {
       width: $avatar-width;
       height: $avatar-width;
       border-radius: $avatar-width / 2;
     }
-    .participants-box{
+    .participants-box {
       border: $border;
     }
-    .head-box{
+    .head-box {
       border: 1px solid #e64340;
     }
-    image{
+    image {
       margin: 4rpx;
     }
-    icon{
+    icon {
       font-size: $avatar-width;
       line-height: $avatar-width;
       color: $color-muted;
     }
-    .weui-badge{
+    .weui-badge {
       position: absolute;
       top: -5px;
       right: -5px;
       font-size: 20rpx;
     }
   }
-  .status-spare-box{
+  .status-spare-box {
     margin: 20rpx 0 36rpx;
-    .num-box{
+    .num-box {
       color: $color-major;
     }
   }
-  .status-line-box{
+  .status-line-box {
     width: $line-width;
     height: 1px;
     background-color: #D5D5D5;
   }
-  .status-time-box{
-    text{
+  .status-time-box {
+    text {
       font-size: $text-lg;
       color: $color-muted;
     }
-    .time-num-box{
+    .time-num-box {
       padding: 0 4rpx;
       margin: 0 10rpx;
       border-radius: 5rpx;
@@ -155,15 +155,14 @@
       line-height: $text-lg;
     }
   }
-  .status-btn-box{
+  .status-btn-box {
     background: $color-primary;
-    color:white;
+    color: white;
     width: 560rpx;
     border-radius: 5rpx;
     margin-top: 36rpx;
-    button{
+    button {
       font-size: 32rpx;
     }
   }
-
 </style>

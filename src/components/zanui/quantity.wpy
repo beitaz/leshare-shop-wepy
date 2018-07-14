@@ -1,29 +1,9 @@
 <template>
   <view class="zan-quantity {{ size === 'small' ? 'zan-quantity--small' : '' }}">
-    <view
-      class="zan-quantity__minus {{ quantity.num <= quantity.min ? 'zan-quantity--disabled' : '' }}"
-      data-component-id="{{ quantity.componentId }}"
-      data-quantity="{{ quantity.num }}"
-      data-disabled="{{ quantity.num <= quantity.min }}"
-      bindtap="_handleZanQuantityMinus"
-    >-</view>
-    <input
-      class="zan-quantity__text {{ quantity.min >= quantity.max ? 'zan-quantity--disabled' : '' }}"
-      type="number"
-      data-component-id="{{ quantity.componentId }}"
-      data-min="{{ quantity.min }}"
-      data-max="{{ quantity.max }}"
-      value="{{ quantity.num }}"
-      disabled="{{ quantity.min >= quantity.max }}"
-      bindblur="_handleZanQuantityBlur"
-    />
-    <view
-      class="zan-quantity__plus {{ quantity.num >= quantity.max ? 'zan-quantity--disabled' : '' }}"
-      data-component-id="{{ quantity.componentId }}"
-      data-quantity="{{ quantity.num }}"
-      data-disabled="{{ quantity.num >= quantity.max }}"
-      bindtap="_handleZanQuantityPlus"
-    >+</view>
+    <view class="zan-quantity__minus {{ quantity.num <= quantity.min ? 'zan-quantity--disabled' : '' }}" data-component-id="{{ quantity.componentId }}" data-quantity="{{ quantity.num }}" data-disabled="{{ quantity.num <= quantity.min }}" bindtap="_handleZanQuantityMinus">-</view>
+    <input class="zan-quantity__text {{ quantity.min >= quantity.max ? 'zan-quantity--disabled' : '' }}" type="number" data-component-id="{{ quantity.componentId }}" data-min="{{ quantity.min }}" data-max="{{ quantity.max }}" value="{{ quantity.num }}" disabled="{{ quantity.min >= quantity.max }}"
+      bindblur="_handleZanQuantityBlur" />
+    <view class="zan-quantity__plus {{ quantity.num >= quantity.max ? 'zan-quantity--disabled' : '' }}" data-component-id="{{ quantity.componentId }}" data-quantity="{{ quantity.num }}" data-disabled="{{ quantity.num >= quantity.max }}" bindtap="_handleZanQuantityPlus">+</view>
   </view>
 </template>
 
@@ -74,11 +54,13 @@
     }
     callback(componentId, quantity) {
       quantity = +quantity;
-      const e = { componentId, quantity };
+      const e = {
+        componentId,
+        quantity
+      };
       this.$emit('change', e);
     }
-    onLoad() {
-    }
+    onLoad() {}
   }
 </script>
 
@@ -131,5 +113,4 @@
     line-height: 28px;
     height: 28px;
   }
-
 </style>

@@ -15,8 +15,7 @@
 <script>
   import wepy from 'wepy';
   export default class InShopTab extends wepy.component {
-    props = {
-    };
+    props = {};
     data = {
       selectedId: '30'
     };
@@ -32,34 +31,29 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .inshop-tab{
+  .inshop-tab {
     background-color: white;
     height: 50px;
     border-bottom: $border;
-
-    .icon{
+    .icon {
       height: 25px;
       width: 25px;
     }
-
-    .tab-vr{
+    .tab-vr {
       width: 1px;
       height: 80%;
       background-color: $color-bg-item;
     }
-
-    text{
+    text {
       margin-left: 20rpx;
       color: $color-muted;
       font-size: $text-xxl;
     }
-    .text-selected{
+    .text-selected {
       color: $color-primary;
     }
-
-    .tab-item{
+    .tab-item {
       flex: 1;
     }
   }
-
 </style>

@@ -1,31 +1,30 @@
 <template>
-  <Loading :init.sync="init"/>
-
-  <view class="container column" wx:if="{{init}}">
-    <!--搜索框-->
-    <SearchBar :param.sync="searchParam"/>
-
-    <!--主内容区域-->
-    <CategoryBox top="80rpx" bottom="0" :isCoupon.sync="isCoupon"/>
-
-    <!--滑出购物面板-->
-    <block wx:if="{{buyPanelType == 'SLIDER'}}" >
-      <SilderPanel />
-    </block>
-
-    <!--弹出购物面板-->
-    <block wx:if="{{buyPanelType == 'POPUP'}}" >
-      <PopupPanel />
-    </block>
-
-    <!--悬浮购物车-->
-    <FloatCart />
-  </view>
+  <block>
+    <Loading :init.sync="init" />
+    <view class="container column" wx:if="{{init}}">
+      <!--搜索框-->
+      <SearchBar :param.sync="searchParam" />
+      <!--主内容区域-->
+      <CategoryBox top="80rpx" bottom="0" :isCoupon.sync="isCoupon" />
+      <!--滑出购物面板-->
+      <block wx:if="{{buyPanelType == 'SLIDER'}}">
+        <SilderPanel />
+      </block>
+      <!--弹出购物面板-->
+      <block wx:if="{{buyPanelType == 'POPUP'}}">
+        <PopupPanel />
+      </block>
+      <!--悬浮购物车-->
+      <FloatCart />
+    </view>
+  </block>
 </template>
 
 <script>
   import wepy from 'wepy';
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import store from '../../store/utils';
   import auth from '../../api/auth';
   import base from '../../mixins/base';
@@ -36,16 +35,14 @@
   import FloatCart from '../../components/template/cart_widget';
   import SearchBar from '../../components/template/search_bar';
   import CategoryBox from '../../components/template/category_box';
-
-  @connect({
-  })
+  @connect({})
   export default class ShopIndex extends wepy.page {
     data = {
       init: false,
       isCoupon: false,
       buyPanelType: 'POPUP'
     };
-    async onLoad () {
+    async onLoad() {
       // 用户信息
       await auth.user();
       // 初始化Store
@@ -55,7 +52,7 @@
     /**
      * 页面分享
      */
-    onShareAppMessage () {
+    onShareAppMessage() {
       return {};
     }
     methods = {};
@@ -78,5 +75,4 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-
 </style>

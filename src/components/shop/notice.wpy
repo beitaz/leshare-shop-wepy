@@ -1,25 +1,24 @@
 <template>
-  <view class="notice-box" wx:if="{{display}}">
-    <view class="bg-box"></view>
-    <view class="column notice-content">
-      <view class="notice-top-box">
-        <text class="xxl white">{{title}}</text>
-      </view>
-      <view class="column notice-content-box">
-        <text class="lg content-box">{{content}}</text>
-        <button @tap="close">{{btnText}}</button>
+  <block>
+    <view class="notice-box" wx:if="{{display}}">
+      <view class="bg-box"></view>
+      <view class="column notice-content">
+        <view class="notice-top-box">
+          <text class="xxl white">{{title}}</text>
+        </view>
+        <view class="column notice-content-box">
+          <text class="lg content-box">{{content}}</text>
+          <button @tap="close">{{btnText}}</button>
+        </view>
       </view>
     </view>
-  </view>
-
-  <CoverPanel :display.sync="display"/>
-
+    <CoverPanel :display.sync="display" />
+  </block>
 </template>
 
 <script>
   import wepy from 'wepy';
   import CoverPanel from '../common/cover_panel';
-
   export default class Notice extends wepy.component {
     data = {
       content: '',
@@ -28,7 +27,11 @@
       btnText: '我知道了'
     };
     methods = {
-      open({title, btnText, content}) {
+      open({
+        title,
+        btnText,
+        content
+      }) {
         this.display = true;
         this.title = title;
         this.btnText = btnText;
@@ -46,15 +49,14 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .notice-box{
+  .notice-box {
     position: absolute;
-    top:0;
+    top: 0;
     right: 0;
     height: 100%;
     width: 750rpx;
     z-index: 10001;
-
-    .notice-content{
+    .notice-content {
       position: fixed;
       left: 75rpx;
       right: 75rpx;
@@ -63,7 +65,7 @@
       background-color: white;
       border-radius: 10rpx;
     }
-    .notice-top-box{
+    .notice-top-box {
       background-color: $color-primary;
       text-align: center;
       border-top-left-radius: 10rpx;
@@ -71,16 +73,16 @@
       padding: 20rpx 0;
       position: relative;
     }
-    .notice-content-box{
+    .notice-content-box {
       padding: 40rpx;
-      text{
+      text {
         margin-bottom: 40rpx;
       }
-      button{
+      button {
         background-color: $color-primary;
         color: white;
       }
-      .content-box{
+      .content-box {
         text-align: center;
       }
     }

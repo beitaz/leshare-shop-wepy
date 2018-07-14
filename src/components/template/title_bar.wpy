@@ -4,18 +4,19 @@
       <text class="title-text">{{param.title}}</text>
       <view class="title-more row" wx:if="{{param.isMore}}">更多></view>
     </view>
-
     <view class="center-title row-center" wx:else>
       <text class="title-line">──────</text><text class="title-text">{{param.title}}</text><text class="title-line">──────</text>
       <view class="title-more row" wx:if="{{param.isMore}}">更多></view>
     </view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy';
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import store from '../../store/utils';
-
   @connect({
     cart: store.get('cart')
   })
@@ -23,43 +24,40 @@
     props = {
       param: {}
     };
-    async onLoad () {
-    }
-    methods = {
-    };
+    async onLoad() {}
+    methods = {};
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-  .left-title{
+  .left-title {
     height: 80rpx;
     background-color: white;
     border-left: $color-primary solid 3px;
-    .title-text{
+    .title-text {
       color: $color-primary;
       margin-left: 25rpx;
       font-size: $text-xl;
     }
   }
-
-  .center-title{
+  .center-title {
     height: 80rpx;
     position: relative;
     background-color: $color-bg-body;
-    .title-more{
+    .title-more {
       position: absolute;
       right: 0;
       color: $color-muted;
       padding-right: 10rpx;
     }
-    .title-text{
+    .title-text {
       color: $color-primary;
       margin-left: 20px;
       margin-right: 20px;
       font-size: $text-lg;
     }
-    .title-line{
+    .title-line {
       color: #E2E2E2;
     }
   }

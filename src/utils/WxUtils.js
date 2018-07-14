@@ -8,11 +8,11 @@ export default class WxUtils {
     '/pages/home/home': '/pages/home/template'
   };
 
-  static isTab (url) {
+  static isTab(url) {
     const type = wepy.$instance.globalData.shopType;
     return type == 1 && this.tabUrls.some(path => path == url);
   }
-  static mapUrl (url) {
+  static mapUrl(url) {
     const type = wepy.$instance.globalData.shopType;
     if (type == 1 && this.mapUrls[url]) {
       return this.mapUrls[url];
@@ -101,7 +101,7 @@ export default class WxUtils {
    * 检查SDK版本
    */
   static isSDKExipred() {
-    const {SDKVersion} = wx.getSystemInfoSync();
+    const { SDKVersion } = wx.getSystemInfoSync();
     console.info(`[version]sdk ${SDKVersion}`);
     return SDKVersion == null || SDKVersion < '1.2.0'
   }

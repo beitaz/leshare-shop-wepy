@@ -19,12 +19,12 @@ export default class map {
   /**
    * 地址检索
    */
-  static search (keyword) {
+  static search(keyword) {
     return new Promise((resolve, reject) => {
       this.map.search({
         boundary: `region(${this.API_REGION},0)`,
         keyword: keyword,
-        success: ({data}) => {
+        success: ({ data }) => {
           const result = [];
           data.forEach(poi => {
             const address = this.processPOI(poi);
@@ -42,7 +42,7 @@ export default class map {
   /**
    * 地址逆解析
    */
-  static reverse (latitude, longitude) {
+  static reverse(latitude, longitude) {
     return new Promise((resolve, reject) => {
       this.map.reverseGeocoder({
         location: {
@@ -51,7 +51,7 @@ export default class map {
         },
         get_poi: 1,
         poi_options: 'policy=2',
-        success: ({result}) => {
+        success: ({ result }) => {
           const current = {};
           // 当前地址文本
           current.display = result.formatted_addresses.recommend;
@@ -71,7 +71,7 @@ export default class map {
             address.town = current.town;
             nearby.push(address);
           });
-          resolve({current, nearby});
+          resolve({ current, nearby });
         },
         fail: function (res) {
           reject(res);
@@ -83,7 +83,7 @@ export default class map {
   /**
    * 处理POI数据
    */
-  static processPOI (poi) {
+  static processPOI(poi) {
     const address = {};
     address.display = poi.title;
     address.province = poi.ad_info.province;

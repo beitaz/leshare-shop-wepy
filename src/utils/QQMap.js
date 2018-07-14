@@ -28,7 +28,7 @@ var Utils = {
    * 得到终点query字符串
    * @param {Array|String} 检索数据
    */
-  location2query (data) {
+  location2query(data) {
     if (typeof data == 'string') {
       return data
     }
@@ -51,7 +51,7 @@ var Utils = {
   /**
    * 使用微信接口进行定位
    */
-  getWXLocation (success, fail, complete) {
+  getWXLocation(success, fail, complete) {
     wx.getLocation({
       type: 'gcj02',
       success: success,
@@ -63,7 +63,7 @@ var Utils = {
   /**
    * 获取location参数
    */
-  getLocationParam (location) {
+  getLocationParam(location) {
     if (typeof location == 'string') {
       var locationArr = location.split(',')
       if (locationArr.length === 2) {
@@ -81,7 +81,7 @@ var Utils = {
   /**
    * 回调函数默认处理
    */
-  polyfillParam (param) {
+  polyfillParam(param) {
     param.success = param.success || function () { }
     param.fail = param.fail || function () { }
     param.complete = param.complete || function () { }
@@ -93,7 +93,7 @@ var Utils = {
    * @param {Object} param 接口参数
    * @param {String} key 对应参数的key
    */
-  checkParamKeyEmpty (param, key) {
+  checkParamKeyEmpty(param, key) {
     if (!param[key]) {
       var errconf = this.buildErrorConfig(ERROR_CONF.PARAM_ERR, ERROR_CONF.PARAM_ERR_MSG + key + '参数格式有误')
       param.fail(errconf)
@@ -108,7 +108,7 @@ var Utils = {
    *
    * @param {Object} param 接口参数
    */
-  checkKeyword (param) {
+  checkKeyword(param) {
     return !this.checkParamKeyEmpty(param, 'keyword')
   },
 
@@ -117,7 +117,7 @@ var Utils = {
    *
    * @param {Object} param 接口参数
    */
-  checkLocation (param) {
+  checkLocation(param) {
     var location = this.getLocationParam(param.location)
     if (!location || !location.latitude || !location.longitude) {
       var errconf = this.buildErrorConfig(ERROR_CONF.PARAM_ERR, ERROR_CONF.PARAM_ERR_MSG + ' location参数格式有误')
@@ -133,7 +133,7 @@ var Utils = {
    * @param {Number} errCode 错误码
    * @param {Number} errMsg 错误描述
    */
-  buildErrorConfig (errCode, errMsg) {
+  buildErrorConfig(errCode, errMsg) {
     return {
       status: errCode,
       message: errMsg
@@ -146,9 +146,9 @@ var Utils = {
    * @param {Object} param 接口参数
    * @param {Object} param 配置项
    */
-  buildWxRequestConfig (param, options) {
+  buildWxRequestConfig(param, options) {
     var that = this
-    options.header = {'content-type': 'application/json'}
+    options.header = { 'content-type': 'application/json' }
     options.method = 'GET'
     options.success = function (res) {
       var data = res.data
@@ -190,7 +190,7 @@ var Utils = {
   /**
    * 处理用户参数是否传入坐标进行不同的处理
    */
-  locationProcess (param, locationsuccess, locationfail, locationcomplete) {
+  locationProcess(param, locationsuccess, locationfail, locationcomplete) {
     var that = this
     locationfail = locationfail || function (res) {
       res.statusCode = ERROR_CONF.WX_ERR_CODE
@@ -217,7 +217,7 @@ class QQMapWX {
    *
    * @param {Object} options 接口参数,key 为必选参数
    */
-  constructor (options) {
+  constructor(options) {
     if (!options.key) {
       throw Error('key值不能为空')
     }
@@ -232,7 +232,7 @@ class QQMapWX {
    * 参数对象结构可以参考
    * @see http://lbs.qq.com/webservice_v1/guide-search.html
    */
-  search (options) {
+  search(options) {
     var that = this
     options = options || {}
 
@@ -288,7 +288,7 @@ class QQMapWX {
    * 参数对象结构可以参考
    * http://lbs.qq.com/webservice_v1/guide-suggestion.html
    */
-  getSuggestion (options) {
+  getSuggestion(options) {
     var that = this
     options = options || {}
     Utils.polyfillParam(options)
@@ -319,7 +319,7 @@ class QQMapWX {
    * 请求参数结构可以参考
    * http://lbs.qq.com/webservice_v1/guide-gcoder.html
    */
-  reverseGeocoder (options) {
+  reverseGeocoder(options) {
     var that = this
     options = options || {}
     Utils.polyfillParam(options)
@@ -351,7 +351,7 @@ class QQMapWX {
    * 请求参数结构可以参考
    * http://lbs.qq.com/webservice_v1/guide-geocoder.html
    */
-  geocoder (options) {
+  geocoder(options) {
     var that = this
     options = options || {}
     Utils.polyfillParam(options)
@@ -380,7 +380,7 @@ class QQMapWX {
    * 请求参数结构可以参考
    * http://lbs.qq.com/webservice_v1/guide-region.html
    */
-  getCityList (options) {
+  getCityList(options) {
     var that = this
     options = options || {}
     Utils.polyfillParam(options)
@@ -403,7 +403,7 @@ class QQMapWX {
    * 请求参数结构可以参考
    * http://lbs.qq.com/webservice_v1/guide-region.html
    */
-  getDistrictByCityId (options) {
+  getDistrictByCityId(options) {
     var that = this
     options = options || {}
     Utils.polyfillParam(options)
@@ -434,7 +434,7 @@ class QQMapWX {
    * 请求参数结构可以参考
    * http://lbs.qq.com/webservice_v1/guide-distance.html
    */
-  calculateDistance (options) {
+  calculateDistance(options) {
     var that = this
     options = options || {}
     Utils.polyfillParam(options)

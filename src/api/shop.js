@@ -31,7 +31,7 @@ export default class shop extends base {
       res.customScene = customScene;
       res.scene = scene;
       return this.post(url, res);
-    }).then(_ => {});
+    }).then(_ => { });
   }
 
   /**
@@ -60,7 +60,7 @@ export default class shop extends base {
    */
   static async isStatusOpen() {
     const url = `${this.baseUrl}/shops/status`;
-    const {open} = await this.get(url);
+    const { open } = await this.get(url);
     return open;
   }
 
@@ -81,7 +81,7 @@ export default class shop extends base {
   /**
    * 查询版本及配额信息
    */
-  static chargeLimit () {
+  static chargeLimit() {
     const url = `${this.baseUrl}/shop_charge_limit`;
     return this.get(url).then(data => this._precoessVersion(data));
   }

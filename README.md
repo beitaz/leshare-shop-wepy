@@ -1,6 +1,7 @@
 # 小程序微商城
 
 ## 项目描述
+
 - 基于微信小程序的小程序商城买家端，采用`wepy`框架开发；
 - 项目实现了基本的商城功能；
 - 目前后端数据是基于`easy-mock`的随机模拟数据，且页面只开放了少部分功能；
@@ -10,6 +11,7 @@
 > 小程序商家管理端：https://github.com/coolhwm/leshare-seller-wepy
 
 ## 部分截图
+
 ![预览1](http://img.leshare.shop/github/customer/preivew-001.jpg)
 ![预览2](http://img.leshare.shop/github/customer/preivew-002.jpg)
 ![预览2](http://img.leshare.shop/github/customer/preivew-003.jpg)
@@ -17,16 +19,18 @@
 ## 部署说明
 
 ### 安装环境
-```
+
+```shell
 # 安装（更新） wepy 命令行工具。
-cnpm install wepy-cli -g
+$ cnpm install wepy-cli -g
 # 安装依赖包
-cnpm install
+$ cnpm install
 # 开发实时编译。
-npm run dev
+$ npm run dev
 ```
 
 ### 小程序工具
+
 - 使用微信开发者工具-->添加项目，选择dist目录；
 - 可以使用体验APPID；
 - 关闭ES6转ES5；
@@ -36,14 +40,15 @@ npm run dev
 
 > [WePY开发文档参考](https://tencent.github.io/wepy/)
 
-
 ## 功能清单
 
 ### 店铺
+
 - [x] 店铺首页
 - [x] 店铺信息
 
 ### 商品
+
 - [x] 分类展示
 - [x] 规格展现
 - [x] 购物车
@@ -51,14 +56,16 @@ npm run dev
 - [x] 会员折扣价
 
 ### 订单
+
 - [x] 商品下单
 - [x] 订单列表
 - [x] 订单详情
 - [x] 订单评价
 - [x] 订单退款
 - [x] 堂食点餐/外卖点餐
- 
+
 ### 优惠券
+
 - [x] 我的优惠券
 - [x] 领取优惠券
 - [x] 使用优惠券
@@ -67,17 +74,20 @@ npm run dev
 - [x] 活动页面
 
 ### 营销
+
 - [x] 拼团
 - [x] 砍价
 - [x] 优惠券
- 
+
 ### 我的
+
 - [x] 基本信息
 - [x] 会员卡
 - [x] 会员特权
 - [x] 联系客服
 
 ## 3. 更新日志
+
 - 2017/08/07：初始化工程；
 - 2017/08/29：功能完成；
 - 2017/09/08：外卖功能基本完成；
@@ -89,4 +99,5 @@ npm run dev
 - 2018/03/26：接入mock数据；
 
 ## License
+
 MIT

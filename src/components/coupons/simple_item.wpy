@@ -1,6 +1,6 @@
 <template>
   <view class="coupon-item">
-    <view class="coupon-main column"  wx:if="{{coupon.type == 'CASH'}}">
+    <view class="coupon-main column" wx:if="{{coupon.type == 'CASH'}}">
       <view>
         <text class="xs">￥</text> <text class="xxl">{{coupon.price}}</text>
       </view>
@@ -13,9 +13,9 @@
       <text class="xs" wx:if="{{coupon.limitPrice > 0}}">满{{coupon.limitPrice}}元使用</text>
       <text class="xs" wx:else>无门槛</text>
     </view>
-    <image class="coupon-hr"  src="http://img.leshare.shop/shop/other/coupon-hr.png"/>
+    <image class="coupon-hr" src="http://img.leshare.shop/shop/other/coupon-hr.png" />
     <form class="coupon-pick column-center" report-submit="true" @submit="pick({{coupon}})">
-      <button plain  form-type="submit"><text>领取</text></button>
+      <button plain form-type="submit"><text>领取</text></button>
     </form>
   </view>
 </template>
@@ -31,7 +31,9 @@
     };
     data = {};
     methods = {
-      async pick(item, {detail}) {
+      async pick(item, {
+        detail
+      }) {
         try {
           Tips.loading();
           await coupon.pick(item.id);
@@ -44,29 +46,29 @@
       }
     };
     events = {};
-    onLoad() {
-    }
+    onLoad() {}
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-
-  .coupon-item{
+  .coupon-item {
     border-radius: 5px;
     margin-right: 5px;
     display: inline-flex;
     height: 60px;
     background-color: $color-primary;
-    text { color: #FFF}
-    .coupon-main{
+    text {
+      color: #FFF
+    }
+    .coupon-main {
       min-width: 120px;
       padding-left: 10px;
     }
-    .coupon-pick{
+    .coupon-pick {
       width: 50px;
     }
-    .coupon-hr{
+    .coupon-hr {
       height: 60px;
       width: 6px;
     }

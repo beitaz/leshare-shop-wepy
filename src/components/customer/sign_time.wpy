@@ -3,8 +3,7 @@
     <view class="time_line">
       <view>
         <view class="day-box" style="background-color: #ff8855" wx:for="{{list}}" wx:key="item" wx:index="index">
-          <view class="order_item {{item.signed==1?'selected':''}}"
-                style="left:{{index*15.3}}%">{{item.signTime}}日
+          <view class="order_item {{item.signed==1?'selected':''}}" style="left:{{index*15.3}}%">{{item.signTime}}日
           </view>
           <view class="award-jf" wx:if="{{item.award}}">{{item.award}}</view>
         </view>
@@ -18,15 +17,28 @@
   import wepy from 'wepy';
   export default class WepySignTime extends wepy.component {
     data = {
-      list: [
-        { signTime: 30, signed: 1 }, {signTime: 30},
-        {signTime: 30}, {signTime: 30},
-        {signTime: 30}, {signTime: 30}, {signTime: 30}],
+      list: [{
+          signTime: 30,
+          signed: 1
+        }, {
+          signTime: 30
+        },
+        {
+          signTime: 30
+        }, {
+          signTime: 30
+        },
+        {
+          signTime: 30
+        }, {
+          signTime: 30
+        }, {
+          signTime: 30
+        }
+      ],
       aways: 0
     };
-
-    methods = {
-    };
+    methods = {};
   }
 </script>
 

@@ -14,7 +14,6 @@
         <text>{{order.uuid}}</text>
       </view>
     </view>
-
     <!--商品区域-->
     <view class="order-goods-list-container" @tap="detail({{order.orderId}})">
       <repeat for="{{order.orderGoodsInfos}}" key="goodsId" index="index" item="item">
@@ -28,8 +27,6 @@
         <text class="muted" wx:else>收起商品</text>
       </view>
     </view>
-
-
     <!--汇总信息-->
     <view class="order-footer-container row-end">
       <text class="mr20">共{{order.orderGoodsInfos.length}}件商品</text>
@@ -37,7 +34,6 @@
       <text class="major xl mr20">￥{{order.finalPrice}}</text>
       <text>(含运费￥{{order.postFee}})</text>
     </view>
-
     <!--操作栏-->
     <view class="order-action-bar row-between" wx:if="{{order.actions.length > 0}}">
       <view>
@@ -48,8 +44,8 @@
       </view>
       <view class="row">
         <block wx:for="{{order.actions}}" wx:for-item="action" wx:key="index">
-          <button wx:if="{{action.primary}}" class="weui-btn mini-btn mr10" size="mini"  type="primary" @tap="action({{action.func}}, {{order}})">{{action.name}}</button>
-          <button wx:else class="weui-btn mini-btn mr10" size="mini"  @tap="action({{action.func}}, {{order}})">{{action.name}}</button>
+          <button wx:if="{{action.primary}}" class="weui-btn mini-btn mr10" size="mini" type="primary" @tap="action({{action.func}}, {{order}})">{{action.name}}</button>
+          <button wx:else class="weui-btn mini-btn mr10" size="mini" @tap="action({{action.func}}, {{order}})">{{action.name}}</button>
         </block>
       </view>
     </view>
@@ -76,13 +72,15 @@
       expand: {},
       shopName: {}
     };
-    onLoad () {
+    onLoad() {
       this.shopName = wepy.$instance.globalData.shopName;
     }
     /**
      * 关闭订单
      */
-    async close({orderId}) {
+    async close({
+      orderId
+    }) {
       await Tips.confirm('确定关闭该订单？');
       try {
         Tips.loading();
@@ -97,7 +95,9 @@
     /**
      * 订单支付
      */
-    async pay({orderId}) {
+    async pay({
+      orderId
+    }) {
       try {
         Tips.loading();
         const payment = await order.prepayOrder(orderId);
@@ -113,7 +113,9 @@
     /**
      * 订单收货
      */
-    async receive({orderId}) {
+    async receive({
+      orderId
+    }) {
       await Tips.confirm('确认收货？');
       try {
         Tips.loading();
@@ -188,46 +190,39 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-
   .order-item-container {
     border-top: $border;
     border-bottom: $border;
     background-color: #FFF;
     margin-bottom: 10rpx;
   }
-
   /*顶栏*/
   .order-header-container {
     padding: 10rpx 25rpx 10rpx 20rpx;
   }
-
   /*底栏*/
   .order-footer-container {
     padding-left: 25rpx;
     padding-right: 20rpx;
     height: 70rpx;
   }
-
   /*顶栏订单信息*/
-  .order-info-container{
-    text{
+  .order-info-container {
+    text {
       font-size: $text-xs;
-      color:$color-muted;
+      color: $color-muted;
     }
   }
-
   /* 操作栏 */
   .order-action-bar {
     border-top: $border;
     height: 90rpx;
     padding-right: 10rpx;
   }
-
-  .order-goods-fold{
+  .order-goods-fold {
     display: none;
   }
-
-  .goods-fold-btn{
+  .goods-fold-btn {
     background-color: $color-bg-item;
     padding-top: 5rpx;
     padding-bottom: 5rpx;

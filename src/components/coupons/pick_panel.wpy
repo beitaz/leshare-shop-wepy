@@ -1,47 +1,47 @@
 <template>
-  <!--面板区域-->
-  <view class="coupon-panel-cover" wx:if="{{display}}" @tap="close"></view>
-
-  <!--TODO:购买面板-->
-  <view class="coupon-panel-container {{display ? 'coupon-panel-show' : '' }} ">
-    <view class="coupon-panel-title-container">
-      <text class="coupon-panel-title">领优惠券</text>
-      <view class="coupon-panel-close-container">
-        <icon class="close" color="gray" @tap="close"/>
+  <block>
+    <!--面板区域-->
+    <view class="coupon-panel-cover" wx:if="{{display}}" @tap="close"></view>
+    <!--TODO:购买面板-->
+    <view class="coupon-panel-container {{display ? 'coupon-panel-show' : '' }} ">
+      <view class="coupon-panel-title-container">
+        <text class="coupon-panel-title">领优惠券</text>
+        <view class="coupon-panel-close-container">
+          <icon class="close" color="gray" @tap="close" />
+        </view>
       </view>
+      <scroll-view class="coupon-list-container" scroll-y="true">
+        <view class="coupon-pick-list" wx:if="{{pickCoupons.length > 0}}">
+          <text class="coupon-pick-title">可领优惠券</text>
+          <repeat for="{{pickCoupons}}" key="index" index="index" item="item">
+            <CouponPick :coupon.sync="item" @pick.user="pick" />
+          </repeat>
+        </view>
+        <view class="coupon-pick-list" wx:if="{{ownCoupons.length > 0}}">
+          <text class="coupon-pick-title">已领优惠券</text>
+          <repeat for="{{ownCoupons}}" key="index" index="index" item="item">
+            <CouponItem :coupon.sync="item" />
+          </repeat>
+        </view>
+      </scroll-view>
     </view>
-    <scroll-view class="coupon-list-container" scroll-y="true">
-      <view class="coupon-pick-list" wx:if="{{pickCoupons.length > 0}}">
-        <text class="coupon-pick-title">可领优惠券</text>
-        <repeat for="{{pickCoupons}}" key="index" index="index" item="item">
-          <CouponPick :coupon.sync="item" @pick.user="pick"/>
-        </repeat>
-      </view>
-      <view class="coupon-pick-list" wx:if="{{ownCoupons.length > 0}}">
-        <text class="coupon-pick-title">已领优惠券</text>
-        <repeat for="{{ownCoupons}}" key="index" index="index" item="item">
-          <CouponItem :coupon.sync="item" />
-        </repeat>
-      </view>
-    </scroll-view>
-  </view>
-
+  </block>
 </template>
 
 <script>
-  import { connect } from 'wepy-redux';
+  import {
+    connect
+  } from 'wepy-redux';
   import store from '../../store/utils';
   import wepy from 'wepy';
   import CouponItem from './display_item';
   import CouponPick from './pick_item';
-
   @connect({
     pickCoupons: store.get('pickCoupons'),
     ownCoupons: store.get('ownCoupons')
   })
   export default class CouponPickPanel extends wepy.component {
-    props = {
-    };
+    props = {};
     data = {
       display: false
     };
@@ -60,27 +60,23 @@
       CouponItem: CouponItem,
       CouponPick: CouponPick
     };
-    onLoad() {
-    }
+    onLoad() {}
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-
   /*面板遮罩*/
-  .coupon-panel-cover{
+  .coupon-panel-cover {
     width: 100%;
     height: 100%;
     position: fixed;
     top: 0;
     background-color: black;
-    -webkit-filter:opacity(.6);
+    -webkit-filter: opacity(.6);
     z-index: 100;
   }
-
-
-  .coupon-panel-container{
+  .coupon-panel-container {
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -93,53 +89,42 @@
     z-index: 1000;
     padding-bottom: 20rpx;
   }
-
   /*标题*/
-  .coupon-panel-title{
+  .coupon-panel-title {
     font-size: 30rpx;
     color: #A7A7A7;
   }
-
   /*标题容器*/
-  .coupon-panel-title-container{
+  .coupon-panel-title-container {
     text-align: center;
     padding-top: 20rpx;
   }
-
   /*列表标题*/
-  .coupon-pick-title{
+  .coupon-pick-title {
     font-size: 30rpx;
     color: #000311;
     margin-left: 20rpx;
     margin-top: 10rpx;
   }
-
-  .coupon-panel-show{
+  .coupon-panel-show {
     transform: translateY(0);
   }
-
   /*领券列表容器*/
-  .coupon-list-container{
-    max-height:750rpx;
+  .coupon-list-container {
+    max-height: 750rpx;
   }
-
   /*卡券列表*/
-  .coupon-pick-list{
+  .coupon-pick-list {
     display: flex;
     flex-direction: column;
   }
-
-
   /*关闭*/
-  .coupon-panel-close-container{
-
+  .coupon-panel-close-container {
     width: 100rpx;
     float: right;
   }
-
-  .coupon-panel-close-icon{
+  .coupon-panel-close-icon {
     height: 45rpx;
     width: 45rpx;
   }
-
 </style>

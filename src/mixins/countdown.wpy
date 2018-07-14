@@ -14,7 +14,7 @@
     /***
      * 拼团倒计时计算
      */
-    countdowm (timestamp, status) {
+    countdowm(timestamp, status) {
       this.clear();
       this.timer = setInterval(() => {
         const time = status === 'groupTime' ? new Date(timestamp) - new Date() + 1000 * 60 * 60 * 24 : new Date(timestamp) - new Date();

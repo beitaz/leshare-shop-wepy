@@ -59,7 +59,7 @@ export default class member extends base {
       return null;
     }
     // 计算折扣
-    const {discountRule, customDiscount} = member;
+    const { discountRule, customDiscount } = member;
     if (discountRule == null) {
       return null;
     }
@@ -75,7 +75,7 @@ export default class member extends base {
     if (discount == null || discount >= 100 || discount <= 0) {
       return null;
     }
-    const {discountCategoryLists} = discountRule;
+    const { discountCategoryLists } = discountRule;
     if (discountCategoryLists == null || discountCategoryLists.length < 1) {
       return null;
     }
@@ -89,7 +89,7 @@ export default class member extends base {
   /**
    * 处理积分明细
    */
-  static processBonusTransformation (bonusInfo) {
+  static processBonusTransformation(bonusInfo) {
     const comment = {};
     if (bonusInfo.addBonus > 0) {
       comment.costMoney = `消费金额：￥${bonusInfo.costMoney.toFixed(2)}`;

@@ -129,21 +129,21 @@ const fetch = (field) => {
   switch (field) {
     case 'config':
       return config.init();
-    case 'member' :
+    case 'member':
       return member.info();
     case 'notices':
       return shop.notices();
-    case 'status' :
+    case 'status':
       return shop.getStatus();
-    case 'categories' :
+    case 'categories':
       return goods.categories();
-    case 'coupon' :
+    case 'coupon':
       return coupon.all();
-    case 'reduce' :
+    case 'reduce':
       return shop.reduces();
-    case 'recommend' :
+    case 'recommend':
       return goods.recommend().next();
-    case 'version' :
+    case 'version':
       return shop.chargeLimit();
   }
 };
@@ -180,4 +180,4 @@ const exists = key => {
   return interval < CACHE_TIMEOUT;
 };
 
-export default {get, save, use, refresh: reflesh, init}
+export default { get, save, use, refresh: reflesh, init }

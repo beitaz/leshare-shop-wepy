@@ -9,8 +9,9 @@
 <script>
   import wepy from 'wepy';
   import store from '../../store/utils';
-  import { connect } from 'wepy-redux';
-
+  import {
+    connect
+  } from 'wepy-redux';
   @connect({
     user: store.get('user')
   })
@@ -21,26 +22,22 @@
     data = {};
     methods = {};
     events = {};
-    onLoad() {
-    }
+    onLoad() {}
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-
   /*用户信息*/
-  .user-info-box{
+  .user-info-box {
     height: 300rpx;
     background-color: $color-primary;
-
-    .user-avatar{
-      height:160rpx;
+    .user-avatar {
+      height: 160rpx;
       width: 160rpx;
       border-radius: 50%;
     }
-
-    .user-nickname{
+    .user-nickname {
       font-size: $text-xl;
       margin-top: 10rpx;
       color: white;

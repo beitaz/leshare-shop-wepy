@@ -1,39 +1,33 @@
 <template>
-  <Loading :init.sync="init"/>
-
-  <!--轮播展示图-->
-  <view class="container column" wx:if="{{init}}">
-    <swiper class="goods-swiper" indicator-dots="true" autoplay="true" interval="5000" @tap="previewDetailSwiper">
-      <block wx:for="{{rules.goods.images}}" wx:key="index">
-        <swiper-item>
-          <image src="{{item.url}}/preview" mode="aspectFill" style="width: 100%"></image>
-        </swiper-item>
+  <block>
+    <Loading :init.sync="init" />
+    <!--轮播展示图-->
+    <view class="container column" wx:if="{{init}}">
+      <swiper class="goods-swiper" indicator-dots="true" autoplay="true" interval="5000" @tap="previewDetailSwiper">
+        <block wx:for="{{rules.goods.images}}" wx:key="index">
+          <swiper-item>
+            <image src="{{item.url}}/preview" mode="aspectFill" style="width: 100%"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+      <!--拼团倒计时栏-->
+      <TimeOutBar :endTime.sync="endTime" :callback="callback" />
+      <!--商品基本信息展示及服务信息-->
+      <GoodsMsgBar :rule.sync="rules" />
+      <!--拼团栏-->
+      <GroupInfoBar :processing.sync="processing" :info.sync="info" />
+      <!--评论预览-->
+      <CommentPreview :goodsId.sync="goodsId" />
+      <!--商品详情-->
+      <DetailList :detail.sync="detail" />
+      <!--滑出购物面板-->
+      <block>
+        <SilderPanel />
       </block>
-    </swiper>
-
-    <!--拼团倒计时栏-->
-    <TimeOutBar :endTime.sync="endTime" :callback="callback" />
-
-    <!--商品基本信息展示及服务信息-->
-    <GoodsMsgBar :rule.sync="rules"/>
-
-    <!--拼团栏-->
-    <GroupInfoBar :processing.sync="processing" :info.sync="info"/>
-
-    <!--评论预览-->
-    <CommentPreview :goodsId.sync="goodsId"/>
-
-    <!--商品详情-->
-    <DetailList :detail.sync="detail" />
-
-    <!--滑出购物面板-->
-    <block >
-      <SilderPanel />
-    </block>
-
-    <!--底栏-->
-    <GroupBar :rule.sync="rules" />
-  </view>
+      <!--底栏-->
+      <GroupBar :rule.sync="rules" />
+    </view>
+  </block>
 </template>
 <script>
   import wepy from 'wepy';
@@ -49,7 +43,6 @@
   import group from '../../api/group';
   import DetailList from '../../components/goods/detail_list';
   import GoodsMsgBar from '../../components/group/goods_msg_bar'
-
   export default class GroupGoodsDetail extends wepy.page {
     data = {
       init: false,
@@ -61,7 +54,7 @@
       rules: {},
       processing: {}
     };
-    async onLoad () {
+    async onLoad() {
       await auth.login();
       await store.init();
       await this.update();
@@ -69,11 +62,11 @@
     onUnload() {
       this.$invoke('TimeOutBar', 'clear');
     };
-    async onPullDownRefresh () {
+    async onPullDownRefresh() {
       await this.update();
       wepy.stopPullDownRefresh();
     }
-    async update () {
+    async update() {
       this.rules = await group.rules(this.ruleId);
       this.processing = await group.processing(this.ruleId);
       this.endTime = this.rules.endTime;
@@ -86,8 +79,11 @@
     /**
      * 页面分享
      */
-    onShareAppMessage () {
-      const {name, imageUrl} = this.rules.goods;
+    onShareAppMessage() {
+      const {
+        name,
+        imageUrl
+      } = this.rules.goods;
       const shareName = `${name}，仅需${this.rules.limitCustomer}人即可成团，快来一起开团吧！`;
       // 【拼团】商品名称 还剩X人成团，快来一起参团
       return {
@@ -133,40 +129,39 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .goods-swiper{
+  .goods-swiper {
     width: 750rpx;
-    height:480rpx;
+    height: 480rpx;
   }
-
-  .goods-msg-box{
+  .goods-msg-box {
     background: white;
     padding: 20rpx;
-    .price-box{
+    .price-box {
       font-size: 80rpx;
       line-height: 80rpx;
     }
-    .sellPrice-box{
+    .sellPrice-box {
       text-decoration: line-through;
       line-height: $text-sm;
     }
-    .price-rule-box{
-      text{
+    .price-rule-box {
+      text {
         background: #FEE7EF;
         color: #FB4578;
         padding: 0 4rpx;
       }
     }
-    .goods-name-box{
+    .goods-name-box {
       font-size: 30rpx;
       line-height: 30rpx;
     }
   }
-  .goods-des-box{
+  .goods-des-box {
     background: white;
     padding: 20rpx;
-    border-top:$border;
+    border-top: $border;
     margin-bottom: 10rpx;
-    .row icon{
+    .row icon {
       color: $color-primary;
     }
   }

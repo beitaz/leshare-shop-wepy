@@ -1,5 +1,7 @@
 <template>
-  <view class="weui-toptips weui-toptips_warn" wx:if="{{display}}">{{message}}</view>
+  <view class="weui-toptips weui-toptips_warn" wx:if="{{display}}">
+    {{message}}
+  </view>
 </template>
 
 <script>

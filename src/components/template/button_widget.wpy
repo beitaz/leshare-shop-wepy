@@ -1,9 +1,9 @@
 <template>
   <view class="column share-box" style="bottom: {{param.bottom}}">
     <block wx:for="{{param.buttons}}" wx:key="action" wx:for-index="index" wx:for-item="button">
-      <button plain hover-class="none"  @tap="routeByAction({{button}})" open-type="{{button.openType}}">
-        <icon class="{{button.iconClass}}" color="gray"/>
-      </button>
+      <button plain hover-class="none" @tap="routeByAction({{button}})" open-type="{{button.openType}}">
+          <icon class="{{button.iconClass}}" color="gray"/>
+        </button>
     </block>
   </view>
 </template>
@@ -11,7 +11,6 @@
 <script>
   import wepy from 'wepy';
   import router from '../../mixins/router';
-
   export default class ButtonWidget extends wepy.component {
     props = {
       param: {}
@@ -22,14 +21,12 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-
   .share-box {
     z-index: 1000;
     position: fixed;
     right: 25rpx;
     bottom: 120rpx;
-
-    button{
+    button {
       display: flex;
       background-color: white;
       justify-content: center;

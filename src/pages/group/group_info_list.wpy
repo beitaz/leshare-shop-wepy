@@ -1,15 +1,15 @@
 <template>
-  <Loading :init.sync="init"/>
-
-  <view class="column group-info-box">
-    <repeat for="{{page.list}}" index="index" item="item" key="index">
-      <ProcessItem :item.sync="item"/>
-    </repeat>
-  </view>
-
-  <!--滑出购物面板-->
   <block>
-    <SilderPanel />
+    <Loading :init.sync="init" />
+    <view class="column group-info-box">
+      <repeat for="{{page.list}}" index="index" item="item" key="index">
+        <ProcessItem :item.sync="item" />
+      </repeat>
+    </view>
+    <!--滑出购物面板-->
+    <block>
+      <SilderPanel />
+    </block>
   </block>
 </template>
 
@@ -22,13 +22,14 @@
   import group from '../../api/group';
   import router from '../../mixins/router';
   import ProcessItem from '../../components/group/gourp_process_item';
-
   export default class GroupInfoList extends wepy.page {
     data = {
       init: false,
       page: {}
     };
-    async onLoad({ruleId}) {
+    async onLoad({
+      ruleId
+    }) {
       this.page = await group.processingList(ruleId);
       await this.next();
     };
@@ -47,7 +48,7 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .info-item-box{
+  .info-item-box {
     padding: 20rpx;
   }
 </style>

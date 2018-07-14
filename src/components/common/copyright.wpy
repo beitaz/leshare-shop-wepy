@@ -13,12 +13,11 @@
     data = {
       version: null
     };
-    onLoad () {
+    onLoad() {
       this.version = wepy.$instance.globalData.version;
     }
-    methods = {
-    };
-    props ={
+    methods = {};
+    props = {
       buttom: {
         default: 'false'
       }
@@ -28,7 +27,7 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .weui-footer{
+  .weui-footer {
     padding: 15rpx 0;
     background-color: $color-bg-body;
   }

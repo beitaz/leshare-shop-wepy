@@ -6,7 +6,6 @@
 
 <script>
   import wepy from 'wepy';
-
   export default class Separator extends wepy.component {
     props = {
       param: {}
@@ -15,11 +14,11 @@
 </script>
 
 <style lang="scss">
-  .separator-top{
+  .separator-top {
     @import "../../styles/variable";
-     border-top: $border;
+    border-top: $border;
   }
-  .separator-bottom{
+  .separator-bottom {
     @import "../../styles/variable";
     border-bottom: $border;
   }

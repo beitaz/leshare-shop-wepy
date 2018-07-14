@@ -1,35 +1,32 @@
 <template>
-  <view class="weui-cells-form">
-    <view class="weui-cell">
-      <view class="weui-cell__bd">订单号</view>
-      <view class="weui-cell__ft">{{refund.orderUuid}}</view>
+  <block>
+    <view class="weui-cells-form">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">订单号</view>
+        <view class="weui-cell__ft">{{refund.orderUuid}}</view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">退款单号：</view>
+        <view class="weui-cell__ft">{{refund.refundUuid}}</view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">退款金额：</view>
+        <view class="weui-cell__ft">￥{{refund.refundPrice}}</view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">退款原因：</view>
+        <view class="weui-cell__ft">{{refund.cause}}</view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">联系方式：</view>
+        <view class="weui-cell__ft">{{refund.contactName}} {{refund.contactPhone}}</view>
+      </view>
     </view>
-
-    <view class="weui-cell">
-      <view class="weui-cell__bd">退款单号：</view>
-      <view class="weui-cell__ft">{{refund.refundUuid}}</view>
+    <!--跟踪信息-->
+    <view class="steps-box panel">
+      <ZanStep :steps.sync="steps" />
     </view>
-
-    <view class="weui-cell">
-      <view class="weui-cell__bd">退款金额：</view>
-      <view class="weui-cell__ft">￥{{refund.refundPrice}}</view>
-    </view>
-
-    <view class="weui-cell">
-      <view class="weui-cell__bd">退款原因：</view>
-      <view class="weui-cell__ft">{{refund.cause}}</view>
-    </view>
-    <view class="weui-cell">
-      <view class="weui-cell__bd">联系方式：</view>
-      <view class="weui-cell__ft">{{refund.contactName}} {{refund.contactPhone}}</view>
-    </view>
-  </view>
-
-  <!--跟踪信息-->
-  <view class="steps-box panel">
-    <ZanStep :steps.sync="steps" />
-  </view>
-
+  </block>
 </template>
 
 
@@ -38,13 +35,14 @@
   import order from '../../api/order';
   import ZanStep from '../../components/zanui/setp';
   import base from '../../mixins/base';
-
   export default class OrderIndex extends wepy.page {
     data = {
       refund: {},
       steps: {}
     };
-    onLoad ({refund}) {
+    onLoad({
+      refund
+    }) {
       this.refund = JSON.parse(refund);
       this.steps = order.createOrderRefundSetps(this.refund);
       this.loaded();
@@ -62,7 +60,7 @@
 
 <style lang="scss">
   @import "../../styles/variable";
-  .steps-box{
+  .steps-box {
     padding-left: 20rpx;
   }
 </style>

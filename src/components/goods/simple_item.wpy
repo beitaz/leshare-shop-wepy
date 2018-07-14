@@ -1,7 +1,7 @@
 <template>
-  <view class="goods-item row" >
+  <view class="goods-item row">
     <image class="goods-image" lazy-load src="{{goods.imageUrl}}" @tap="routeToGoods({{goods.id}})"></image>
-    <view class="goods-main column" >
+    <view class="goods-main column">
       <!-- 主体区域-->
       <view @tap="routeToGoods({{goods.id}})">
         <view class="goods-name row-between">
@@ -18,7 +18,6 @@
           </view>
         </view>
       </view>
-
       <!--价格及数量选择区域-->
       <view class="row-between">
         <!--价格-->
@@ -27,18 +26,17 @@
           <text class="goods-price">{{goods.priceLable}}</text>
           <text class="original-price" wx:if="{{goods.discount}}">￥{{goods.originalPrice}}</text>
         </view>
-
         <!--数量选择器-->
         <block wx:if="{{quantity}}">
           <view class="quantity row">
             <block wx:if="{{goods.num > 0}}">
-              <icon class="minus" @tap.stop="handleMinusCart({{goods.id}})"/>
+              <icon class="minus" @tap.stop="handleMinusCart({{goods.id}})" />
               <view class="number">
                 <text>{{goods.num}}</text>
               </view>
             </block>
-            <icon class="plus" color="gray"  wx:if="{{goods.goodsStocks[0].stock == 0 || goods.num >= goods.goodsStocks[0].stock}}" />
-            <icon class="plus"  @tap.stop="handlePlusCart({{goods}})" wx:else/>
+            <icon class="plus" color="gray" wx:if="{{goods.goodsStocks[0].stock == 0 || goods.num >= goods.goodsStocks[0].stock}}" />
+            <icon class="plus" @tap.stop="handlePlusCart({{goods}})" wx:else/>
           </view>
         </block>
       </view>
@@ -51,14 +49,12 @@
   import router from '../../mixins/router';
   export default class GoodsItem extends wepy.component {
     props = {
-      goods: {
-      },
+      goods: {},
       quantity: {
         default: true
       }
     };
-    components = {
-    };
+    components = {};
     methods = {
       preview(goods) {
         const urls = goods.images.map(item => item.url);
@@ -69,29 +65,28 @@
     };
     events = {};
     mixins = [router];
-    onLoad() {
-    }
+    onLoad() {}
   }
 </script>
 
 <style lang="scss">
   @import "../../styles/variable";
-  .goods-item{
+  .goods-item {
     padding: 10px 15px 10px 0;
     border-bottom: $border;
-    .goods-image{
+    .goods-image {
       width: 70px;
       height: 70px;
     }
-    .goods-main{
+    .goods-main {
       margin-left: 10px;
       flex: 1;
       justify-content: flex-start;
       min-height: 70px;
-      .goods-name{
+      .goods-name {
         max-width: 380rpx;
       }
-      .goods-sku-badge{
+      .goods-sku-badge {
         background-color: $color-primary;
         color: #FFF;
         border-radius: 5px;
@@ -100,59 +95,55 @@
         width: 72rpx;
       }
     }
-
-    .price-box{
+    .price-box {
       display: flex;
       flex-direction: row;
       align-items: flex-end;
-      .goods-unit{
+      .goods-unit {
         color: $color-major;
         font-size: $text-sm;
       }
-      .goods-price{
+      .goods-price {
         color: $color-major;
         font-size: $text-xl;
       }
-      .original-price{
+      .original-price {
         color: $color-muted;
         font-size: $text-xs;
         text-decoration: line-through;
       }
     }
-
-    .discount-box{
+    .discount-box {
       border: 1px solid $color-major;
       height: 15px;
       margin-left: 7px;
       text {
         font-size: $text-xxs;
       }
-      view{
+      view {
         display: flex;
         align-items: center;
         height: 15px;
         padding: 0 3px;
       }
-      .discount-rate{
+      .discount-rate {
         background-color: $color-major;
-        text{
+        text {
           color: #FFF;
         }
       }
       .discount-text {
-        text{
+        text {
           color: $color-major;
         }
       }
     }
   }
-
-  .quantity{
-    .number{
+  .quantity {
+    .number {
       font-size: $text-sm;
       min-width: 25px;
       text-align: center;
     }
   }
-
 </style>
