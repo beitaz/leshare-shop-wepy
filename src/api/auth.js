@@ -12,7 +12,7 @@ export default class auth extends base {
    */
   static async login() {
     const loginCode = this.getConfig('login_code');
-    if (loginCode != null && loginCode != '') {
+    if (!!loginCode && loginCode !== '') {
       try {
         await this.checkLoginCode(loginCode);
       } catch (e) {
@@ -138,7 +138,7 @@ export default class auth extends base {
    */
   static hasConfig(key) {
     const value = this.getConfig(key);
-    return value != null && value != '';
+    return !!value && value !== '';
   }
 
   /**

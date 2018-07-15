@@ -1,14 +1,14 @@
 <template>
   <block>
     <Loading :init.sync="init" />
-    <!--全局表单/收集FORMID-->
+    <!-- 全局表单/收集FORMID -->
     <form class="container" report-submit="true" @submit="reportFormId" wx:if="{{init}}">
-      <!--状态-->
+      <!-- 状态 -->
       <block wx:if="{{status}}">
         <icon wx:if="{{status.open}}" class="onsale status-tips xxlarge" mode="aspectFit" />
         <icon wx:else mode="aspectFit" class="onclose status-tips xxlarge" />
       </block>
-      <!--店铺信息区域-->
+      <!-- 店铺信息区域 -->
       <view class="header-box column-center">
         <image class="avatar" src="{{shop.avatar}}" />
         <text class="name">{{shop.name}}</text>
@@ -18,7 +18,7 @@
         </view>
         <text class="time weak lg" wx:if="{{status.timeText}}"> {{'营业时间：' + status.timeText}} </text>
       </view>
-      <!--优惠信息-->
+      <!-- 优惠信息 -->
       <view class="reduce-box column" wx:if="{{reduce.list.length > 0 || homeNotices.length > 0}}" @tap="shop">
         <view class="reduce-item row" wx:if="{{reduce.list.length > 0}}">
           <icon class="reduce" style="color: #d81e06" /><text class="reduce-content inline">{{reduce.showText}}</text>
@@ -27,58 +27,58 @@
           <icon class="sale" /><text class="reduce-content">{{item.content}}</text>
         </view>
       </view>
-      <!--操作向导区域-->
+      <!-- 操作向导区域 -->
       <view class="nav-box column-cernter">
         <view class="row-between">
           <button class="shop-btn" plain form-type="submit" @tap="goto" data-url="/pages/shop/index?mode=1">
-            <image class="icon-xl" src="http://img.leshare.shop/shop/home/food.png" wx:if="{{version.isOrder}}"></image>
-            <image class="icon-xl" src="http://img.leshare.shop/shop/home/inshop.png" wx:else></image>
+            <image class="icon-xl" src="http://img.leshare.shop/shop/home/food.png" wx:if="{{version.isOrder}}" />
+            <image class="icon-xl" src="http://img.leshare.shop/shop/home/inshop.png" wx:else />
             <text class="weak">{{version.isOrder ? shop.type.name : shop.type.basicName}}</text>
           </button>
-          <!--堂食模式-->
-          <button class="shop-btn" @tap="goto" data-url='/pages/shop/index?mode=2' plain form-type="submit" wx:if="{{shop.inShop == 1 && version.isOrder}}">
-            <image class="icon-xl" src="http://img.leshare.shop/shop/home/inshop.png" ></image>
+          <!-- 堂食模式 -->
+          <button class="shop-btn" @tap="goto" data-url='/pages/shop/index?mode=2' plain form-type="submit" wx:if="{{shop.inShop === 1 && version.isOrder}}">
+            <image class="icon-xl" src="http://img.leshare.shop/shop/home/inshop.png" />
             <text class="weak">堂食/外带</text>
           </button>
           <button class="shop-btn" @tap="nav" plain form-type="submit" wx:else>
-            <image class="icon-xl" src="http://img.leshare.shop/shop/home/nav.png" ></image>
+            <image class="icon-xl" src="http://img.leshare.shop/shop/home/nav.png" />
             <text class="weak">一键导航</text>
           </button>
           <button class="shop-btn" plain form-type="submit" @tap="phone">
-            <image class="icon-xl" src="http://img.leshare.shop/shop/home/phone.png"></image>
+            <image class="icon-xl" src="http://img.leshare.shop/shop/home/phone.png" />
             <text class="weak">电话联系</text>
           </button>
         </view>
         <view class="nav-gap"></view>
         <view class="row-between">
-          <!--兼容不同版本-->
+          <!-- 兼容不同版本 -->
           <button class="shop-btn" plain open-type="share" form-type="submit" wx:if="{{share}}">
-            <image class="icon-xl" src="http://img.leshare.shop/shop/home/share.png"></image>
+            <image class="icon-xl" src="http://img.leshare.shop/shop/home/share.png" />
             <text class="weak">分享好友</text>
           </button>
           <button class="shop-btn" plain @tap="share" form-type="submit" open-type="share" wx:else>
-            <image class="icon-xl" src="http://img.leshare.shop/shop/home/share.png"></image>
+            <image class="icon-xl" src="http://img.leshare.shop/shop/home/share.png" />
             <text class="weak">分享好友</text>
           </button>
           <button class="shop-btn" plain form-type="submit" @tap="goto" data-url="/pages/coupon/list">
-            <image class="icon-xl" src="http://img.leshare.shop/shop/home/coupon.png"></image>
+            <image class="icon-xl" src="http://img.leshare.shop/shop/home/coupon.png" />
             <view class="weui-badge" style="position: absolute;top: 0;right: 0;" wx:if="{{ownCoupons.length > 0}}">{{ownCoupons.length}}张</view>
             <text class="weak">我的优惠券</text>
           </button>
           <button class="shop-btn" plain @tap="goto" data-url="{{'/pages/customer/index'}}">
-            <image class="icon-xl" src="http://img.leshare.shop/shop/home/my.png"></image>
+            <image class="icon-xl" src="http://img.leshare.shop/shop/home/my.png" />
             <text class="weak">个人中心</text>
           </button>
         </view>
       </view>
-      <!--门店照片区域-->
+      <!-- 门店照片区域 -->
       <view class="photo-box sub-box" wx:if="{{shop.images.length > 0}}">
         <text class="sub-title">门店照片</text>
         <view class="content row">
-          <image @tap="previewShopImages({{item.url}})" mode="aspectFill" class="shop-photo" src="{{item.url}}/medium" wx:for="{{shop.images}}" wx:key="index"></image>
+          <image @tap="previewShopImages({{item.url}})" mode="aspectFill" class="shop-photo" src="{{item.url}}/medium" wx:for="{{shop.images}}" wx:key="index" />
         </view>
       </view>
-      <!--热门商品区域-->
+      <!-- 热门商品区域 -->
       <view class="recommend-box sub-box" wx:if="{{goods.length > 0}}">
         <text class="sub-title">招牌推荐</text>
         <view class="content column">
@@ -98,9 +98,7 @@
 
 <script>
   import wepy from 'wepy';
-  import {
-    connect
-  } from 'wepy-redux';
+  import { connect } from 'wepy-redux';
   import store from '../../store/utils';
   import auth from '../../api/auth';
   import coupon from '../../api/coupon';
@@ -128,38 +126,23 @@
       share: null,
       isFirst: true
     };
-    async onLoad({
-      sence
-    }) {
-      // 登录检查
-      await auth.login();
-      // 初始化全局存储
-      await store.init();
-      // 加载推荐商品
-      const {
-        list
-      } = await goods.recommend().next();
+    async onLoad({ sence }) {
+      await auth.login(); // 登录检查
+      await store.init(); // 初始化全局存储
+      let { list } = await goods.recommend().next(); // 加载推荐商品
       this.goods = list.length > 5 ? list.slice(0, 5) : list;
-      // 视图渲染
-      this.loaded();
-      // 访问记录
-      this.visit(sence);
-      // 获取弹出
-      this.campaign(sence);
-      // 获取签到
-      this.goSign();
-      // 兼容性检查
-      this.share = WxUtils.canIUse('button.open-type.share');
+      this.loaded(); // 视图渲染
+      this.visit(sence); // 访问记录
+      this.campaign(sence); // 获取弹出
+      this.goSign(); // 获取签到
+      this.share = WxUtils.canIUse('button.open-type.share'); // 兼容性检查
     };
     /**
      * 活动跳转
      */
     campaign(sence) {
-      coupon.campaign({
-        sence: sence,
-        customScene: wepy.$instance.globalData.scene
-      }).then(coupon => {
-        // 当前有活动卷可以领取
+      coupon.campaign({ sence: sence, customScene: wepy.$instance.globalData.scene }).then(coupon => {
+        // 当前有活动券可以领取
         if (coupon) {
           this.$preload('coupon', coupon);
           this.$navigate('/pages/coupon/active');
@@ -170,11 +153,10 @@
      * 签到跳转
      */
     async goSign() {
-      const signIn = await shop.signList(this.member.memberId);
+      let signIn = await shop.signList(this.member.memberId);
       let date = new Date();
-      const today = Lang.dateFormate(date, 'yyyyMMdd');
-      if (this.member != null && this.isFirst == true &&
-        signIn.lastDate != today && this.shop.supportMember == 1) {
+      let today = Lang.dateFormate(date, 'yyyyMMdd');
+      if (this.member && this.isFirst && signIn.lastDate !== today && this.shop.supportMember === 1) {
         this.isFirst = false;
         this.$navigate('/pages/customer/sign_in?param=home');
       }
@@ -204,32 +186,27 @@
       /**
        *  表单上报 TODO 可以抽取出来
        */
-      reportFormId({
-        detail
-      }) {
+      reportFormId({ detail }) {
         shop.reportFormId(detail.formId);
       },
       /**
        * 跳转
        */
       goto(event) {
-        const url = event.currentTarget.dataset.url;
-        this.$navigate(url);
+        this.$navigate(event.currentTarget.dataset.url);
       },
       /**
        * 打电话
        */
       phone() {
-        wepy.makePhoneCall({
-          phoneNumber: this.shop.phone
-        });
+        wepy.makePhoneCall({ phoneNumber: this.shop.phone });
       },
       /**
        * 导航
        */
       nav() {
-        const longitude = this.shop.longitude;
-        const latitude = this.shop.latitude;
+        let longitude = this.shop.longitude;
+        let latitude = this.shop.latitude;
         wepy.openLocation({
           latitude: Number(latitude),
           longitude: Number(longitude),
@@ -241,7 +218,7 @@
        * 商品图片
        */
       previewGoodsImages(url) {
-        const urls = this.goods.map(item => item.imageUrl);
+        let urls = this.goods.map(item => item.imageUrl);
         wepy.previewImage({
           current: url,
           urls: urls
@@ -251,7 +228,7 @@
        * 店铺图片
        */
       previewShopImages(url) {
-        const urls = this.shop.images.map(item => item.url);
+        let urls = this.shop.images.map(item => item.url);
         wepy.previewImage({
           current: url,
           urls: urls
@@ -267,7 +244,7 @@
     computed = {
       homeNotices() {
         if (!this.notices || !this.notices.filter) return [];
-        return this.notices.filter(item => item.isHome == 1);
+        return this.notices.filter(item => item.isHome === 1);
       }
     };
     components = {

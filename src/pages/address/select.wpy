@@ -47,8 +47,8 @@
     };
     async update(isCreate) {
       await this.load();
-      const size = this.available.length;
-      if (size == 1 && isCreate) {
+      let size = this.available.length;
+      if (size === 1 && isCreate) {
         // 如果只有一个可用地址，则直接选定并返回
         Event.emit(Event.TRADE_ADDRESS_UPDATE, this.available[0]);
         wepy.navigateBack();
@@ -59,18 +59,13 @@
       }
     }
     async load() {
-      const {
-        available,
-        disable
-      } = await address.available(this.goodsList);
+      let { available, disable } = await address.available(this.goodsList);
       this.available = available;
       this.disable = disable;
-      this.isPageEmpty = available.length == 0 && disable.length == 0;
+      this.isPageEmpty = available.length === 0 && disable.length === 0;
       this.loaded();
       // 一个地址也没有
-      if (this.isPageEmpty) {
-        this.$root.$navigate('/pages/address/edit?mode=create');
-      }
+      if (this.isPageEmpty) this.$root.$navigate('/pages/address/edit?mode=create');
     }
     async onPullDownRefresh() {
       await this.load();

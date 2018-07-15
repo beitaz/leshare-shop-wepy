@@ -69,19 +69,13 @@
       param
     }) {
       // 热门搜索初始化
-      if (param != null && param != 'null' && param != 'undefined') {
-        const {
-          hotKeywords
-        } = JSON.parse(param);
+      if (param && param !== 'null' && param !== 'undefined') {
+        let { hotKeywords } = JSON.parse(param);
         this.hotKeywords = hotKeywords;
       }
       // 初始化历史搜索
-      const historyKeyWords = wepy.getStorageSync('historyKeyWords');
-      if (historyKeyWords != null && historyKeyWords != '') {
-        this.historyKeyWords = historyKeyWords;
-      } else {
-        this.historyKeyWords = [];
-      }
+      let historyKeyWords = wepy.getStorageSync('historyKeyWords');
+      this.historyKeyWords = historyKeyWords || []
       this.loaded();
     };
     methods = {
@@ -89,12 +83,12 @@
         this.keyword = event.detail.value;
       },
       confirm(keyword) {
-        if (keyword == null || keyword == '') {
+        if (!keyword || keyword === '') {
           Tips.alert('请输入搜索内容');
           return;
         }
         // 保存历史存储
-        if (this.historyKeyWords.every(item => item != keyword)) {
+        if (this.historyKeyWords.every(item => item !== keyword)) {
           this.historyKeyWords.push(keyword);
         }
         wepy.setStorageSync('historyKeyWords', this.historyKeyWords);

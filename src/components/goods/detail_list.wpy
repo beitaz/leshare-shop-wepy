@@ -8,9 +8,9 @@
     <view class="detail-list column">
       <block wx:for="{{detail.goodsDetails}}" wx:key="id">
         <!--文本-->
-        <text class="mb20 lg" wx:if="{{item.type == 1}}">{{item.content}}</text>
+        <text class="mb20 lg" wx:if="{{item.type === 1}}">{{item.content}}</text>
         <!--图片-->
-        <image src="{{item.content}}" lazy-load mode="widthFix" wx:if="{{item.type == 2}}" @tap="previewDetailImages({{item.content}})" />
+        <image src="{{item.content}}" lazy-load mode="widthFix" wx:if="{{item.type === 2}}" @tap="previewDetailImages({{item.content}})" />
       </block>
     </view>
   </view>
@@ -27,7 +27,7 @@
        * 预览详情页面
        */
       previewDetailImages(current) {
-        const urls = this.detail.goodsDetails.filter(v => v.type == 2).map(v => v.content);
+        const urls = this.detail.goodsDetails.filter(v => v.type === 2).map(v => v.content);
         wepy.previewImage({
           urls: urls,
           current: current

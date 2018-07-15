@@ -3,7 +3,7 @@
     <view class="row-between">
       <text>商品评价 ({{count.ALL}})</text>
       <view>
-        <view wx:if="{{count.ALL == 0}}">
+        <view wx:if="{{count.ALL === 0}}">
           <text class="comment-text-box">{{commentText}}</text>
         </view>
         <view wx:else>
@@ -66,15 +66,10 @@
     };
     computed = {
       commentText() {
-        const count = this.count;
-        if (!this.init) {
-          return '用户评价加载中...';
-        } else if (count.ALL == 0) {
-          return '该商品暂无评价';
-        } else {
-          const rate = (count.GOOD / count.ALL * 100).toFixed(0);
-          return `${rate}%`;
-        }
+        let count = this.count;
+        if (!this.init) return '用户评价加载中...';
+        else if (count.ALL === 0) return '该商品暂无评价';
+        else return `${(count.GOOD / count.ALL * 100).toFixed(0)}%`;
       },
       comment() {
         if (this.page.list.length <= 0) return;

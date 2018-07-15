@@ -63,46 +63,31 @@
         this.$root.$navigate(`detail?goodsId=${goodsId}`);
       },
       touchS(e) {
-        if (e.touches.length == 1) {
-          this.startX = e.touches[0].clientX;
-        }
+        if (e.touches.length === 1) this.startX = e.touches[0].clientX;
       },
       // TODO 组件化容器
       touchM(e) {
-        if (e.touches.length == 1) {
-          // 手指移动时水平方向位置
-          let moveX = e.touches[0].clientX;
-          // 手指起始点位置与移动期间的差值
-          let disX = this.startX - moveX - 30;
+        if (e.touches.length === 1) {
+          let moveX = e.touches[0].clientX; // 手指移动时水平方向位置
+          let disX = this.startX - moveX - 30; // 手指起始点位置与移动期间的差值
           let delBtnWidth = this.delBtnWidth;
           let txtStyle = '';
-          if (disX == 0 || disX < 0) {
-            // 如果移动距离小于等于0，文本层位置不变
-            txtStyle = 'left:0px';
-          } else if (disX > 0) {
-            // 移动距离大于0，文本层left值等于手指移动距离
-            txtStyle = 'left:-' + disX + 'px';
-            if (disX >= delBtnWidth) {
-              // 控制手指移动距离最大值为删除按钮的宽度
-              txtStyle = 'left:-' + delBtnWidth + 'px';
-            }
+          if (disX === 0 || disX < 0) txtStyle = 'left:0px'; // 如果移动距离小于等于0，文本层位置不变
+          else if (disX > 0) {
+            txtStyle = 'left:-' + disX + 'px'; // 移动距离大于0，文本层 left 值等于手指移动距离
+            if (disX >= delBtnWidth) txtStyle = 'left:-' + delBtnWidth + 'px'; // 控制手指移动距离最大值为删除按钮的宽度
           }
-          // 获取手指触摸的是哪一项
-          this.txtStyle[this.index] = txtStyle;
+          this.txtStyle[this.index] = txtStyle; // 获取手指触摸的是哪一项
         }
       },
       // TODO 组件化容器
       touchE(e) {
-        if (e.changedTouches.length == 1) {
-          // 手指移动结束后水平位置
-          let endX = e.changedTouches[0].clientX;
-          // 触摸开始与结束，手指移动的距离
-          let disX = this.startX - endX - 30;
+        if (e.changedTouches.length === 1) {
+          let endX = e.changedTouches[0].clientX; // 手指移动结束后水平位置
+          let disX = this.startX - endX - 30; // 触摸开始与结束，手指移动的距离
           let delBtnWidth = this.delBtnWidth;
-          // 如果距离小于删除按钮的1/2，不显示删除按钮
-          let txtStyle = disX > delBtnWidth / 2 ? 'left:-' + delBtnWidth + 'px' : 'left:0px';
-          // 获取手指触摸的是哪一项
-          this.txtStyle[this.index] = txtStyle;
+          let txtStyle = disX > delBtnWidth / 2 ? 'left:-' + delBtnWidth + 'px' : 'left:0px'; // 如果距离小于删除按钮的1/2，不显示删除按钮
+          this.txtStyle[this.index] = txtStyle; // 获取手指触摸的是哪一项
         }
       }
     };

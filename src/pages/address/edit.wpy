@@ -23,11 +23,11 @@
               <view class="row">
                 <radio-group class="radio-group row" @change="radio" id="sex">
                   <label class="radio row">
-                    <radio value="1" checked="{{input.sex == 1}}"/>
+                    <radio value="1" checked="{{input.sex === 1}}"/>
                     先生
                   </label>
                   <label class="radio ml20 row">
-                    <radio value="2" checked="{{input.sex == 2}}"/>
+                    <radio value="2" checked="{{input.sex === 2}}"/>
                     女士
                   </label>
                 </radio-group>
@@ -88,11 +88,8 @@
       mode: 'create',
       address: {}
     };
-    async onLoad({
-      mode,
-      id
-    }) {
-      if (mode == 'edit') {
+    async onLoad({ mode, id }) {
+      if (mode === 'edit') {
         this.input = await address.info(id);
         this.address = this.input;
         this.mode = mode;
@@ -117,16 +114,12 @@
       /**
        * 确认更新
        */
-      async confirm({
-        detail
-      }) {
+      async confirm({ detail }) {
         // 覆盖对象
         Object.assign(this.address, detail.value);
-        if (!this.validate()) {
-          return;
-        }
+        if (!this.validate()) return;
         Tips.loading();
-        if (this.mode == 'edit') {
+        if (this.mode === 'edit') {
           let param = this.address;
           // 地址被重新选择了
           if (this.location.latitude) {
@@ -136,12 +129,12 @@
           }
           await address.update(this.address.id, param);
         } else {
-          const param = this.copyLocationParam(this.address);
+          let param = this.copyLocationParam(this.address);
           param.sex = this.input.sex;
           await address.save(param);
         }
         await Tips.success('保存成功');
-        Event.emit(Event.ADDRESS_LIST_UPDATE, this.mode == 'create');
+        Event.emit(Event.ADDRESS_LIST_UPDATE, this.mode === 'create');
         wepy.navigateBack();
       }
     };
@@ -159,7 +152,7 @@
       return param;
     }
     validate() {
-      const rules = [{
+      let rules = [{
         value: this.address.name,
         method: 'required',
         message: '请输入联系人'

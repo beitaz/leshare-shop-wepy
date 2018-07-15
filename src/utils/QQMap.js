@@ -29,7 +29,7 @@ var Utils = {
    * @param {Array|String} 检索数据
    */
   location2query(data) {
-    if (typeof data == 'string') {
+    if (typeof data === 'string') {
       return data
     }
     var query = ''
@@ -64,7 +64,7 @@ var Utils = {
    * 获取location参数
    */
   getLocationParam(location) {
-    if (typeof location == 'string') {
+    if (typeof location === 'string') {
       var locationArr = location.split(',')
       if (locationArr.length === 2) {
         location = {
@@ -196,7 +196,7 @@ var Utils = {
       param.fail(that.buildErrorConfig(ERROR_CONF.WX_ERR_CODE, res.errMsg))
     }
     locationcomplete = locationcomplete || function (res) {
-      if (res.statusCode == ERROR_CONF.WX_ERR_CODE) {
+      if (res.statusCode === ERROR_CONF.WX_ERR_CODE) {
         param.complete(that.buildErrorConfig(ERROR_CONF.WX_ERR_CODE, res.errMsg))
       }
     }

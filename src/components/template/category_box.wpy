@@ -120,7 +120,7 @@
     countCartGoodNum(goodsId) {
       let num = 0;
       this.carts.forEach(cart => {
-        if (cart.goodsId == goodsId) {
+        if (cart.goodsId === goodsId) {
           num += cart.goodsNum;
         }
       });
@@ -136,7 +136,7 @@
       this.categoryTab.list.forEach(item => {
         item.count = 0;
         this.carts.forEach(cart => {
-          if (cart.innerCid && item.id == cart.innerCid) {
+          if (cart.innerCid && item.id === cart.innerCid) {
             item.count += cart.goodsNum;
           }
         });
@@ -167,21 +167,18 @@
        */
       selectedCategoryName() {
         if (this.categoryTab && this.categoryTab.list) {
-          const selectedId = this.categoryTab.selectedId;
-          const categoryItem = this.categoryTab.list.find(item => item.id == selectedId);
-          if (categoryItem != null) {
-            return categoryItem.title;
-          }
+          let selectedId = this.categoryTab.selectedId;
+          let categoryItem = this.categoryTab.list.find(item => item.id === selectedId);
+          if (categoryItem) return categoryItem.title;
         }
       },
       /**
        * 导出购物车对象
        */
       sync() {
-        if (this.cart == null || this.page.list == null) return;
+        if (!(this.cart && this.page.list)) return;
         this.carts = this.cart.carts;
-        // 同步购物车数量
-        this.setCartNum();
+        this.setCartNum(); // 同步购物车数量
       }
     };
     mixins = [pagination, router];

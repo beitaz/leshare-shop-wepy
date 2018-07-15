@@ -95,66 +95,45 @@
     }
     methods = {
       plus(cart) {
-        const goods = {
-          id: cart.goodsId
-        };
-        this.cartManager.plus(goods, cart.goodsSku);
+        this.cartManager.plus({ id: cart.goodsId }, cart.goodsSku);
       },
       minus(cart) {
         this.cartManager.minus(cart.goodsId, cart.goodsSku);
       },
       cart() {
-        if (!this.status || !this.status.open) {
-          Tips.modal(this.status.closeTips);
-        } else if (this.totalCount < 1) {
-          Tips.alert('请选择商品');
-        } else {
-          this.isCartDisplay = 'true';
-        }
+        if (!this.status || !this.status.open) Tips.modal(this.status.closeTips);
+        else if (this.totalCount < 1) Tips.alert('请选择商品');
+        else this.isCartDisplay = 'true';
       },
       async clear() {
         await Tips.confirm('确定清空?');
         this.cartManager.clear();
       },
-      async buy({
-        detail
-      }) {
+      async buy({ detail }) {
         if (!this.status || !this.status.open) {
           Tips.modal(this.status.closeTips);
         } else if (this.totalCount < 1) {
           Tips.alert('请选择商品');
         } else {
           const param = {};
-          if (this.matchReduce.match) {
-            param.reduce = this.matchReduce.match;
-          }
+          if (this.matchReduce.match) param.reduce = this.matchReduce.match;
           param.formId = detail.formId;
           // this.$emit('buy', param);
           // 权限校验
-          const result = await auth.user({
-            block: true,
-            redirect: false
-          });
+          let result = await auth.user({ block: true, redirect: false });
           if (!result) return;
           // 订单类型
-          if (this.mode == 2) {
-            // 堂食点餐
-            param.orderType = 30;
-          } else {
-            // 外卖订单
-            param.orderType = 20;
-          }
+          if (this.mode === 2) param.orderType = 30; // 堂食点餐
+          else param.orderType = 20; // 外卖订单
           // 跳转订单
-          const trade = order.createCartTrade(this.carts, param);
-          this.$root.$preload('params', {
-            trade
-          });
+          let trade = order.createCartTrade(this.carts, param);
+          this.$root.$preload('params', { trade });
           this.$root.$navigate(`../order/trade`);
         }
       }
     };
     updateNum(event, cart) {
-      const param = {
+      let param = {
         goodsId: cart.goodsId,
         goodsSku: cart.goodsSku
       };
@@ -162,7 +141,7 @@
     }
     computed = {
       carts() {
-        if (this.cart == null) return [];
+        if (!this.cart) return [];
         return this.cart.carts;
       },
       totalPrice() {
@@ -180,7 +159,7 @@
         return count;
       },
       buyText() {
-        if (!this.status || !this.status.open) {
+        if (!(this.status && this.status.open)) {
           this.buyStatus = 0;
           return '休息中';
         } else if (this.totalCount < 1) {
@@ -192,33 +171,19 @@
         }
       },
       matchReduce() {
-        if (!this.reduce || !this.reduce.list || this.reduce.list.length < 1) {
-          return {};
-        }
-        if (this.totalPrice == 0) {
-          return {
-            showText: this.reduce.showText
-          };
-        }
+        if (!this.reduce || !this.reduce.list || this.reduce.list.length < 1) return {};
+        if (this.totalPrice === 0) return { showText: this.reduce.showText };
         // 获取最大扣减金额
-        let match = {
-          fee: 0
-        };
-        let lowest = {
-          limitPrice: Number.MAX_VALUE
-        };
+        let match = { fee: 0 };
+        let lowest = { limitPrice: Number.MAX_VALUE };
         // 满减计算
         this.reduce.list.forEach(item => {
-          if (this.totalPrice >= item.limitPrice && item.fee > match.fee) {
-            match = item;
-          }
-          if (item.limitPrice < lowest.limitPrice) {
-            lowest = item;
-          }
+          if (this.totalPrice >= item.limitPrice && item.fee > match.fee) match = item;
+          if (item.limitPrice < lowest.limitPrice) lowest = item;
         });
-        if (match.fee == 0) {
+        if (match.fee === 0) {
           // 不满足最低扣减金额
-          const diff = (lowest.limitPrice - this.totalPrice).toFixed(2);
+          let diff = (lowest.limitPrice - this.totalPrice).toFixed(2);
           return {
             showText: `满${lowest.limitPrice}减${lowest.fee}，还差${diff}元`,
             lowest: lowest
@@ -232,9 +197,7 @@
         }
       },
       couponText() {
-        if (!this.ownCoupons || this.ownCoupons.length < 1) {} else {
-          return `${this.ownCoupons.length}张券可用`;
-        }
+        if (!this.ownCoupons || this.ownCoupons.length < 1) {} else return `${this.ownCoupons.length}张券可用`;
       }
     };
     mixins = [router]

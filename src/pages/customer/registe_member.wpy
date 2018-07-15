@@ -94,7 +94,7 @@
           this.$invoke('VCode', 'cd', 60);
           Tips.success('验证码已发送');
         } catch (err) {
-          if (err.serverCode == 10005) {
+          if (err.serverCode === 10005) {
             console.debug('请求验证码太频繁');
             this.$invoke('VCode', 'cd', 60);
           }
@@ -122,11 +122,11 @@
     };
     computed = {
       bonusRuleText() {
-        if (this.card == null) return;
+        if (!this.card) return;
         const rule = this.card.bonusRule;
         let describes = [];
         // 开启积分规则
-        if (this.card.supplyBonus == 1 && this.card.bonusRule != null) {
+        if (this.card.supplyBonus === 1 && this.card.bonusRule) {
           // 有初始积分的情况
           if (rule.initIncreaseBonus > 0) {
             describes.push(`注册绑定手机开卡即送 ${rule.initIncreaseBonus} 积分`);
@@ -143,21 +143,17 @@
         return describes;
       },
       discountRuleText() {
-        if (this.card == null) return;
-        const rules = this.card.discountRules;
-        if (this.card.supplyDiscount == 0 || rules == null) return;
-        const describes = [];
+        if (!this.card) return;
+        let rules = this.card.discountRules;
+        if (this.card.supplyDiscount === 0 || !rules) return;
+        let describes = [];
         // 有折扣的情况
         for (let rule of rules) {
-          const {
-            upgradeFee,
-            discount,
-            levelName
-          } = rule;
-          if (discount == 100) continue;
-          const upgradeText = upgradeFee == 0 ? '完成注册' : `消费满${upgradeFee}元`;
-          const discountText = (discount / 10).toFixed(1);
-          const describe = `${levelName}：${upgradeText}，部分商品${discountText}折优惠`;
+          let { upgradeFee, discount, levelName } = rule;
+          if (discount === 100) continue;
+          let upgradeText = upgradeFee === 0 ? '完成注册' : `消费满${upgradeFee}元`;
+          let discountText = (discount / 10).toFixed(1);
+          let describe = `${levelName}：${upgradeText}，部分商品${discountText}折优惠`;
           describes.push(describe);
         }
         return describes;

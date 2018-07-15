@@ -1,7 +1,7 @@
 export default class Lang {
   // 判断字符串是否为空
   static isEmpty(str) {
-    return str == '' || str == null || str == 'null';
+    return str === '' || str === null || str === 'null';
   }
   // 判断字符串是否不为空
   static isNotEmpty(str) {
@@ -55,7 +55,7 @@ export default class Lang {
     };
     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
     for (let k in o) {
-      if (new RegExp('(' + k + ')').test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
+      if (new RegExp('(' + k + ')').test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
     }
     return fmt;
   }

@@ -18,7 +18,7 @@ export default class Validate {
   static noDuplicate(values) {
     for (let i = 0; i < values.length; i++) {
       for (let j = 0; j < values.length; j++) {
-        if (values[i] == values[j] && i != j) {
+        if (values[i] === values[j] && i !== j) {
           return false;
         }
       }
@@ -29,6 +29,7 @@ export default class Validate {
    * 验证电子邮箱格式
    */
   static email(value) {
+    // eslint-disable-next-line
     return this.optional(value) || /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(value)
   }
   /**
@@ -53,6 +54,7 @@ export default class Validate {
    * 验证ISO类型的日期格式
    */
   static dateISO(value) {
+    // eslint-disable-next-line
     return this.optional(value) || /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value)
   }
   /**

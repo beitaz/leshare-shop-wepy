@@ -68,7 +68,7 @@ export default class Sku {
    */
   select(key, value) {
     const srcValue = this.selected[key];
-    this.selected[key] = srcValue == value ? null : value;
+    this.selected[key] = srcValue === value ? null : value;
 
     this.isReady = this.joinSkuText();
     if (this.isReady) {
@@ -98,8 +98,8 @@ export default class Sku {
       for (let i in remainSkuValues) {
         const sku = remainSkuValues[i];
         const sellingSku = skuStocks
-          .filter(item => item.sku.indexOf(sku) != -1)
-          .find(item => item.stock != 0);
+          .filter(item => item.sku.indexOf(sku) !== -1)
+          .find(item => item.stock !== 0);
         if (sellingSku == null) {
           disabledSkuValues[sku] = true;
         }
@@ -115,7 +115,7 @@ export default class Sku {
     const condition = {};
     const selected = this.selected;
     for (let key in selected) {
-      if (key != currentSkuKey) {
+      if (key !== currentSkuKey) {
         condition[key] = selected[key];
       }
     }
@@ -130,8 +130,8 @@ export default class Sku {
     let remainSkuStocks = this.skuStocks;
     for (let key in selected) {
       const value = selected[key];
-      if (value != null) {
-        remainSkuStocks = remainSkuStocks.filter(stock => stock.sku.indexOf(value) != -1);
+      if (value) {
+        remainSkuStocks = remainSkuStocks.filter(stock => stock.sku.indexOf(value) !== -1);
       }
     }
     return remainSkuStocks;
@@ -142,11 +142,11 @@ export default class Sku {
    */
   getRemainSkuValues(currentSkuKey) {
     let remainSkuValue = [];
-    const skuValues = this.labels.find(item => item.key == currentSkuKey).value;
+    const skuValues = this.labels.find(item => item.key === currentSkuKey).value;
     const seletedSkuValue = this.selected[currentSkuKey];
     for (let i in skuValues) {
       const value = skuValues[i];
-      if (value != seletedSkuValue) {
+      if (value !== seletedSkuValue) {
         remainSkuValue.push(value);
       }
     }
@@ -218,8 +218,8 @@ export default class Sku {
     let ready = true;
     let skuText = '';
     for (let key in this.selected) {
-      const skuValue = this.selected[key];
-      if (skuValue != null) {
+      let skuValue = this.selected[key];
+      if (skuValue) {
         skuText += skuValue + ':';
       } else {
         ready = false;
@@ -242,7 +242,7 @@ export default class Sku {
     const stocks = this.skuStocks;
     for (let i in stocks) {
       const stockInfo = stocks[i];
-      if (stockInfo.sku == skuText) {
+      if (stockInfo.sku === skuText) {
         this.stock = stockInfo.stock;
       }
     }
@@ -256,7 +256,7 @@ export default class Sku {
     const details = this.goods.goodsSkuInfo.goodsSkuDetails;
     for (let i in details) {
       const detail = details[i];
-      if (detail.sku == this.skuText) {
+      if (detail.sku === this.skuText) {
         this.detail = detail.goodsSkuDetailBase;
         break;
       }

@@ -92,7 +92,7 @@
        * 搜索输入响应
        */
       async input(value) {
-        if (value == null || value == '') {
+        if (!value) {
           this.isSearch = false;
           this.searchLocations = null;
           return;

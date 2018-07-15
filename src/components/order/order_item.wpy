@@ -7,7 +7,7 @@
           <icon class="shop" color="gray" />
           <text class="sm ml10">{{shopName}}</text>
         </view>
-        <text class="sm primary" wx:if="{{order.statusText}}">{{order.statusText}}{{order.paymentType == 0 ? '(线下支付)' : ''}}</text>
+        <text class="sm primary" wx:if="{{order.statusText}}">{{order.statusText}}{{order.paymentType === 0 ? '(线下支付)' : ''}}</text>
       </view>
       <view class="order-info-container row-between">
         <text>{{order.orderTime}}</text>
@@ -17,7 +17,7 @@
     <!--商品区域-->
     <view class="order-goods-list-container" @tap="detail({{order.orderId}})">
       <repeat for="{{order.orderGoodsInfos}}" key="goodsId" index="index" item="item">
-        <view class="{{!order.orderId || index == 0 || expand[order.orderId] ? '' : 'order-goods-fold'}}">
+        <view class="{{!order.orderId || index === 0 || expand[order.orderId] ? '' : 'order-goods-fold'}}">
           <OrderGoods :goods="item"></OrderGoods>
           <view class="hr" />
         </view>
@@ -37,10 +37,10 @@
     <!--操作栏-->
     <view class="order-action-bar row-between" wx:if="{{order.actions.length > 0}}">
       <view>
-        <view class="small label primary ml20" wx:if="{{order.orderType == 30}}">堂食</view>
-        <view class="small label primary ml20" wx:if="{{order.orderType == 33}}">打包</view>
-        <view class="small label primary ml20" wx:if="{{order.orderType == 50}}">拼团</view>
-        <view class="small label primary ml20" wx:if="{{order.orderType == 70}}">砍价</view>
+        <view class="small label primary ml20" wx:if="{{order.orderType === 30}}">堂食</view>
+        <view class="small label primary ml20" wx:if="{{order.orderType === 33}}">打包</view>
+        <view class="small label primary ml20" wx:if="{{order.orderType === 50}}">拼团</view>
+        <view class="small label primary ml20" wx:if="{{order.orderType === 70}}">砍价</view>
       </view>
       <view class="row">
         <block wx:for="{{order.actions}}" wx:for-item="action" wx:key="index">
@@ -78,9 +78,7 @@
     /**
      * 关闭订单
      */
-    async close({
-      orderId
-    }) {
+    async close({ orderId }) {
       await Tips.confirm('确定关闭该订单？');
       try {
         Tips.loading();
@@ -95,9 +93,7 @@
     /**
      * 订单支付
      */
-    async pay({
-      orderId
-    }) {
+    async pay({ orderId }) {
       try {
         Tips.loading();
         const payment = await order.prepayOrder(orderId);
@@ -113,9 +109,7 @@
     /**
      * 订单收货
      */
-    async receive({
-      orderId
-    }) {
+    async receive({ orderId }) {
       await Tips.confirm('确认收货？');
       try {
         Tips.loading();
@@ -132,16 +126,14 @@
      */
     async again(order) {
       Event.emit(Event.CART_LIST_RESET, order.orderGoodsInfos);
-      // 预加载/处理首页没打开的情况
-      this.$root.$preload('cart', order.orderGoodsInfos);
-      // 跳转到首页，重新加载
-      Route.backOrRedirect('/pages/shop/index');
+      this.$root.$preload('cart', order.orderGoodsInfos); // 预加载/处理首页没打开的情况
+      Route.backOrRedirect('/pages/shop/index'); // 跳转到首页，重新加载
     }
     /**
      * 评价订单
      */
     comment(order) {
-      const scores = order.orderGoodsInfos.map(item => {
+      let scores = order.orderGoodsInfos.map(item => {
         return {
           goodsId: item.goodsId,
           orderId: order.orderId,
@@ -159,26 +151,21 @@
       action(funcName, order) {
         console.info('[action]' + funcName);
         if (this[funcName]) {
-          const func = this[funcName].bind(this);
+          let func = this[funcName].bind(this);
           func(order);
-        } else {
-          Tips.error('未知错误');
-        }
+        } else Tips.error('未知错误');
       },
       /**
        * 商品展开收缩
        */
-      expand(orderId) {
-        orderId = orderId == null ? 0 : orderId;
+      expand(orderId = 0) {
         this.expand[orderId] = !this.expand[orderId];
       },
       /**
        * 订单详情
        */
       detail(orderId) {
-        if (this.action == 0) {
-          return;
-        }
+        if (this.action === 0) return;
         this.$root.$navigate(`/pages/order/detail?orderId=${orderId}`);
       }
     };

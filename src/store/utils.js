@@ -152,7 +152,7 @@ const fetch = (field) => {
  * 更新元数据
  */
 const updateMeta = (field) => {
-  if (meta[field] == null) {
+  if (!meta[field]) {
     meta[field] = {};
     meta[field].init = true;
   }
@@ -163,7 +163,7 @@ const updateMeta = (field) => {
  * 判断是否为嵌套字段
  */
 const isNested = field => {
-  return NESTED_KEY.some(key => key == field);
+  return NESTED_KEY.some(key => key === field);
 };
 
 /**
@@ -171,12 +171,12 @@ const isNested = field => {
  */
 const exists = key => {
   // 判断是否初始化过
-  if (meta[key] == null || meta[key].init != true) {
+  if (!meta[key] || meta[key].init !== true) {
     return false;
   }
   // 判断是否过期
-  const updateTime = meta[key].updateTime;
-  const interval = new Date().getTime() - updateTime;
+  let updateTime = meta[key].updateTime;
+  let interval = new Date().getTime() - updateTime;
   return interval < CACHE_TIMEOUT;
 };
 

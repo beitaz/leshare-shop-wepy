@@ -40,15 +40,11 @@
         }
       },
       chooseLocation() {
-        wepy.chooseLocation({
-          type: 'wgs84'
-        }).then(res => {
+        wepy.chooseLocation({ type: 'wgs84' }).then(res => {
           this.shop.latitude = res.latitude;
           this.shop.longitude = res.longitude;
           let location = res.location;
-          if (location == '' || location == undefined) {
-            location = '请选择店铺地址';
-          }
+          if (!location) location = '请选择店铺地址';
           this.shop.location = location;
           this.$apply();
         });

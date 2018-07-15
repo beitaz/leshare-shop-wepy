@@ -348,7 +348,7 @@ export default class group extends base {
     const { orderType, paymentType, status } = order;
     const actions = utils.statusActions(orderType, paymentType, status);
     if (actions) {
-      const display = inner ? actions.filter(v => v.inner != true) : actions;
+      const display = inner ? actions.filter(v => v.inner !== true) : actions;
       order.actions = basic.concat(display);
     } else {
       order.actions = basic;
@@ -359,11 +359,11 @@ export default class group extends base {
    * 处理订单商品信息
    */
   static _processOrderGoods(goods) {
-    if (goods == null || goods.length < 1) return;
+    if (!goods || goods.length < 1) return;
     goods.forEach(item => {
       item.imageUrl += '/small';
     });
-    if (goods == null || goods.length < 1) {
+    if (!goods || goods.length < 1) {
       return;
     }
     goods.forEach(item => {
@@ -379,7 +379,7 @@ export default class group extends base {
 
   static _processOrderSku(goodsSku) {
     let skuText = '';
-    if (goodsSku && goodsSku != '') {
+    if (goodsSku && goodsSku !== '') {
       skuText = goodsSku.replace(/:/g, ',');
     }
     return skuText;
@@ -387,7 +387,7 @@ export default class group extends base {
 
   static _processOfflinePayment(order) {
     const orderType = order.orderType;
-    if (orderType != TYPE.OFFLINE) return;
+    if (orderType !== TYPE.OFFLINE) return;
     order.orderGoodsInfos = [{
       imageUrl: 'http://img.leshare.shop/shop/other/wechat_pay.png',
       goodsName: `微信支付 ${order.finalPrice}元`,

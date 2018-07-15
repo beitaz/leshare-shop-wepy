@@ -61,9 +61,9 @@
     };
     watch = {
       async goods(current, origin) {
-        if (origin != null && origin.id != null) return;
-        const result = await favorite.is(current.id);
-        this.isFav = result.isFavorite == 1;
+        if (origin && origin.id) return;
+        let result = await favorite.is(current.id);
+        this.isFav = result.isFavorite === 1;
         this.$apply();
       }
     };

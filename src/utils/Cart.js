@@ -14,10 +14,7 @@ export default class Cart {
    * 静态方法，构造单例对象
    */
   static create() {
-    if (this._self == null) {
-      this._self = new Cart();
-    }
-    return this._self;
+    return this._self ? this._self : new Cart()
   }
 
   /**
@@ -68,7 +65,7 @@ export default class Cart {
    * 是否为空
    */
   empty() {
-    return this.num == 0;
+    return this.num === 0;
   }
 
   /**
@@ -83,7 +80,7 @@ export default class Cart {
   init() {
     // 从存储中加载数据
     const carts = wepy.getStorageSync('carts');
-    if (carts == null || carts == '') {
+    if (!carts || carts === '') {
       // 变量初始化
       this.carts = [];
       this.price = 0;
@@ -107,7 +104,7 @@ export default class Cart {
     let goodsPrice, originalPrice;
     if (skuText) {
       // 商品有规格的情况
-      const skuInfo = goods.goodsSkuInfo.goodsSkuDetails.find(item => item.sku == skuText);
+      const skuInfo = goods.goodsSkuInfo.goodsSkuDetails.find(item => item.sku === skuText);
       goodsPrice = skuInfo.goodsSkuDetailBase.price;
       originalPrice = skuInfo.goodsSkuDetailBase.originalPrice;
     } else {
@@ -158,7 +155,7 @@ export default class Cart {
    */
   minus(goodsId, skuText, num = 1) {
     const index = this.findIndex(goodsId, skuText);
-    if (index == -1) {
+    if (index === -1) {
       // 购物车里没有，异常情况
       console.warn(`商品在购物车中不存在 id=${goodsId}, sku=${skuText}`);
       return;
@@ -197,7 +194,7 @@ export default class Cart {
    * 移除所有被选中的项目
    */
   removeChecked() {
-    this.carts = this.carts.filter(item => item.check == false);
+    this.carts = this.carts.filter(item => item.check === false);
     this.save();
   }
   /**
@@ -279,7 +276,7 @@ export default class Cart {
     this.price = price;
     this.count = count;
     // 购物车为空的情况处理
-    if (this.carts.length == 0) {
+    if (this.carts.length === 0) {
       this.batch = false;
     }
   }
@@ -303,25 +300,22 @@ export default class Cart {
    * 根据商品信息查找
    */
   find(goodsId, sku) {
-    return this.carts.find(item => item.goodsId == goodsId && item.goodsSku == sku);
+    return this.carts.find(item => item.goodsId === goodsId && item.goodsSku === sku);
   }
 
   /**
    * 根据商品信息查找商品的下标
    */
   findIndex(goodsId, sku) {
-    if (sku != null && sku != '') {
-      return this.carts.findIndex(item => item.goodsId == goodsId && item.goodsSku == sku);
-    } else {
-      return this.carts.findIndex(item => item.goodsId == goodsId);
-    }
+    return sku && sku !== '' ? this.carts.findIndex(item => item.goodsId === goodsId && item.goodsSku === sku)
+                             : this.carts.findIndex(item => item.goodsId === goodsId)
   }
 
   /**
    * 统计数量
    */
   findByGoodsId(goodsId) {
-    return this.carts.filter(item => item.goodsId == goodsId);
+    return this.carts.filter(item => item.goodsId === goodsId);
   }
   // #############################
   // TODO 方法梳理中
@@ -337,10 +331,10 @@ export default class Cart {
    * 检查库存
    */
   checkGoodsStock() {
-    const goods = this.carts.find(item => item.goodsNum > item.stock || item.stock == 0);
-    if (goods == null) {
+    const goods = this.carts.find(item => item.goodsNum > item.stock || item.stock === 0);
+    if (!goods) {
       // return;
-    } else if (goods.stock == 0) {
+    } else if (goods.stock === 0) {
       return `${goods.goodsName} 无货`;
     } else {
       return `${goods.goodsName} 库存不足`;

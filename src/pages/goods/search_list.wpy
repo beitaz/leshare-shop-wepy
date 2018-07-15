@@ -84,7 +84,7 @@
     initTitle() {
       let title = '搜索结果';
       if (this.categoryId && this.categories) {
-        const category = this.categories.list.find(item => item.id == this.categoryId);
+        const category = this.categories.list.find(item => item.id === this.categoryId);
         if (category != null) {
           title = category.title;
         }

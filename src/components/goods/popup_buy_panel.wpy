@@ -17,7 +17,7 @@
           </view>
           <view class="sku-item-box row">
             <block wx:for-item="skuValue" wx:for="{{sku}}" wx:key="index">
-              <view class="sku-item label {{selected == skuValue.sku ? 'primary' : ''}} {{skuValue.max ? 'disabled' : ''}}" @tap="select({{skuValue}})">
+              <view class="sku-item label {{selected === skuValue.sku ? 'primary' : ''}} {{skuValue.max ? 'disabled' : ''}}" @tap="select({{skuValue}})">
                 {{skuValue.sku}}
               </view>
             </block>
@@ -71,51 +71,37 @@
       goodsSku,
       source
     }) {
-      if (source != this.source) {
+      if (source !== this.source) {
         return;
       }
       // TODO 库存校验
       // 初始化商品对象
       this.goods = goods;
-      const hasSku = goods.goodsSkuInfo && (goodsSku == null || goodsSku == '');
-      if (hasSku) {
-        // 有SKU，且没有选择SKU的情况，展现面板
-        this.display = true;
-      } else {
-        // 没有SKU，直接加入购物车
-        if (goods.isTips || goods.isTips == null) {
-          Tips.success('已加入购物车');
-        }
+      let hasSku = goods.goodsSkuInfo && !goodsSku;
+      if (hasSku) this.display = true; // 有SKU，且没有选择SKU的情况，展现面板
+      else {
+        if (goods.isTips || !goods.isTips) Tips.success('已加入购物车'); // 没有SKU，直接加入购物车
         this.cartManager.plus(goods, goodsSku);
         this.clear();
       }
       this.$apply();
     }
-    minus({
-      goodsId,
-      goodsSku,
-      source
-    }) {
-      if (source != this.source) {
-        return;
-      }
+    minus({ goodsId, goodsSku, source }) {
+      if (source !== this.source) return;
       // 根据商品ID查找购物车
-      const cartGoodsList = this.cartManager.findByGoodsId(goodsId);
+      let cartGoodsList = this.cartManager.findByGoodsId(goodsId);
       if (cartGoodsList.length < 1) {
         console.warn('移除购物车的商品不存在');
         return;
       }
-      if (cartGoodsList.length > 1 && (goodsSku == null || goodsSku == '')) {
+      if (cartGoodsList.length > 1 && !goodsSku) {
         Tips.alert('请在购物车操作');
         return;
       }
       // 处理多规格商品，但是购物车只有一个的情况
-      const cartGoods = cartGoodsList[0];
-      if (goodsSku == null && cartGoods.goodsSku != null) {
-        goodsSku = cartGoods.goodsSku
-      }
-      // 购物车对象
-      this.cartManager.minus(goodsId, goodsSku);
+      let cartGoods = cartGoodsList[0];
+      if (!goodsSku && cartGoods.goodsSku) goodsSku = cartGoods.goodsSku;
+      this.cartManager.minus(goodsId, goodsSku); // 购物车对象
       this.$apply();
     }
     clear() {
@@ -131,10 +117,8 @@
         this.clear();
       },
       select(sku) {
-        const skuValue = sku.sku;
-        if (sku.max) {
-          return;
-        }
+        if (sku.max) return;
+        let skuValue = sku.sku;
         skuData.select('规格', skuValue);
         this.selected = skuValue;
         this.price = skuData.detail.price;
@@ -142,43 +126,37 @@
         this.$apply();
       },
       async confirm() {
-        if (this.selected == null) {
+        if (!this.selected) {
           Tips.alert('请选择');
           return;
         }
-        if (this.goods.isTips || this.goods.isTips == null) {
-          Tips.success('已加入购物车');
-        }
+        if (this.goods.isTips || !this.goods.isTips) Tips.success('已加入购物车');
         this.$root.$apply();
         this.cartManager.plus(this.goods, this.selected);
-        // 清理残留数据
-        this.clear();
+        this.clear(); // 清理残留数据
       }
     };
     computed = {
       carts() {
-        if (this.cartManager == null) {
-          return;
-        }
+        if (!this.cartManager) return;
         return this.cartManager.export().carts;
       },
       sku() {
-        if (this.goods == null || this.carts == null) {
-          return;
-        }
+        if (!(this.goods && !this.carts)) return;
         skuData = new Sku(this.goods);
-        const stocks = skuData.skuStocks;
+        let stocks = skuData.skuStocks;
         stocks.forEach(stock => {
-          if (stock.stock == 0) {
+          if (stock.stock === 0) {
             stock.max = true;
             return;
           }
-          const cart = this.carts.find(item => item.goodsId == this.goods.id && item.goodsSku == stock.sku);
-          if (cart == null) {
-            stock.max = false;
-          } else {
-            stock.max = cart.goodsNum >= stock.stock;
-          }
+          let cart = this.carts.find(item => item.goodsId === this.goods.id && item.goodsSku === stock.sku);
+          stock.max = !!cart && cart.goodsNum >= stock.stock
+          // if (cart === null) {
+          //   stock.max = false;
+          // } else {
+          //   stock.max = cart.goodsNum >= stock.stock;
+          // }
         });
         return stocks;
       }

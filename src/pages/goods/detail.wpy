@@ -7,7 +7,7 @@
         <ZanTab :tab.sync="tab" @change.user="switchTab" />
       </block>
       <!--商品介绍-->
-      <view wx:if="{{tab.selectedId == 'INFO'}}">
+      <view wx:if="{{tab.selectedId === 'INFO'}}">
         <!-- 轮播图 -->
         <swiper class="goods-swiper" indicator-dots="true" autoplay="true" interval="5000" @tap="previewDetailSwiper">
           <block wx:for="{{detail.images}}" wx:key="id">
@@ -21,7 +21,7 @@
           <!--基本信息-->
           <view class="row-between">
             <view>
-              <view class="small label primary" wx:if="{{detail.isRecommend == 1}}">推荐</view>
+              <view class="small label primary" wx:if="{{detail.isRecommend === 1}}">推荐</view>
               <text class="name">{{detail.name}}</text>
             </view>
             <view class="share-box">
@@ -43,7 +43,7 @@
             </view>
             <!--数量选择器-->
             <view class="quantity row mr20">
-              <view class="quantity-cart-btn" @tap.stop="handlePlusCart({{detail}})" wx:if="{{version.isOrder && cartType=='BUTTON'}}">
+              <view class="quantity-cart-btn" @tap.stop="handlePlusCart({{detail}})" wx:if="{{version.isOrder && cartType==='BUTTON'}}">
                 加入购物车
               </view>
             </view>
@@ -75,7 +75,7 @@
         <DetailList :detail.sync="detail" />
       </view>
       <!--评价区域-->
-      <view wx:if="{{tab.selectedId == 'COMMENT'}}">
+      <view wx:if="{{tab.selectedId === 'COMMENT'}}">
         <!--列表展现-->
         <repeat for="{{page.list}}" key="index" index="index" item="item">
           <CommentItem :comment.sync="item" />
@@ -85,18 +85,18 @@
         <Placeholder :show.sync="isPageEmpty" message="该商品没有相关评价" />
       </view>
       <!--滑出购物面板-->
-      <block wx:if="{{buyPanelType == 'SLIDER'}}">
+      <block wx:if="{{buyPanelType === 'SLIDER'}}">
         <SilderPanel />
       </block>
       <!--弹出购物面板-->
-      <block wx:if="{{buyPanelType == 'POPUP'}}">
+      <block wx:if="{{buyPanelType === 'POPUP'}}">
         <PopupPanel />
       </block>
       <!--购买栏-->
-      <block wx:if="{{cartType == 'BAR'}}">
+      <block wx:if="{{cartType === 'BAR'}}">
         <BuyBar :goods.sync="detail" />
       </block>
-      <block wx:if="{{cartType == 'BUTTON'}}">
+      <block wx:if="{{cartType === 'BUTTON'}}">
         <CartWidget />
       </block>
       <!--领取优惠券栏-->
@@ -189,7 +189,7 @@
           title: `评价 (${this.count.ALL})`
         });
       }
-      if (tab.list.length == 1) {
+      if (tab.list.length === 1) {
         this.isTab = false;
       }
       return tab;
@@ -229,7 +229,7 @@
        * 到达底部
        */
       async onReachBottom() {
-        if (this.tab.selectedId == 'COMMENT') {
+        if (this.tab.selectedId === 'COMMENT') {
           await this.next();
         }
       },
@@ -239,7 +239,7 @@
       async switchTab({
         selectedId
       }) {
-        if (selectedId == 'COMMENT' && !this.commentInit) {
+        if (selectedId === 'COMMENT' && !this.commentInit) {
           await this.next();
           this.loaded();
         }
@@ -278,7 +278,7 @@
         const count = this.count;
         if (!count) {
           return '用户评价加载中...';
-        } else if (count.ALL == 0) {
+        } else if (count.ALL === 0) {
           return '该商品暂无评价';
         } else {
           const rate = (count.GOOD / count.ALL * 100).toFixed(0);

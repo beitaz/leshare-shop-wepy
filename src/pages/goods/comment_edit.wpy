@@ -6,7 +6,7 @@
         <text class="title mr10">商品评分</text>
         <view class="star-box">
           <block wx:for="{{goods.starArr}}" wx:key="index" wx:for-index="index">
-            <icon class="star{{item == 1 ? '-fill' : ''}} normal" color="{{item == 1 ? 'major' : 'gray'}}" @tap="star({{goods}}, {{index}})"></icon>
+            <icon class="star{{item === 1 ? '-fill' : ''}} normal" color="{{item === 1 ? 'major' : 'gray'}}" @tap="star({{goods}}, {{index}})"></icon>
           </block>
         </view>
       </view>
@@ -48,7 +48,7 @@
           goodsId,
           sku
         } = goods;
-        const score = this.scores.find(item => item.goodsId == goodsId && item.sku == sku);
+        const score = this.scores.find(item => item.goodsId === goodsId && item.sku === sku);
         for (let i = 0; i < 5; i++) {
           score.starArr[i] = i <= index ? 1 : 0;
         }

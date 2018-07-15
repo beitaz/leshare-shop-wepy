@@ -4,34 +4,34 @@
   import 'wepy-async-function';
   import { setStore } from 'wepy-redux'
   import configStore from './store'
-  const store = configStore();
-  setStore(store);
+  setStore(configStore()); // 创建全局 store 并启用
+
   export default class extends wepy.app {
     globalData = {
       auth: {},
       scene: null,
-      'shopType': '1',
-      'shopName': '连江日用品专营店',
-      'appCode': 'owVHb1gHrvktni80kjMlFMzSDJDWY0xR',
-      'baseUrl': 'https://www.easy-mock.com/mock/5ab7c9627a7afd3099d16b4c/customer',
+      shopType: '1',
+      shopName: '连江日用品专营店',
+      appCode: 'owVHb1gHrvktni80kjMlFMzSDJDWY0xR',
+      baseUrl: 'https://www.easy-mock.com/mock/5ab7c9627a7afd3099d16b4c/customer',
       version: 'v3.2.3',
-      'componentsParams': {},
-      'pageParams': {
+      componentsParams: {},
+      pageParams: {
         'pages/goods/category': {
-          'buyPanelType': 'POPUP',
-          'isCoupon': false
+          buyPanelType: 'POPUP',
+          isCoupon: false
         },
         'pages/goods/detail': {
-          'buyPanelType': 'SLIDER',
-          'cartType': 'BAR',
-          'isCoupon': true,
-          'isComment': true,
-          'isContact': true,
-          'isShare': true,
-          'isSales': true
+          buyPanelType: 'SLIDER',
+          cartType: 'BAR',
+          isCoupon: true,
+          isComment: true,
+          isContact: true,
+          isShare: true,
+          isSales: true
         },
         'pages/goods/search': {
-          'hotKeywords': [
+          hotKeywords: [
             '抽纸',
             '卷纸',
             '面巾纸',
@@ -45,23 +45,25 @@
         }
       }
     };
-    constructor () {
+    constructor() {
       super();
       // 注册中间件
       this.use('requestfix');
       this.use('promisify');
+      // 添加全局拦截器设置 request 请求头
       this.intercept('request', {
-        config (p) {
-          p.header = this.createAuthHeader();
+        config(p) {
+          // p.timestamp = +new Date(); // 对所有 request 请求中的 OBJECT 参数对象统一附加时间戳属性
+          p.header = this.createAuthHeader(); // 对所有 request 请求中的 OBJECT 参数对象统一附加 login_code
           return p;
         }
       });
       this.intercept('uploadFile', {
-        config (p) {
-          p.header = this.createAuthHeader();
+        config(p) {
+          p.header = this.createAuthHeader(); // 对所有 request 请求中的 OBJECT 参数对象统一附加 login_code
           return p;
         },
-        success (p) {
+        success(p) {
           return p.data;
         }
       });
@@ -69,45 +71,46 @@
     /**
      * 构造权限头部
      */
-    createAuthHeader () {
-      const loginCode = wepy.$instance.globalData.auth.login_code;
-      const header = {};
-      if (loginCode) {
-        header['login_code'] = loginCode;
-      }
+    createAuthHeader() {
+      let loginCode = wepy.$instance.globalData.auth.login_code;
+      let header = {};
+      if (loginCode) header['login_code'] = loginCode;
       return header;
     }
     onLaunch(param) {
-      // 校验SDK
-      WxUtils.checkSDK();
-      // 同步开放平台EXT数据
-      const ext = wepy.getExtConfigSync();
-      console.info('[ext] init ext data', ext);
+      WxUtils.checkSDK(); // 校验SDK
+      let ext = wepy.getExtConfigSync(); // 同步开放平台EXT数据
+      console.info('小程序初始化数据 ext = ', ext);
+      // 获取小程序全局配置信息,并设置(覆盖)本地配置到全局变量,效果如下:
+      // ext = {name: '123', globalConfig: {name: '456'}}
+      // ext = {name: '456', globalConfig: {name: '456'}}
       if (ext.globalConfig) {
-        console.info('[ext] init ext global config data', ext.globalConfig);
+        console.info('小程序初始化的全局配置信息: ', ext.globalConfig);
         Object.assign(ext, ext.globalConfig);
       }
       Object.assign(wepy.$instance.globalData, ext);
+
       // 同步权限数据
       this.syncStoreConfig('login_code');
       this.syncStoreConfig('third_session');
       this.syncStoreConfig('user');
       // 获取保存场景值
       if (param && param.scene) {
-        console.info('[scene]onLaunch scene', param.scene);
+        console.info('小程序启动场景 scene = ', param.scene);
         wepy.$instance.globalData.scene = param.scene;
-        console.info('[auth]onLaunch end');
       }
+      console.info('小程序启动完成');
     }
+    // 同步本地存储的权限信息到全局变量
     syncStoreConfig(key) {
       try {
-        const value = wepy.getStorageSync(key);
+        let value = wepy.getStorageSync(key);
         if (value !== '') {
-          console.info(`[auth]${key} sync success `);
+          console.info('权限 %s 同步成功', key);
           wepy.$instance.globalData.auth[key] = value;
         }
       } catch (e) {
-        console.warn(`[auth]${key} sync fail `);
+        console.warn('权限 %s 同步失败', key);
       }
     }
     config = {
@@ -161,48 +164,48 @@
         'pages/bargain/bargain_detail',
         'pages/bargain/list'
       ],
-      'window': {
+      window: {
         'backgroundTextStyle': 'dark',
         'backgroundColor': '#F5F5F5',
         'navigationBarBackgroundColor': '#F3514F'
       },
-      'tabBar': {
+      tabBar: {
         'color': '#666666',
         'selectedColor': '#F3514F',
         'borderStyle': 'white',
         'backgroundColor': '#FAFAFA',
-        'list': [
-          {
-            'iconPath': 'images/tab/home.png',
-            'selectedIconPath': 'images/tab/red/home_active.png',
-            'pagePath': 'pages/home/template',
-            'text': '首页'
-          },
-          {
-            'iconPath': 'images/tab/classify.png',
-            'selectedIconPath': 'images/tab/red/classify_active.png',
-            'pagePath': 'pages/goods/category',
-            'text': '分类'
-          },
-          {
-            'iconPath': 'images/tab/shopcart.png',
-            'selectedIconPath': 'images/tab/red/shopcart_active.png',
-            'pagePath': 'pages/goods/cart',
-            'text': '购物车'
-          },
-          {
-            'iconPath': 'images/tab/user.png',
-            'selectedIconPath': 'images/tab/red/user_active.png',
-            'pagePath': 'pages/customer/index_template',
-            'text': '我的'
-          }
+        'list': [{
+          'iconPath': 'images/tab/home.png',
+          'selectedIconPath': 'images/tab/home_active.png',
+          'pagePath': 'pages/home/template',
+          'text': '首页'
+        },
+        {
+          'iconPath': 'images/tab/classify.png',
+          'selectedIconPath': 'images/tab/classify_active.png',
+          'pagePath': 'pages/goods/category',
+          'text': '分类'
+        },
+        {
+          'iconPath': 'images/tab/shopcart.png',
+          'selectedIconPath': 'images/tab/shopcart_active.png',
+          'pagePath': 'pages/goods/cart',
+          'text': '购物车'
+        },
+        {
+          'iconPath': 'images/tab/user.png',
+          'selectedIconPath': 'images/tab/user_active.png',
+          'pagePath': 'pages/customer/index_template',
+          'text': '我的'
+        }
         ]
       }
     };
   }
 </script>
+
 <style lang="scss">
-@import './styles/weui.scss';
-@import './styles/icons.scss';
-@import './styles/base.scss';
+  @import './styles/weui.scss';
+  @import './styles/icons.scss';
+  @import './styles/base.scss';
 </style>

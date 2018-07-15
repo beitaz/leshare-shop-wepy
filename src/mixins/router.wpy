@@ -14,8 +14,8 @@
      */
     buy(goods) {
       // 只能在SLIDER模式下触发，否则会降级为购物车购买
-      const source = this.$root.$wxpage.route;
-      const action = 'buy';
+      let source = this.$root.$wxpage.route;
+      let action = 'buy';
       Event.emit(Event.GOODS_PANEL_OPEN, {
         goods,
         source,
@@ -31,30 +31,20 @@
       goods.ruleId = id;
       goods.groupId = groupId;
       if (goods.goodsSkuInfo && details) {
-        const originDetails = goods.goodsSkuInfo.goodsSkuDetails;
+        let originDetails = goods.goodsSkuInfo.goodsSkuDetails;
         originDetails.forEach(detail => {
-          const {
-            sku,
-            goodsSkuDetailBase: base
-          } = detail;
-          const groupDetail = details.find(item => item.sku === sku);
-          if (groupDetail) {
-            base.price = groupDetail.price
-          } else {
-            console.warn(`[group] can not find group price, sku=${sku}`)
-          }
+          let { sku, goodsSkuDetailBase: base } = detail;
+          let groupDetail = details.find(item => item.sku === sku);
+          if (groupDetail) base.price = groupDetail.price;
+          else console.warn(`[group] can not find group price, sku=${sku}`);
           // 重新计算标签
           api._processGoodsPriceRange(goods);
           api._processGoodsPriceLabel(goods);
         })
       }
-      const source = this.$root.$wxpage.route;
-      const action = state;
-      Event.emit(Event.GOODS_PANEL_OPEN, {
-        goods,
-        source,
-        action
-      });
+      let source = this.$root.$wxpage.route;
+      let action = state;
+      Event.emit(Event.GOODS_PANEL_OPEN, { goods, source, action });
     }
     /**
      * 砍价
@@ -64,59 +54,36 @@
       // 处理规格替换拼团价格
       goods.ruleId = ruleId;
       goods.id = id;
-      const source = this.$root.$wxpage.route;
-      const action = state;
-      Event.emit(Event.GOODS_PANEL_OPEN, {
-        goods,
-        source,
-        action
-      });
+      let source = this.$root.$wxpage.route;
+      let action = state;
+      Event.emit(Event.GOODS_PANEL_OPEN, { goods, source, action });
     }
     /**
      * 加入购物车
      */
     plusCart(goods, goodsSku = '') {
-      const source = this.$root.$wxpage.route;
-      const mode = this.getMode(goods);
-      const action = 'cart';
+      let source = this.$root.$wxpage.route;
+      let mode = this.getMode(goods);
+      let action = 'cart';
       console.info(`[router] goodId=${goods.id},source=${source}, action=${action}`);
       switch (mode) {
         case 'SLIDER':
-          Event.emit(Event.GOODS_PANEL_OPEN, {
-            goods,
-            source,
-            action
-          });
+          Event.emit(Event.GOODS_PANEL_OPEN, { goods, source, action });
           break;
         case 'POPUP':
-          Event.emit(Event.GOODS_PANEL_PLUS, {
-            goods,
-            goodsSku,
-            source
-          });
+          Event.emit(Event.GOODS_PANEL_PLUS, { goods, goodsSku, source });
           break;
         default:
-          // 默认用简化版
-          Event.emit(Event.GOODS_PANEL_PLUS, {
-            goods,
-            goodsSku,
-            source
-          });
+          Event.emit(Event.GOODS_PANEL_PLUS, { goods, goodsSku, source });
       }
     }
     minusCart(goodsId, goodsSku = '') {
-      const source = this.$root.$wxpage.route;
+      let source = this.$root.$wxpage.route;
       console.info(`[router] goodId=${goodsId},source=${source}`);
-      Event.emit(Event.GOODS_PANEL_MINUS, {
-        goodsId,
-        goodsSku,
-        source
-      });
+      Event.emit(Event.GOODS_PANEL_MINUS, { goodsId, goodsSku, source });
     }
     getMode(goods) {
-      if (goods.skuMode) {
-        return goods.skuMode;
-      }
+      if (goods.skuMode) return goods.skuMode;
       try {
         return this.$root.$data.buyPanelType;
       } catch (e) {
@@ -127,8 +94,7 @@
      * 判断是否为TAB
      */
     isTab() {
-      const type = wepy.$instance.globalData.shopType;
-      return type == 1;
+      return wepy.$instance.globalData.shopType === 1;
     }
     /**
      * 处理跳转到商品详情
@@ -140,31 +106,19 @@
      * 跳转到分类购物
      */
     routeToIndex() {
-      if (this.isTab()) {
-        this.$root.$switch(`/pages/goods/category`);
-      } else {
-        this.$root.$navigate(`/pages/shop/index`);
-      }
+      this.isTab ? this.$root.$switch(`/pages/goods/category`) : this.$root.$navigate(`/pages/shop/index`);
     }
     /**
      * 跳转到首页
      */
     routeToHome() {
-      if (this.isTab()) {
-        this.$root.$switch(`/pages/home/template`);
-      } else {
-        this.$root.$navigate(`/pages/home/home`);
-      }
+      this.isTab() ? this.$root.$switch(`/pages/home/template`) : this.$root.$navigate(`/pages/home/home`);
     }
     /**
      * 跳转到用户页面
      */
     routeToCustomer() {
-      if (this.isTab()) {
-        this.$root.$switch(`/pages/customer/index`);
-      } else {
-        this.$root.$navigate(`/pages/customer/index`);
-      }
+      this.isTab() ? this.$root.$switch(`/pages/customer/index`) : this.$root.$navigate(`/pages/customer/index`);
     }
     methods = {
       routeToCart() {
@@ -219,10 +173,7 @@
        * 处理图片点击事件
        */
       routeByAction(event) {
-        const {
-          action,
-          targetId
-        } = event;
+        let { action, targetId } = event;
         console.info(`[router] handle action=${action}, targetId=${targetId}`);
         // 根据动作进行路由
         switch (action) {
@@ -233,140 +184,98 @@
             Tips.success(targetId != null ? targetId : '敬请期待');
             break;
           case 'DEBUG':
-            // 调试
-            console.info('[router] debug action', event);
+            console.info('[router] debug action', event); // 调试
             break;
           case 'PAGE_NAVIGATE':
-            // 跳转指定页面
-            this.$root.$navigate(targetId);
+            this.$root.$navigate(targetId); // 跳转指定页面
             break;
           case 'PAGE_REDIRECT':
-            // 跳转指定页面
-            this.$root.$redirect(targetId);
+            this.$root.$redirect(targetId); // 跳转指定页面
             break;
           case 'PAGE_SWITCH':
-            // 跳转指定页面
-            this.$root.$switch(targetId);
+            this.$root.$switch(targetId); // 跳转指定页面
             break;
           case 'PAGE_BACK':
-            // 跳转指定页面
-            wepy.navigateBack();
+            wepy.navigateBack(); // 跳转指定页面
             break;
           case 'GOODS':
-            // 某个商品
-            this.$root.$navigate(`/pages/goods/detail?goodsId=${targetId}`);
+            this.$root.$navigate(`/pages/goods/detail?goodsId=${targetId}`); // 某个商品
             break;
           case 'CATEGORY':
-            // 某个分类
-            this.$root.$navigate(`/pages/goods/search_list?categoryId=${targetId}`);
+            this.$root.$navigate(`/pages/goods/search_list?categoryId=${targetId}`); // 某个分类
             break;
           case 'HOME':
-            // 首页
-            this.routeToHome();
+            this.routeToHome(); // 首页
             break;
           case 'USER':
-            // 用户首页
-            this.$root.$switch('/pages/customer/index_template');
+            this.$root.$switch('/pages/customer/index_template'); // 用户首页
             break;
           case 'GOODS_ALL':
-            // 商品首页
-            this.routeToIndex();
+            this.routeToIndex(); // 商品首页
             break;
           case 'GOODS_SEARCH':
             // 商品检索
-            const {
-              categoryId,
-              sort,
-              by,
-              content
-            } = targetId;
+            let { categoryId, sort, by, content } = targetId;
             let url = `/pages/goods/search_list?`;
-            if (categoryId != null) {
-              url += `&categoryId=${categoryId}`;
-            }
-            if (sort != null) {
-              url += `&sort=${sort}`;
-            }
-            if (by != null) {
-              url += `&by=${by}`;
-            }
-            if (content != null) {
-              url += `&keyword=${content}`;
-            }
+            if (categoryId) url += `&categoryId=${categoryId}`;
+            if (sort) url += `&sort=${sort}`;
+            if (by) url += `&by=${by}`;
+            if (content) url += `&keyword=${content}`;
             this.$root.$navigate(url);
             break;
           case 'MEMBER_SIGN':
-            // 签到打卡
-            this.$root.$navigate('/pages/customer/sign_in');
+            this.$root.$navigate('/pages/customer/sign_in'); // 签到打卡
             break;
           case 'COUPON_OWN':
-            // 我的优惠券
-            this.$root.$navigate('/pages/coupon/list');
+            this.$root.$navigate('/pages/coupon/list'); // 我的优惠券
             break;
           case 'COUPON_PICK':
-            // 领取优惠券
-            this.$root.$navigate('/pages/coupon/pick');
+            this.$root.$navigate('/pages/coupon/pick'); // 领取优惠券
             break;
           case 'FAVORITE':
-            // 我的收藏
-            this.$root.$navigate('/pages/goods/favorite');
+            this.$root.$navigate('/pages/goods/favorite'); // 我的收藏
             break;
           case 'ADDRESS':
-            // 我的地址
-            this.$root.$navigate('/pages/customer/address_list');
+            this.$root.$navigate('/pages/customer/address_list'); // 我的地址
             break;
           case 'COMMENT_LIST':
-            // 我的评论
-            this.$root.$navigate('/pages/customer/comment_list');
+            this.$root.$navigate('/pages/customer/comment_list'); // 我的评论
             break;
           case 'MEMBER_DETAIL':
-            // 会员详情
-            this.$root.$navigate('/pages/customer/vip_detail');
+            this.$root.$navigate('/pages/customer/vip_detail'); // 会员详情
             break;
           case 'MEMBER_CODE':
-            // 会员码
-            this.$root.$navigate('/pages/customer/vip_info');
+            this.$root.$navigate('/pages/customer/vip_info'); // 会员码
             break;
           case 'MEMBER_BONUS':
-            // 会员积分
-            this.$root.$navigate('/pages/customer/bonus_list');
+            this.$root.$navigate('/pages/customer/bonus_list'); // 会员积分
             break;
           case 'TOP_UP':
-            // 会员充值
-            this.$root.$navigate('/pages/customer/balance');
+            this.$root.$navigate('/pages/customer/balance'); // 会员充值
             break;
           case 'ORDER_LIST':
-            // 会员充值
-            this.$root.$navigate('/pages/order/list');
+            this.$root.$navigate('/pages/order/list'); // 会员充值
             break;
           case 'PHONE':
-            // 拨打电话
-            wepy.makePhoneCall({
-              phoneNumber: `${targetId}`
-            });
+            wepy.makePhoneCall({ phoneNumber: `${targetId}` }); // 拨打电话
             break;
           case 'SHARE':
-            // 分享好友
-            wepy.showShareMenu();
+            wepy.showShareMenu(); // 分享好友
             break;
           case 'MEMBER_REGIST':
-            // 注册会员
-            this.routeToCustomer();
+            this.routeToCustomer(); // 注册会员
             break;
           case 'OFFLINE_PAYMENT':
-            // 离线支付
-            this.$root.$navigate('/pages/shop/pay');
+            this.$root.$navigate('/pages/shop/pay'); // 离线支付
             break;
           case 'TEMPLATE':
-            // 模板页面
-            this.$root.$navigate(`/pages/home/template?pageId=${targetId}`);
+            this.$root.$navigate(`/pages/home/template?pageId=${targetId}`); // 模板页面
             break;
           case 'SHOP_INFO':
-            // 店铺信息
-            this.$root.$navigate(`/pages/shop/about_us`);
+            this.$root.$navigate(`/pages/shop/about_us`); // 店铺信息
             break;
           default:
-            console.info(`[router] unsupport action=${action}, targetId=${targetId}`)
+            console.info(`[router] unsupport action=${action}, targetId=${targetId}`); // 默认没有找到地址
         }
       }
     };

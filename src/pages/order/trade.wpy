@@ -24,7 +24,7 @@
         <!--支付方式-->
         <view class="weui-cell weui-cell_access" @tap="paymentType">
           <view class="weui-cell__bd">支付方式</view>
-          <view class="weui-cell__ft {{shop.offPay == 1 ? 'weui-cell__ft_in-access' : ''}}">{{trade.paymentText}}</view>
+          <view class="weui-cell__ft {{shop.offPay === 1 ? 'weui-cell__ft_in-access' : ''}}">{{trade.paymentText}}</view>
         </view>
         <!--需要配送的订单, 需要选择配送方式-->
         <view class="weui-cell weui-cell_access" @tap="delivery" wx:if="{{trade.isDeliveryOrder}}">
@@ -311,13 +311,13 @@
         // 创建订单
         const trade = await this.requestCreateOrder(this.trade, this.selectedAddress);
         // 检查是否下单成功
-        if (trade == null) {
+        if (!trade) {
           Tips.alert('下单失败');
           return;
         }
         let isPay = false;
         // 检查是否为离线订单
-        if (trade.paymentType == PAYMENT.OFFLINE) {
+        if (trade.paymentType === PAYMENT.OFFLINE) {
           Tips.success('下单成功');
         } else {
           // 发起支付
@@ -551,43 +551,26 @@
       },
       // 积分使用文字
       bonusText() {
-        if (this.card == null || this.member == null) {
-          return;
-        }
+        if (!(this.card && this.member)) return;
         // 初始化
-        const card = this.card;
-        const member = this.member;
-        const {
-          supplyBonus,
-          bonusRule
-        } = card;
+        let card = this.card;
+        let member = this.member;
+        let { supplyBonus, bonusRule } = card;
         // 没有开启积分功能
-        if (supplyBonus != 1 || bonusRule == null) {
+        if (supplyBonus !== 1 || !bonusRule) {
           this.bonusPicker = null;
           this.clearSelectedBonus();
           return false;
         }
-        const {
-          bonus
-        } = member;
-        if (bonus == 0) {
-          return `暂无积分`;
-        }
+        let { bonus } = member;
+        if (bonus === 0) return '暂无积分';
         // 每使用costBonusUnit积分，抵扣reduceMoney元，最多使用maxReduceBonus积分，订单需满limitMoney元
-        const {
-          costBonusUnit,
-          reduceMoney,
-          maxReduceBonus,
-          limitMoney
-        } = bonusRule;
+        let { costBonusUnit, reduceMoney, maxReduceBonus, limitMoney } = bonusRule;
         // 计算使用积分前的价格
-        const {
-          finalPrice,
-          bonusPrice
-        } = this.trade;
-        const orderPrice = parseFloat(finalPrice) + (bonusPrice ? parseFloat(bonusPrice) : 0);
+        let { finalPrice, bonusPrice } = this.trade;
+        let orderPrice = parseFloat(finalPrice) + (bonusPrice ? parseFloat(bonusPrice) : 0);
         // 订单价格不能小于最低抵扣单位，也不能小于订单金额限制
-        const orderLimitPrice = Math.max(limitMoney, reduceMoney);
+        let orderLimitPrice = Math.max(limitMoney, reduceMoney);
         if (orderPrice < orderLimitPrice) {
           this.bonusPicker = null;
           this.clearSelectedBonus();
@@ -600,31 +583,18 @@
           return `积分不满${costBonusUnit}分`;
         }
         // 构造积分使用数组
-        const list = [{
-          bonus: 0,
-          money: 0,
-          text: `请选择`
-        }];
+        let list = [{ bonus: 0, money: 0, text: '请选择' }];
         for (let curBonus = costBonusUnit, curMoney = reduceMoney; curBonus <= maxReduceBonus && curMoney <= orderPrice && curBonus <= bonus; curBonus += costBonusUnit, curMoney += reduceMoney) {
-          list.push({
-            bonus: curBonus,
-            money: curMoney,
-            text: `使用${curBonus}分抵${curMoney}元`
-          });
+          list.push({ bonus: curBonus, money: curMoney, text: `使用${curBonus}分抵${curMoney}元` });
         }
         this.bonusPicker = list;
-        // 展示请选择
-        if (this.selectedBonus === null) {
-          this.selectedBonus = list[0];
-        }
+        if (!this.selectedBonus) this.selectedBonus = list[0]; // 展示请选择
         return true;
       },
       // 减免金额
       reduceFee() {
-        if (!this.reduce) {
-          return 0;
-        }
-        const dealPrice = this.trade.dealPrice;
+        if (!this.reduce) return 0;
+        let dealPrice = this.trade.dealPrice;
         let reduceFee = 0;
         this.reduce.list.forEach(item => {
           if (dealPrice >= item.limitPrice && item.fee > reduceFee) {

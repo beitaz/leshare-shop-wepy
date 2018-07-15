@@ -52,10 +52,10 @@ export default class member extends base {
    * 处理折扣率
    */
   static processDiscount(card, member) {
-    if (member == null || card == null) {
+    if (!member || !card) {
       return null;
     }
-    if (card.supplyDiscount != 1) {
+    if (card.supplyDiscount !== 1) {
       return null;
     }
     // 计算折扣

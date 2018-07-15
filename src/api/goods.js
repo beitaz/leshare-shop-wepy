@@ -98,7 +98,7 @@ export default class goods extends base {
    * 处理折扣价格
    */
   static _processGoodsDiscount(goods, discount) {
-    const isDiscount = discount != null ? discount.categories.some(cid => cid == goods.innerCid) : false;
+    const isDiscount = discount != null ? discount.categories.some(cid => cid === goods.innerCid) : false;
     if (!isDiscount) {
       return;
     }
@@ -111,7 +111,7 @@ export default class goods extends base {
         const detail = item.goodsSkuDetailBase;
         const price = detail.price;
         // 最低的价格作为原价
-        if (item.originalPrice == null || price < item.originalPrice) {
+        if (!item.originalPrice || price < item.originalPrice) {
           item.originalPrice = price;
         }
         // 设置原价和当前价格
@@ -135,7 +135,7 @@ export default class goods extends base {
   static _processGoodsPostFeeText(detail) {
     const fee = detail.postFee;
     let feeText = '';
-    if (!fee || fee == 0) {
+    if (!fee || fee === 0) {
       feeText = '配送：免运费';
     } else {
       feeText = `同城配送：￥${fee} (支持自提)`;
@@ -220,7 +220,7 @@ export default class goods extends base {
     }
 
     // 销售价处理
-    if (originalPrice == null || originalPrice == 0) {
+    if (!originalPrice || originalPrice === 0) {
       item.originalPrice = sellPrice;
     }
 
@@ -245,9 +245,9 @@ export default class goods extends base {
   static _processGoodsPreview(item) {
     const images = item.images;
     // 图片处理
-    if (images == null || images.length < 1) {
+    if (!images || images.length < 1) {
       item.imageUrl = '/images/icons/broken.png';
-    } else if (images[0].url == null) {
+    } else if (!images[0].url) {
       item.imageUrl = '/images/icons/broken.png';
     } else {
       item.imageUrl = images[0].url + '/medium';

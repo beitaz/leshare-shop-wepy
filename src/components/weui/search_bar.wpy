@@ -45,7 +45,7 @@
     }
     computed = {
       isBack() {
-        return this.back == 'true';
+        return this.back === 'true';
       }
     };
     methods = {
@@ -53,9 +53,8 @@
         this.inputShowed = true;
       },
       hideInput: function() {
-        if (this.isBack) {
-          this.$emit('back');
-        } else {
+        if (this.isBack) this.$emit('back');
+        else {
           this.inputVal = '';
           this.inputShowed = false;
           this.$emit('input', null);
@@ -66,7 +65,7 @@
         this.$emit('input', null);
       },
       inputTyping: function(e) {
-        const input = e.detail.value;
+        let input = e.detail.value;
         this.inputVal = input;
         this.$emit('input', input);
       }

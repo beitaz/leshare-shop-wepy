@@ -37,10 +37,10 @@ export default class address extends base {
    */
   static async defaultAvailable(goodsList) {
     const { available } = await this.available(goodsList);
-    if (available == null || available.length < 1) {
+    if (!available || available.length < 1) {
       return null;
     }
-    const address = available.find(item => item.isDefault == 1);
+    const address = available.find(item => item.isDefault === 1);
     if (address) {
       return this._processAddress(address);
     } else {
@@ -93,9 +93,9 @@ export default class address extends base {
       const { fullAddress, province, city, country } = data;
       data.simpleAddress = fullAddress.replace(province, '').replace(city, '').replace(country, '');
       data.sexText = '';
-      if (data.sex == 1) {
+      if (data.sex === 1) {
         data.sexText = '先生';
-      } else if (data.sex == 2) {
+      } else if (data.sex === 2) {
         data.sexText = '女士';
       }
     }

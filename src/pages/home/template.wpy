@@ -126,22 +126,19 @@
       param: null,
       sence: null
     };
-    async onLoad({
-      pageId,
-      sence
-    }) {
+    async onLoad({pageId, sence}) {
       // 登录检查
       await auth.login();
       await store.init();
       this.sence = sence;
       if (pageId) {
-        console.info(`[template] load template page id=${pageId}`);
+        console.info('首页加载第 %i 也数据', pageId);
         this.pageId = pageId;
       } else if (this.homePageId) {
         console.info(`[template] load home page`);
         this.pageId = this.homePageId;
       }
-      const page = await await config.layout(this.pageId);
+      let page = await config.layout(this.pageId);
       this.renderTemplatePage(page);
       console.info(`[template] render template page success`);
       this.loaded();

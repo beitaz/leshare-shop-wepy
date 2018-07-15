@@ -1,6 +1,6 @@
 <template>
   <view class="sgin_in" wx:if="{{init}}">
-    <image src="http://img.leshare.shop/shop/other/bc_qdyl.jpg" class="head_bc"></image>
+    <image src="http://img.leshare.shop/shop/other/bc_qdyl.jpg" class="head_bc" />
     <view class="qd_content">
       <view class="jf">积分 : {{member.bonus}}</view>
       <view class="out_crl">
@@ -23,9 +23,9 @@
     <tab :tab.sync="tab" fixed="0"/>
     <scroll-view scroll-y="true" class="swiper-item-box">
       <!-- 积分规则 -->
-      <pointsRule wx:if="{{tab.selectedId==0}}"/>
+      <pointsRule wx:if="{{tab.selectedId === 0}}"/>
       <!-- 积分记录 -->
-      <repeat for="{{page.list}}" key="index" index="index" item="item" wx:if="{{tab.selectedId==1}}">
+      <repeat for="{{page.list}}" key="index" index="index" item="item" wx:if="{{tab.selectedId === 1}}">
         <BonusItem :bonusInfo.sync="item"/>
       </repeat>
       <!-- 加载提示 -->
@@ -106,7 +106,7 @@
         } else {
           await this.doSign();
         }
-        if (this.type == 'home') {
+        if (this.type === 'home') {
           setTimeout(() => {
             wepy.navigateBack();
           }, 1000);
@@ -120,7 +120,7 @@
         if (!this.signIn) {
           return;
         }
-        if (this.signIn.lastDate == Lang.dateFormate(now, 'yyyyMMdd')) {
+        if (this.signIn.lastDate === Lang.dateFormate(now, 'yyyyMMdd')) {
           this.signed = true;
         }
       }
@@ -130,7 +130,7 @@
       for (let i = 6; i >= 0; i--) {
         let date = new Date();
         date.setDate(date.getDate() - i);
-        if (this.signIn.sevenHistory.find(item => item.signDate == Lang.dateFormate(date, 'yyyyMMdd'))) {
+        if (this.signIn.sevenHistory.find(item => item.signDate === Lang.dateFormate(date, 'yyyyMMdd'))) {
           this.signDay.push({signTime: date.getDate(), signed: 1});
         } else {
           this.signDay.push({signTime: date.getDate(), signed: 0});

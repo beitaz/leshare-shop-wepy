@@ -25,10 +25,10 @@
         </view>
       </block>
       <!--地址展现-->
-      <block wx:if="{{order.orderType == '20' || order.orderType == '10'}}">
+      <block wx:if="{{order.orderType === '20' || order.orderType === '10'}}">
         <Address :address.sync="address" />
       </block>
-      <block wx:if="{{order.orderType == '30' || order.orderType == '33'}}">
+      <block wx:if="{{order.orderType === '30' || order.orderType === '33'}}">
         <InShopStatus :order.sync="order" />
       </block>
       <!--订单项目-->
@@ -39,7 +39,7 @@
           <view class="weui-cell__bd">支付方式</view>
           <view class="weui-cell__ft">{{order.paymentText}}</view>
         </view>
-        <view class="weui-cell" wx:if="{{order.orderType == '20' || order.orderType == '10'}}">
+        <view class="weui-cell" wx:if="{{order.orderType === '20' || order.orderType === '10'}}">
           <view class="weui-cell__bd">配送方式</view>
           <view class="weui-cell__ft">{{order.deliveryText}}</view>
         </view>
@@ -221,7 +221,7 @@
      * 申请退款
      */
     async refund(refundOrder) {
-      if (Number(refundOrder.finalPrice) == 0) {
+      if (Number(refundOrder.finalPrice) === 0) {
         Tips.alert('￥0 订单无需退款');
         return;
       }

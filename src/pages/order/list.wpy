@@ -64,20 +64,14 @@
     };
     data = { ...this.def
     };
-    async onLoad({
-      status
-    }) {
-      if (status != null && status != '' && status != 'null') {
-        this.tab.selectedId = status;
-      }
+    async onLoad({ status }) {
+      if (status && status !== 'null') this.tab.selectedId = status;
       this.page = order.page();
       await this.next();
       Event.listen(Event.ORDER_LIST_UPDATE, this.update.bind(this), this);
     };
     params() {
-      return {
-        status: this.tab.selectedId
-      };
+      return { status: this.tab.selectedId };
     }
     methods = {
       switchTab() {

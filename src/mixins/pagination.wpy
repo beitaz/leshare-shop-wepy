@@ -19,17 +19,13 @@
      */
     async next() {
       try {
-        if (this.page.reachBottom) {
-          return;
-        }
+        if (this.page.reachBottom) return;
         this.isPageLoading = true;
-        const param = this.params ? this.params() : {};
+        let param = this.params ? this.params() : {};
         await this.page.next(param);
         this.isPageReachBottom = this.page.reachBottom;
-        this.isPageEmpty = this.page.list.length == 0;
-        if (this.onPageLoad) {
-          this.onPageLoad();
-        }
+        this.isPageEmpty = this.page.list.length === 0;
+        if (this.onPageLoad) this.onPageLoad();
       } finally {
         this.isPageLoading = false;
         this.init = true;

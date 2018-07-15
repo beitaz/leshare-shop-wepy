@@ -44,13 +44,10 @@
       Event.listen(Event.ADDRESS_LIST_UPDATE, this.load.bind(this), this);
     };
     async load() {
-      const {
-        available,
-        disable
-      } = await address.available(this.goodsList);
+      let { available, disable } = await address.available(this.goodsList);
       this.available = available;
       this.disable = disable;
-      this.isPageEmpty = available.length == 0 && disable.length == 0;
+      this.isPageEmpty = available.length === 0 && disable.length === 0;
       this.loaded();
     }
     async onPullDownRefresh() {

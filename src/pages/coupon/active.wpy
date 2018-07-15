@@ -42,19 +42,12 @@
       async auth({
         detail
       }) {
-        if (detail.rawData == null) {
+        if (!detail.rawData) {
           Tips.alert('请确认授权');
           return;
         }
-        const result = await auth.user({
-          block: false,
-          redirect: false
-        }, detail);
-        if (result) {
-          await this.pickCoupon();
-        } else {
-          Tips.alert('请确认授权');
-        }
+        let result = await auth.user({ block: false, redirect: false }, detail);
+        result ? await this.pickCoupon() : Tips.alert('请确认授权');
       },
       async pick() {
         await this.pickCoupon();
@@ -67,7 +60,7 @@
         await store.refresh('coupon');
         this.$redirect('/pages/coupon/list');
       } catch (e) {
-        if (e.serverCode == '50001') {
+        if (e.serverCode === '50001') {
           await Tips.alert('您已经领过了');
           wepy.navigateBack();
         }

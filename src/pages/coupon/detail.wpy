@@ -7,9 +7,9 @@
         <text>{{message}}</text>
       </view>
       <view class="qr-box column-center" wx:if="{{!success}}">
-        <text class="muted mb20 lg" wx:if="{{coupon.supportType !=1}}">线下店铺消费时出示</text>
-        <canvas style="width: 200px; height: 200px;" canvas-id="qrcode" wx:if="{{coupon.supportType !=1}}"></canvas>
-        <text style="width: 200px; height: 200px;" class="muted lg column-center" wx:if="{{coupon.supportType ==1}}">暂不支持线下店铺消费</text>
+        <text class="muted mb20 lg" wx:if="{{coupon.supportType !== 1}}">线下店铺消费时出示</text>
+        <canvas style="width: 200px; height: 200px;" canvas-id="qrcode" wx:if="{{coupon.supportType !== 1}}"></canvas>
+        <text style="width: 200px; height: 200px;" class="muted lg column-center" wx:if="{{coupon.supportType === 1}}">暂不支持线下店铺消费</text>
       </view>
       <view class="btn-panel" wx:if="{{!success}}">
         <button class="weui-btn" type="primary" @tap="check" wx:if="{{coupon.isSelfUse}}">自助核销</button>
@@ -38,15 +38,13 @@
       success: false,
       message: ''
     };
-    onLoad(options, {
-      preload
-    }) {
+    onLoad(options, { preload }) {
       this.coupon = preload.coupon;
-      const id = preload.coupon.id;
+      let id = preload.coupon.id;
       interval = setInterval(async() => {
-        const ownList = await coupon.own();
-        const target = ownList ? ownList.find(item => item.id == id) : null;
-        if (target == null) {
+        let ownList = await coupon.own();
+        let target = ownList ? ownList.find(item => item.id === id) : null;
+        if (!target) {
           this.coupon.status = 'USED';
           this.message = '店家已核销';
           this.success = true;

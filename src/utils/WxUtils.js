@@ -10,11 +10,11 @@ export default class WxUtils {
 
   static isTab(url) {
     const type = wepy.$instance.globalData.shopType;
-    return type == 1 && this.tabUrls.some(path => path == url);
+    return type === 1 && this.tabUrls.some(path => path === url);
   }
   static mapUrl(url) {
     const type = wepy.$instance.globalData.shopType;
-    if (type == 1 && this.mapUrls[url]) {
+    if (type === 1 && this.mapUrls[url]) {
       return this.mapUrls[url];
     } else {
       return url;
@@ -33,7 +33,7 @@ export default class WxUtils {
     } else {
       const pages = getCurrentPages();
       // route在低版本不兼容
-      const index = pages.findIndex(item => ('/' + item.__route__) == url);
+      const index = pages.findIndex(item => ('/' + item.__route__) === url);
       if (pages.length < 2 || index < 0) {
         wx.redirectTo({
           url: url
@@ -58,7 +58,7 @@ export default class WxUtils {
     } else {
       const pages = getCurrentPages();
       // route在低版本不兼容
-      const index = pages.findIndex(item => ('/' + item.__route__) == url);
+      const index = pages.findIndex(item => ('/' + item.__route__) === url);
       if (pages.length < 2 || index < 0) {
         wx.navigateTo({
           url: url
@@ -77,7 +77,7 @@ export default class WxUtils {
       wx.requestPayment({
         ...param,
         complete: res => {
-          if (res.errMsg == 'requestPayment:ok') {
+          if (res.errMsg === 'requestPayment:ok') {
             resolve(res);
           } else {
             reject(res);
@@ -100,17 +100,20 @@ export default class WxUtils {
   /**
    * 检查SDK版本
    */
-  static isSDKExipred() {
-    const { SDKVersion } = wx.getSystemInfoSync();
-    console.info(`[version]sdk ${SDKVersion}`);
-    return SDKVersion == null || SDKVersion < '1.2.0'
-  }
+  // static isSDKExipred() {
+  //   const { SDKVersion } = wx.getSystemInfoSync();
+  //   console.info(`[version]sdk ${SDKVersion}`);
+  //   return SDKVersion === null || SDKVersion < '1.2.0'
+  // }
+
   /**
    * 检查SDK版本
    */
   static checkSDK() {
-    if (this.isSDKExipred()) {
-      Tips.modal('您的微信版本太低，为确保正常使用，请尽快升级');
-    }
+    let { SDKVersion } = wx.getSystemInfoSync();
+    if (!SDKVersion || SDKVersion < '1.2.0') Tips.modal('您的微信版本太低，为确保正常使用，请尽快升级');
+    // if (this.isSDKExipred()) {
+    //   Tips.modal('您的微信版本太低，为确保正常使用，请尽快升级');
+    // }
   }
 }

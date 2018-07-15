@@ -30,7 +30,7 @@
           </view>
           <view class="buy-panel-sku-list">
             <block wx:for-item="skuValue" wx:for="{{label.value}}" wx:key="*this">
-              <view class="label{{sku.disabledSkuValues[skuValue] ? 'disabled' : '' }} {{sku.selected[label.key] == skuValue ? 'primary' : ''}}" @tap="select({{label.key}}, {{skuValue}})">{{skuValue}}</view>
+              <view class="label{{sku.disabledSkuValues[skuValue] ? 'disabled' : '' }} {{sku.selected[label.key] === skuValue ? 'primary' : ''}}" @tap="select({{label.key}}, {{skuValue}})">{{skuValue}}</view>
             </block>
           </view>
         </view>
@@ -90,13 +90,9 @@
       // 监听购物面板打开的事件
       Event.listen(Event.GOODS_PANEL_OPEN, this.open.bind(this), this);
     }
-    open({
-      goods,
-      source,
-      action
-    }) {
+    open({ goods, source, action }) {
       console.info(`[slider] open goodId=${goods.id}, listen_source=${this.source} source=${source}, action=${action}`);
-      if (source != this.source) {
+      if (source !== this.source) {
         return;
       }
       this.goods = goods;
@@ -116,9 +112,7 @@
     methods = {
       // 选择SKU
       select(key, value) {
-        if (this.sku.disabledSkuValues[value]) {
-          return;
-        }
+        if (this.sku.disabledSkuValues[value]) return;
         this.skuManager.select(key, value);
       },
       // 关闭SKU
@@ -126,56 +120,33 @@
         this.clear();
       },
       // 改变SKU数量
-      num({
-        quantity
-      }) {
+      num({ quantity }) {
         this.skuManager.setNum(quantity);
       },
       // 确认选择
       async confirm(type) {
-        if (!this.sku.next) {
-          return;
-        }
+        if (!this.sku.next) return;
         // 增加到购物车
-        const {
-          skuText,
-          num
-        } = this.sku;
+        let { skuText, num } = this.sku;
         if (type === 'cart') {
           Tips.success('已加入购物车');
-          // 关闭面板
-          this.display = false;
+          this.display = false; // 关闭面板
           this.$apply();
           this.cartManager.plus(this.goods, skuText, num);
         } else if (type === 'begin' || type === 'help') {
-          const result = await bargain.GoodsBargain(this.goods.ruleId, this.goods.id, this.sku.skuText);
+          let result = await bargain.GoodsBargain(this.goods.ruleId, this.goods.id, this.sku.skuText);
           await Tips.success('砍价成功');
-          const isBegin = true;
+          let isBegin = true;
           this.$root.$navigate(`../bargain/bargain_detail?bargainId=${result.id}&&isBegin=${isBegin}`);
         } else {
-          const cart = this.cartManager.createCart(this.goods, skuText, num);
-          const trade = order.createCartTrade([cart], {
-            orderType: 10
-          });
+          let cart = this.cartManager.createCart(this.goods, skuText, num);
+          let trade = order.createCartTrade([cart], { orderType: 10 });
           if (type === 'join' || type === 'group') {
-            const {
-              groupId,
-              ruleId
-            } = this.goods;
-            Object.assign(trade, {
-              ruleId,
-              groupId
-            });
-            this.$root.$preload('params', {
-              trade,
-              type
-            });
+            let { groupId, ruleId } = this.goods;
+            Object.assign(trade, { ruleId, groupId });
+            this.$root.$preload('params', { trade, type });
           } else {
-            // 直接购买
-            this.$root.$preload('params', {
-              trade,
-              type
-            });
+            this.$root.$preload('params', { trade, type }); // 直接购买
           }
           this.$root.$navigate(`../order/trade`);
         }
@@ -184,35 +155,21 @@
     };
     computed = {
       sku() {
-        if (this.skuManager == null) return;
+        if (!this.skuManager) return;
         return this.skuManager.export();
       },
       buttonText() {
-        if (this.goods == null || this.sku == null) return;
-        if (this.goods.totalStock < 1) {
-          return '已售罄';
-        } else if (this.action === 'cart') {
-          return '加入购物车'
-        } else if (this.action === 'buy' || this.action === 'bargain') {
-          return '立即购买';
-        } else if (this.action === 'group') {
-          return '一键开团';
-        } else if (this.action === 'join') {
-          return '一键参团';
-        } else if (this.action === 'begin') {
-          return '发起砍价';
-        }
+        if (!(this.goods && !this.sku)) return;
+        if (this.goods.totalStock < 1) return '已售罄';
+        else if (this.action === 'cart') return '加入购物车';
+        else if (this.action === 'buy' || this.action === 'bargain') return '立即购买';
+        else if (this.action === 'group') return '一键开团';
+        else if (this.action === 'join') return '一键参团';
+        else if (this.action === 'begin') return '发起砍价';
       },
       quantity() {
-        if (this.sku == null) {
-          return null;
-        } else {
-          return {
-            num: this.sku.num,
-            min: 1,
-            max: this.sku.stock
-          }
-        }
+        if (!this.sku) return null;
+        else return { num: this.sku.num, min: 1, max: this.sku.stock };
       }
     };
     components = {

@@ -82,7 +82,7 @@
       },
       async offline() {
         if (!this.validate()) return;
-        if (this.dealPrice == 0) return;
+        if (this.dealPrice === 0) return;
         const param = {
           orderType: 40,
           paymentType: 1,
@@ -105,7 +105,7 @@
           await Tips.success('支付成功');
           this.mode = 'success';
         } catch (error) {
-          if (error.errMsg == 'requestPayment:fail cancel') {
+          if (error.errMsg === 'requestPayment:fail cancel') {
             await Tips.error('支付取消');
           } else {
             await Tips.error('支付失败');
@@ -158,8 +158,8 @@
         if (!this.ownCoupons && !this.dealPrice) return;
         if (!this.ownCoupons) return;
         return this.ownCoupons
-          .filter(item => item.supportType != 1) // 并不能使仅线上使用
-          .filter(item => item.type == 'CASH') // 必须是现金券
+          .filter(item => item.supportType !== 1) // 并不能使仅线上使用
+          .filter(item => item.type === 'CASH') // 必须是现金券
           .filter(item => item.limitPrice < this.dealPrice); // 金额满足要求
       },
       couponLabel() {

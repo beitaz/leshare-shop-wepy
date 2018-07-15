@@ -17,9 +17,8 @@ module.exports = {
     'html/html-extensions': ['.html', '.wpy']
   },
   // add your custom rules here
-  'rules': {
-  	"semi": [0],
-    'eqeqeq': [0],
+  rules: {
+  	"semi": 0,
     // allow paren-less arrow functions
     'arrow-parens': 0,
     // allow async-await
@@ -27,5 +26,8 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'space-before-function-paren': 0
+  },
+  globals: {
+    'wx': false // 定义全局变量 wx 且不能覆盖
   }
 }

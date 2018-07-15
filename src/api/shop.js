@@ -139,14 +139,12 @@ export default class shop extends base {
    * 处理状态
    */
   static _processStatus(data) {
-    if (data.beginTime == null || data.endTime == null) {
-      return;
-    }
+    if (!data.beginTime || !data.endTime) return;
     // 文本转换
     data.timeText = `周一至周日 ${data.beginTime}至${data.endTime}`;
-    if (data.status == 'CLOSE') {
+    if (data.status === 'CLOSE') {
       data.closeTips = '店铺已休息，请稍后再来';
-    } else if (data.status == 'NORMAL' && !data.open) {
+    } else if (data.status === 'NORMAL' && !data.open) {
       data.closeTips = '店铺已休息，请稍后再来';
     }
     return data;
@@ -155,16 +153,16 @@ export default class shop extends base {
    * 处理版本
    */
   static _precoessVersion(data) {
-    if (data == null) {
+    if (!data) {
       // 没有初始化收费配置的情况下，开启所有权限
       return {
         isMember: true,
         isOrder: true
       }
     } else {
-      const version = data.chargeVersion;
-      data.isMember = [2, 3, 6, 7].some(value => value == version);
-      data.isOrder = [4, 5, 6, 7].some(value => value == version);
+      let version = data.chargeVersion;
+      data.isMember = [2, 3, 6, 7].some(value => value === version);
+      data.isOrder = [4, 5, 6, 7].some(value => value === version);
       return data;
     }
   }
@@ -175,7 +173,7 @@ export default class shop extends base {
     data.forEach(item => {
       item.showText = `满${item.limitPrice}减${item.fee}`;
     });
-    const showText = data.map(v => v.showText).join(',');
+    let showText = data.map(v => v.showText).join(',');
     return {
       list: data, showText
     }
@@ -184,15 +182,15 @@ export default class shop extends base {
    * 处理公告
    */
   static _processNotices(data) {
-    return data == null || data.length < 1 ? [{ content: '暂无公告' }] : data;
+    return !data || data.length < 1 ? [{ content: '暂无公告' }] : data;
   }
   /**
    * 处理签到历史记录数据
    */
   static _processSignData(item) {
-    const sign = {};
+    let sign = {};
     sign.createTime = item.createTime;
-    if (item.bonusType == 0) {
+    if (item.bonusType === 0) {
       sign.typeDesc = '积分';
       sign.addBonus = item.bonusResult;
     } else {

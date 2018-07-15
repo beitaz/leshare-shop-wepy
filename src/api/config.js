@@ -56,7 +56,7 @@ export default class config extends base {
    * 处理页面
    */
   static _processPage(data) {
-    if (data == null || data == '') {
+    if (data === null || data === '') {
       return null;
     }
     const config = JSON.parse(data);
@@ -72,7 +72,7 @@ export default class config extends base {
    * 处理页面的配置参数
    */
   static processPageParam(data) {
-    if (data == null || data == '') {
+    if (data === null || data === '') {
       return {};
     } else {
       return JSON.parse(data);
@@ -91,7 +91,7 @@ export default class config extends base {
         Object.assign(item, param);
         item.param = null;
       }
-      if (item.type.indexOf('_TRIGGER') != -1) {
+      if (item.type.indexOf('_TRIGGER') !== -1) {
         triggers.push(item);
       } else {
         plugins.push(item);
@@ -117,15 +117,15 @@ export default class config extends base {
           component.data = JSON.parse(component.data);
         }
         // 需要处理商品信息
-        if (component.type == 'GOODS_BOX') {
+        if (component.type === 'GOODS_BOX') {
           component.data.forEach(item => {
             goods._processGoodsDiscount(item, this.discount);
             goods._processGoodsData(item);
           });
         }
         // 特殊处理图片窗格
-        if (component.type == 'IMAGE_BOX') {
-          if (component.padding == null) {
+        if (component.type === 'IMAGE_BOX') {
+          if (component.padding === null) {
             component.padding = '10rpx;';
           }
         }

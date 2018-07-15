@@ -129,7 +129,7 @@ export default class coupon extends base {
    * 处理卡券展示标签
    */
   static _processCouponDisplayFlag(coupon) {
-    if (coupon.status != 'NEVER_USED') {
+    if (coupon.status !== 'NEVER_USED') {
       return;
     }
     const acceptTimeInterval = this._dayIntervalToNow(coupon.acceptTime);
@@ -154,7 +154,7 @@ export default class coupon extends base {
    */
   static _convertTimestapeToDay(timestape) {
     let temp = timestape;
-    if (timestape.indexOf(' ') != -1) {
+    if (timestape.indexOf(' ') !== -1) {
       temp = timestape.substring(0, timestape.indexOf(' '));
     }
     return temp.replace(/-/g, '.');
